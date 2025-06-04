@@ -1,6 +1,6 @@
-package org.example.uni_style_be.uni_style_backend.repositories;
+package org.example.uni_style_be.uni_style_be.repositories;
 
-import org.example.uni_style_be.uni_style_backend.entities.Token;
+import org.example.uni_style_be.uni_style_be.entities.Token;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

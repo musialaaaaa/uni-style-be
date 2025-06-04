@@ -1,6 +1,6 @@
-package org.example.uni_style_be.uni_style_backend.config;
+package org.example.uni_style_be.uni_style_be.config;
 
-import org.example.uni_style_be.uni_style_backend.entities.Account;
+import org.example.uni_style_be.uni_style_be.entities.Account;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;

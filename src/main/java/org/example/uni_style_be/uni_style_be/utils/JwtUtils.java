@@ -1,12 +1,12 @@
-package org.example.uni_style_be.uni_style_backend.utils;
+package org.example.uni_style_be.uni_style_be.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.example.uni_style_be.uni_style_backend.enums.UnauthorizedError;
-import org.example.uni_style_be.uni_style_backend.model.response.ErrorResponse;
+import org.example.uni_style_be.uni_style_be.enums.UnauthorizedError;
+import org.example.uni_style_be.uni_style_be.model.response.ErrorResponse;
 import org.springframework.http.MediaType;
 
 import java.io.IOException;

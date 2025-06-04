@@ -1,6 +1,6 @@
-package org.example.uni_style_be.uni_style_backend.repositories;
+package org.example.uni_style_be.uni_style_be.repositories;
 
-import org.example.uni_style_be.uni_style_backend.entities.Account;
+import org.example.uni_style_be.uni_style_be.entities.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

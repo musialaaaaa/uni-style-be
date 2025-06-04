@@ -1,9 +1,9 @@
-package org.example.uni_style_be.uni_style_backend.service;
+package org.example.uni_style_be.uni_style_be.service;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.example.uni_style_be.uni_style_backend.model.request.AuthenticationRequest;
-import org.example.uni_style_be.uni_style_backend.model.response.AuthenticationResponse;
+import org.example.uni_style_be.uni_style_be.model.request.AuthenticationRequest;
+import org.example.uni_style_be.uni_style_be.model.response.AuthenticationResponse;
 
 import java.io.IOException;
 

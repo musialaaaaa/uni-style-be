@@ -1,9 +1,9 @@
-package org.example.uni_style_be.uni_style_backend.service.impl;
+package org.example.uni_style_be.uni_style_be.service.impl;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import org.example.uni_style_be.uni_style_backend.properties.UtilProperties;
-import org.example.uni_style_be.uni_style_backend.service.JwtService;
+import org.example.uni_style_be.uni_style_be.properties.UtilProperties;
+import org.example.uni_style_be.uni_style_be.service.JwtService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 

@@ -1,8 +1,8 @@
-package org.example.uni_style_be.uni_style_backend.config;
+package org.example.uni_style_be.uni_style_be.config;
 
 
 import lombok.RequiredArgsConstructor;
-import org.example.uni_style_be.uni_style_backend.repositories.AccountRepository;
+import org.example.uni_style_be.uni_style_be.repositories.AccountRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

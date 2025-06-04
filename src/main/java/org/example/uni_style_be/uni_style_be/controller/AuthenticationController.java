@@ -1,4 +1,4 @@
-package org.example.uni_style_be.uni_style_backend.controller;
+package org.example.uni_style_be.uni_style_be.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -6,10 +6,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.uni_style_be.uni_style_backend.model.request.AuthenticationRequest;
-import org.example.uni_style_be.uni_style_backend.model.response.AuthenticationResponse;
-import org.example.uni_style_be.uni_style_backend.model.response.ServiceResponse;
-import org.example.uni_style_be.uni_style_backend.service.AuthenticationService;
+import org.example.uni_style_be.uni_style_be.model.request.AuthenticationRequest;
+import org.example.uni_style_be.uni_style_be.model.response.AuthenticationResponse;
+import org.example.uni_style_be.uni_style_be.model.response.ServiceResponse;
+import org.example.uni_style_be.uni_style_be.service.AuthenticationService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,4 +1,4 @@
-package org.example.uni_style_be.uni_style_backend.entities;
+package org.example.uni_style_be.uni_style_be.entities;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

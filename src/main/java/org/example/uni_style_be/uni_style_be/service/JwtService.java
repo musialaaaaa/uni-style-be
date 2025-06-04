@@ -1,4 +1,4 @@
-package org.example.uni_style_be.uni_style_backend.service;
+package org.example.uni_style_be.uni_style_be.service;
 
 import org.springframework.security.core.userdetails.UserDetails;
 

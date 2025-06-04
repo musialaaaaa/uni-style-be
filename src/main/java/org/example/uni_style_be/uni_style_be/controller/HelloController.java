@@ -1,4 +1,4 @@
-package org.example.uni_style_be.uni_style_backend.controller;
+package org.example.uni_style_be.uni_style_be.controller;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;

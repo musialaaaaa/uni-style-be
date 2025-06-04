@@ -1,4 +1,4 @@
-package org.example.uni_style_be.uni_style_backend.model.request;
+package org.example.uni_style_be.uni_style_be.model.request;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;

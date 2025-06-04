@@ -1,4 +1,4 @@
-package org.example.uni_style_be.uni_style_backend.service.impl;
+package org.example.uni_style_be.uni_style_be.service.impl;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,18 +9,18 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.example.uni_style_be.uni_style_backend.entities.Account;
-import org.example.uni_style_be.uni_style_backend.entities.Token;
-import org.example.uni_style_be.uni_style_backend.enums.UnauthorizedError;
-import org.example.uni_style_be.uni_style_backend.exception.ResponseException;
-import org.example.uni_style_be.uni_style_backend.model.request.AuthenticationRequest;
-import org.example.uni_style_be.uni_style_backend.model.response.AuthenticationResponse;
-import org.example.uni_style_be.uni_style_backend.model.response.ServiceResponse;
-import org.example.uni_style_be.uni_style_backend.repositories.AccountRepository;
-import org.example.uni_style_be.uni_style_backend.repositories.TokenRepository;
-import org.example.uni_style_be.uni_style_backend.service.AuthenticationService;
-import org.example.uni_style_be.uni_style_backend.service.JwtService;
-import org.example.uni_style_be.uni_style_backend.utils.JwtUtils;
+import org.example.uni_style_be.uni_style_be.entities.Account;
+import org.example.uni_style_be.uni_style_be.entities.Token;
+import org.example.uni_style_be.uni_style_be.enums.UnauthorizedError;
+import org.example.uni_style_be.uni_style_be.exception.ResponseException;
+import org.example.uni_style_be.uni_style_be.model.request.AuthenticationRequest;
+import org.example.uni_style_be.uni_style_be.model.response.AuthenticationResponse;
+import org.example.uni_style_be.uni_style_be.model.response.ServiceResponse;
+import org.example.uni_style_be.uni_style_be.repositories.AccountRepository;
+import org.example.uni_style_be.uni_style_be.repositories.TokenRepository;
+import org.example.uni_style_be.uni_style_be.service.AuthenticationService;
+import org.example.uni_style_be.uni_style_be.service.JwtService;
+import org.example.uni_style_be.uni_style_be.utils.JwtUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

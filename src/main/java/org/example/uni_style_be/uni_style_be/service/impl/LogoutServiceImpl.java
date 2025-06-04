@@ -1,10 +1,10 @@
-package org.example.uni_style_be.uni_style_backend.service.impl;
+package org.example.uni_style_be.uni_style_be.service.impl;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.example.uni_style_be.uni_style_backend.entities.Token;
-import org.example.uni_style_be.uni_style_backend.repositories.TokenRepository;
+import org.example.uni_style_be.uni_style_be.entities.Token;
+import org.example.uni_style_be.uni_style_be.repositories.TokenRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.LogoutHandler;

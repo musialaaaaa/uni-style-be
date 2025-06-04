@@ -1,11 +1,11 @@
-package org.example.uni_style_be.uni_style_backend.config;
+package org.example.uni_style_be.uni_style_be.config;
 ;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.example.uni_style_be.uni_style_backend.entities.Account;
-import org.example.uni_style_be.uni_style_backend.repositories.AccountRepository;
+import org.example.uni_style_be.uni_style_be.entities.Account;
+import org.example.uni_style_be.uni_style_be.repositories.AccountRepository;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -1,4 +1,4 @@
-package org.example.uni_style_be.uni_style_backend.model.response;
+package org.example.uni_style_be.uni_style_be.model.response;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

@@ -1,7 +1,7 @@
-package org.example.uni_style_be.uni_style_backend.enums;
+package org.example.uni_style_be.uni_style_be.enums;
 
 import lombok.RequiredArgsConstructor;
-import org.example.uni_style_be.uni_style_backend.exception.ResponseError;
+import org.example.uni_style_be.uni_style_be.exception.ResponseError;
 import org.springframework.http.HttpStatus;
 
 @RequiredArgsConstructor

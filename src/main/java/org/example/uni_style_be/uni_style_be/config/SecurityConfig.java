@@ -1,4 +1,4 @@
-package org.example.uni_style_be.uni_style_backend.config;
+package org.example.uni_style_be.uni_style_be.config;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package org.example.uni_style_be.uni_style_backend.config;
+package org.example.uni_style_be.uni_style_be.config;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
@@ -9,11 +9,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.example.uni_style_be.uni_style_backend.entities.Token;
-import org.example.uni_style_be.uni_style_backend.enums.UnauthorizedError;
-import org.example.uni_style_be.uni_style_backend.repositories.TokenRepository;
-import org.example.uni_style_be.uni_style_backend.service.JwtService;
-import org.example.uni_style_be.uni_style_backend.utils.JwtUtils;
+import org.example.uni_style_be.uni_style_be.entities.Token;
+import org.example.uni_style_be.uni_style_be.enums.UnauthorizedError;
+import org.example.uni_style_be.uni_style_be.repositories.TokenRepository;
+import org.example.uni_style_be.uni_style_be.service.JwtService;
+import org.example.uni_style_be.uni_style_be.utils.JwtUtils;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

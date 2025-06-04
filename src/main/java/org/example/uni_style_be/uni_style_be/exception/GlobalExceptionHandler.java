@@ -1,13 +1,13 @@
-package org.example.uni_style_be.uni_style_backend.exception;
+package org.example.uni_style_be.uni_style_be.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.example.uni_style_be.uni_style_backend.enums.InternalServerError;
-import org.example.uni_style_be.uni_style_backend.enums.InvalidInputError;
-import org.example.uni_style_be.uni_style_backend.enums.UnauthorizedError;
-import org.example.uni_style_be.uni_style_backend.model.response.ErrorResponse;
-import org.example.uni_style_be.uni_style_backend.model.response.FieldErrorResponse;
-import org.example.uni_style_be.uni_style_backend.model.response.InvalidInputResponse;
+import org.example.uni_style_be.uni_style_be.enums.InternalServerError;
+import org.example.uni_style_be.uni_style_be.enums.InvalidInputError;
+import org.example.uni_style_be.uni_style_be.enums.UnauthorizedError;
+import org.example.uni_style_be.uni_style_be.model.response.ErrorResponse;
+import org.example.uni_style_be.uni_style_be.model.response.FieldErrorResponse;
+import org.example.uni_style_be.uni_style_be.model.response.InvalidInputResponse;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataAccessException;

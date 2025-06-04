@@ -1,4 +1,4 @@
-package org.example.uni_style_be.uni_style_backend.properties;
+package org.example.uni_style_be.uni_style_be.properties;
 
 import lombok.AccessLevel;
 import lombok.Getter;
