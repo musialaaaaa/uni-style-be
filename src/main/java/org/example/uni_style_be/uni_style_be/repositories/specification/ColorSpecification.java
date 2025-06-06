@@ -6,11 +6,11 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import org.apache.commons.lang3.StringUtils;
 import org.example.uni_style_be.uni_style_be.entities.Color;
-import org.example.uni_style_be.uni_style_be.model.filter.MaterialParam;
+import org.example.uni_style_be.uni_style_be.model.filter.ColorParam;
 import org.springframework.data.jpa.domain.Specification;
 
 public class ColorSpecification {
-  public static Specification<Color> filterSpec(MaterialParam param) {
+  public static Specification<Color> filterSpec(ColorParam param) {
     return (Root<Color> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
       Predicate predicate = cb.conjunction();
 

@@ -8,10 +8,13 @@ import org.example.uni_style_be.uni_style_be.model.filter.ColorParam;
 import org.example.uni_style_be.uni_style_be.model.request.ColorRequest;
 import org.example.uni_style_be.uni_style_be.model.response.ColorResponse;
 import org.example.uni_style_be.uni_style_be.repositories.ColorRepository;
+import org.example.uni_style_be.uni_style_be.repositories.specification.ColorSpecification;
 import org.example.uni_style_be.uni_style_be.service.ColorService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +22,7 @@ public class ColorServiceImpl implements ColorService {
   private final ColorRepository colorRepository;
 
   @Override
+  @Transactional
   public ColorResponse create(ColorRequest colorRequest) {
     Color color =
         Color.builder()
@@ -31,12 +35,21 @@ public class ColorServiceImpl implements ColorService {
   }
 
   @Override
+  @Transactional
   public ColorResponse update(Long id, ColorRequest colorRequest) {
-    return null;
+    Color color = findById(id);
+    color.setName(colorRequest.getName());
+    colorRepository.save(color);
+    return mapToResponse(color);
   }
 
   @Override
-  public void delete(Long id) {}
+  @Transactional
+  public void delete(Long id) {
+    Color color = findById(id);
+    color.setIsDeleted(true);
+    colorRepository.save(color);
+  }
 
   @Override
   public Color findById(Long id) {
@@ -47,7 +60,8 @@ public class ColorServiceImpl implements ColorService {
 
   @Override
   public Page<Color> filter(ColorParam param, Pageable pageable) {
-    return null;
+    Specification<Color> colorSpec = ColorSpecification.filterSpec(param);
+    return colorRepository.findAll(colorSpec, pageable);
   }
 
   private ColorResponse mapToResponse(Color color) {

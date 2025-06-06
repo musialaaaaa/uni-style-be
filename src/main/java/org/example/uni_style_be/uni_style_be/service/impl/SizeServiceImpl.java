@@ -47,7 +47,8 @@ public class SizeServiceImpl implements SizeService {
   @Transactional
   public void delete(Long id) {
     Size size = findByID(id);
-    sizeRepository.delete(size);
+    size.setIsDeleted(true);
+    sizeRepository.save(size);
   }
 
   @Override
