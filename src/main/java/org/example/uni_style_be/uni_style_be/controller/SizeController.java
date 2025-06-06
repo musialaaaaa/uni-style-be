@@ -35,11 +35,6 @@ public class SizeController {
     return sizeService.update(id, sizeReq);
   }
 
-  @GetMapping("/{id}")
-  public Size findByID(@PathVariable Long id) {
-    return sizeService.findByID(id);
-  }
-
   @DeleteMapping("/{id}")
   public void delete(@PathVariable Long id) {
     sizeService.delete(id);
