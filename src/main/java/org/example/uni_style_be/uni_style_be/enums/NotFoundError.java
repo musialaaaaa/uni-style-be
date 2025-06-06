@@ -6,22 +6,23 @@ import org.springframework.http.HttpStatus;
 
 @RequiredArgsConstructor
 public enum NotFoundError implements ResponseError {
-    ;
+  MATERIAL_NOT_FOUND("Chất liệu không được để trống"),
+  SIZE_NOT_FOUND("Kích thước không được để trống");
 
-    private final String message;
+  private final String message;
 
-    @Override
-    public String getMessage() {
-        return this.message;
-    }
+  @Override
+  public String getMessage() {
+    return this.message;
+  }
 
-    @Override
-    public int getHttpStatus() {
-        return HttpStatus.NOT_FOUND.value();
-    }
+  @Override
+  public int getHttpStatus() {
+    return HttpStatus.NOT_FOUND.value();
+  }
 
-    @Override
-    public String getName() {
-        return this.name();
-    }
+  @Override
+  public String getName() {
+    return this.name();
+  }
 }
