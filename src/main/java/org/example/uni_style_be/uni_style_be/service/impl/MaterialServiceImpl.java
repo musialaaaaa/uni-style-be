@@ -20,21 +20,18 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class MaterialServiceImpl implements MaterialService {
 
-  private final MaterialRepository materialRepository; // srpign no k recomment
+  private final MaterialRepository materialRepository;
 
   @Override
   @Transactional
   public MaterialResponse create(MaterialRequest materialRequest) {
-    // map tu request -> entity
     Material material =
         Material.builder()
             .name(materialRequest.getName())
             .isDeleted(false)
             .code("MT" + materialRepository.getNextSeq())
             .build();
-    // save xuong db
     materialRepository.save(material);
-    // map tu entity ma save -> class response
     return mapToResponse(material);
   }
 
@@ -48,13 +45,9 @@ public class MaterialServiceImpl implements MaterialService {
   @Override
   @Transactional
   public MaterialResponse update(Long id, MaterialRequest materialRequest) {
-    // kiem tra co ton tai material khong
     Material material = findById(id);
-    // map tu requét về entity
     material.setName(materialRequest.getName());
-    // save xuong db
     materialRepository.save(material);
-    // map tu entity ma save -> class response
     return mapToResponse(material);
   }
 
@@ -71,10 +64,6 @@ public class MaterialServiceImpl implements MaterialService {
     Specification<Material> materialSpec = MaterialSpecification.filterSpec(param);
     return materialRepository.findAll(materialSpec, pageable);
   }
-
-  //    public Page<Material> filter(MaterialParam param, Pageable pageable) {
-  //        return materialRepository.filter(param, pageable);
-  //    }
 
   private MaterialResponse mapToResponse(Material material) {
     return MaterialResponse.builder()

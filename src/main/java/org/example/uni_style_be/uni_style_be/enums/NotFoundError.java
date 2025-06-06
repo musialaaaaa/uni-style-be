@@ -6,7 +6,8 @@ import org.springframework.http.HttpStatus;
 
 @RequiredArgsConstructor
 public enum NotFoundError implements ResponseError {
-  MATERIAL_NOT_FOUND("Chất liệu không được để trống");
+  MATERIAL_NOT_FOUND("Chất liệu không được để trống"),
+  SIZE_NOT_FOUND("Kích thước không được để trống");
 
   private final String message;
 
