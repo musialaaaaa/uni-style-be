@@ -56,7 +56,7 @@ public class MaterialServiceImpl implements MaterialService {
   public void delete(Long id) {
     Material material = findById(id);
     material.setIsDeleted(true);
-    materialRepository.save(material);
+    //    materialRepository.save(material);
   }
 
   @Override

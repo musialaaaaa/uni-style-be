@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +22,7 @@ public class SizeServiceImpl implements SizeService {
   private final SizeRepository sizeRepository;
 
   @Override
+  @Transactional
   public SizeResponse create(SizeRequest sizeRequest) {
     Size size =
         Size.builder()
@@ -33,6 +35,7 @@ public class SizeServiceImpl implements SizeService {
   }
 
   @Override
+  @Transactional
   public SizeResponse update(Long id, SizeRequest sizeRequest) {
     Size size = findByID(id);
     size.setName(sizeRequest.getName());
@@ -41,10 +44,10 @@ public class SizeServiceImpl implements SizeService {
   }
 
   @Override
+  @Transactional
   public void delete(Long id) {
     Size size = findByID(id);
     sizeRepository.delete(size);
-    sizeRepository.save(size);
   }
 
   @Override
