@@ -35,6 +35,11 @@ public class MaterialController {
     return materialService.update(id, req);
   }
 
+  @GetMapping("/{id}")
+  public Material findByID(@PathVariable Long id) {
+    return materialService.findById(id);
+  }
+
   @DeleteMapping("/{id}")
   public void delete(@PathVariable Long id) {
     materialService.delete(id);
