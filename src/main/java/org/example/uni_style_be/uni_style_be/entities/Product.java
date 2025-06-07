@@ -24,7 +24,7 @@ public class Product extends BaseEntity {
   @Column(nullable = false, name = "name")
   String name;
 
-  @Column(nullable = false, name = "description")
+  @Column(name = "description")
   String description;
 
   @Column(nullable = false, name = "is_deleted")

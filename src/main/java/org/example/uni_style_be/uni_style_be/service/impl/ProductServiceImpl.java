@@ -9,7 +9,7 @@ import org.example.uni_style_be.uni_style_be.model.request.ProductRequest;
 import org.example.uni_style_be.uni_style_be.model.response.ProductResponse;
 import org.example.uni_style_be.uni_style_be.repositories.ProductRepository;
 import org.example.uni_style_be.uni_style_be.repositories.specification.ProductSpecification;
-import org.example.uni_style_be.uni_style_be.service.ProductService;
+import org.example.uni_style_be.uni_style_be.service.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -32,7 +32,9 @@ public class ProductServiceImpl implements ProductService {
             .description(productRequest.getDescription())
             .code("SP" + productRepository.getNextSeq())
             .build();
+
     productRepository.save(product);
+
     return mapToResponse(product);
   }
 

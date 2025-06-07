@@ -1,0 +1,47 @@
+package org.example.uni_style_be.uni_style_be.controller;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.example.uni_style_be.uni_style_be.entities.ProductDetail;
+import org.example.uni_style_be.uni_style_be.model.filter.ProductDetailParam;
+import org.example.uni_style_be.uni_style_be.model.request.ProductDetailRequest;
+import org.example.uni_style_be.uni_style_be.model.response.ProductDetailResponse;
+import org.example.uni_style_be.uni_style_be.service.ProductDetailService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/v1/productDetails")
+@RequiredArgsConstructor
+@Tag(name = "Api sản phẩm chi tiết")
+public class ProductDetailController {
+  private final ProductDetailService productDetailService;
+
+  @GetMapping
+  public Page<ProductDetail> filter(ProductDetailParam param, Pageable pageable) {
+    return productDetailService.filter(param, pageable);
+  }
+
+  @PostMapping
+  public ProductDetailResponse create(@Valid @RequestBody ProductDetailRequest req) {
+    return productDetailService.create(req);
+  }
+
+  @PutMapping("/{id}")
+  public ProductDetailResponse update(
+      @PathVariable Long id, @Valid @RequestBody ProductDetailRequest req) {
+    return productDetailService.update(id, req);
+  }
+
+  @DeleteMapping("/{id}")
+  public void delete(@PathVariable Long id) {
+    productDetailService.delete(id);
+  }
+
+  @GetMapping("/{id}")
+  public ProductDetail findById(@PathVariable Long id) {
+    return productDetailService.findById(id);
+  }
+}
