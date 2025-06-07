@@ -72,6 +72,7 @@ public class ProductServiceImpl implements ProductService {
         .code(product.getCode())
         .id(product.getId())
         .name(product.getName())
+        .description(product.getDescription())
         .createdAt(product.getCreatedAt())
         .updatedAt(product.getUpdatedAt())
         .isDeleted(product.getIsDeleted())
