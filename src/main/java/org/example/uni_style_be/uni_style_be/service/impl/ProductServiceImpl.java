@@ -28,8 +28,9 @@ public class ProductServiceImpl implements ProductService {
     Product product =
         Product.builder()
             .name(productRequest.getName())
+            .isDeleted(false)
             .description(productRequest.getDescription())
-            .code("PR" + productRepository.getNextSeq())
+            .code("SP" + productRepository.getNextSeq())
             .build();
     productRepository.save(product);
     return mapToResponse(product);
