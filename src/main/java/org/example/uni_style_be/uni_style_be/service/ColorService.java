@@ -6,9 +6,7 @@ import org.example.uni_style_be.uni_style_be.model.request.ColorRequest;
 import org.example.uni_style_be.uni_style_be.model.response.ColorResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public interface ColorService {
 
   ColorResponse create(ColorRequest colorRequest);
