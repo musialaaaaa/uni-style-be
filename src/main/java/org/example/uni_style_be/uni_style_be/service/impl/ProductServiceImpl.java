@@ -1,5 +1,7 @@
 package org.example.uni_style_be.uni_style_be.service.impl;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.example.uni_style_be.uni_style_be.entities.Product;
 import org.example.uni_style_be.uni_style_be.enums.NotFoundError;
@@ -21,31 +23,22 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProductServiceImpl implements ProductService {
 
   private final ProductRepository productRepository;
-
+  private final ObjectMapper objectMapper;
+  private final String PREFIX_CODE = "CL";
   @Override
   @Transactional
   public ProductResponse create(ProductRequest productRequest) {
-    Product product =
-        Product.builder()
-            .name(productRequest.getName())
-            .isDeleted(false)
-            .description(productRequest.getDescription())
-            .code("SP" + productRepository.getNextSeq())
-            .build();
-
-    productRepository.save(product);
-
-    return mapToResponse(product);
+    Product product = objectMapper.convertValue(productRequest, Product.class);
+    product.setCode(PREFIX_CODE + productRepository.getNextSeq());
+    return objectMapper.convertValue(productRepository.save(product), ProductResponse.class);
   }
 
   @Override
   @Transactional
-  public ProductResponse update(Long id, ProductRequest productRequest) {
+  public ProductResponse update(Long id, ProductRequest productRequest) throws JsonMappingException {
     Product product = findById(id);
-    product.setName(productRequest.getName());
-    product.setDescription(productRequest.getDescription());
-    productRepository.save(product);
-    return mapToResponse(product);
+    objectMapper.updateValue(product, productRequest);
+    return objectMapper.convertValue(productRepository.save(product), ProductResponse.class);
   }
 
   @Override
@@ -64,22 +57,9 @@ public class ProductServiceImpl implements ProductService {
   }
 
   @Override
-  public Page<Product> filter(ProductParam param, Pageable pageable) {
+  public Page<ProductResponse> filter(ProductParam param, Pageable pageable) {
     Specification<Product> productSpec = ProductSpecification.filterSpec(param);
-    return productRepository.findAll(productSpec, pageable);
-  }
-
-  private ProductResponse mapToResponse(Product product) {
-    return ProductResponse.builder()
-        .code(product.getCode())
-        .id(product.getId())
-        .name(product.getName())
-        .description(product.getDescription())
-        .createdAt(product.getCreatedAt())
-        .updatedAt(product.getUpdatedAt())
-        .isDeleted(product.getIsDeleted())
-        .updatedBy(product.getUpdatedBy())
-        .createdBy(product.getCreatedBy())
-        .build();
+    Page<Product> productPage = productRepository.findAll(productSpec, pageable);
+    return productPage.map(product -> objectMapper.convertValue(product, ProductResponse.class));
   }
 }

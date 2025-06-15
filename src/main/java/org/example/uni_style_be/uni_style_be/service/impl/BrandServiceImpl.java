@@ -1,5 +1,7 @@
 package org.example.uni_style_be.uni_style_be.service.impl;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.example.uni_style_be.uni_style_be.entities.Brand;
 import org.example.uni_style_be.uni_style_be.enums.NotFoundError;
@@ -22,26 +24,22 @@ public class BrandServiceImpl implements BrandService {
 
   private final BrandRepository brandRepository;
 
+  private final ObjectMapper objectMapper;
+  private final String PREFIX_CODE = "BR";
   @Override
   @Transactional
   public BrandReponse create(BrandRequest brandRequest) {
-    Brand brand =
-        Brand.builder()
-            .isDeleted(false)
-            .code("BR" + brandRepository.getNextSeq())
-            .name(brandRequest.getName())
-            .build();
-    brandRepository.save(brand);
-    return mapToResponse(brand);
+    Brand brand = objectMapper.convertValue(brandRequest, Brand.class);
+    brand.setCode(PREFIX_CODE + brandRepository.getNextSeq());
+    return objectMapper.convertValue(brandRepository.save(brand), BrandReponse.class);
   }
 
   @Override
   @Transactional
-  public BrandReponse update(Long id, BrandRequest brandRequest) {
+  public BrandReponse update(Long id, BrandRequest brandRequest) throws JsonMappingException {
     Brand brand = findById(id);
-    brand.setName(brandRequest.getName());
-    brandRepository.save(brand);
-    return mapToResponse(brand);
+    objectMapper.updateValue(brand, brandRequest);
+    return objectMapper.convertValue(brandRepository.save(brand), BrandReponse.class);
   }
 
   @Override
@@ -60,21 +58,10 @@ public class BrandServiceImpl implements BrandService {
   }
 
   @Override
-  public Page<Brand> filter(BrandParam param, Pageable pageable) {
+  public Page<BrandReponse> filter(BrandParam param, Pageable pageable) {
     Specification<Brand> brandSpec = BrandSpecification.filterSpec(param);
-    return brandRepository.findAll(brandSpec, pageable);
+    Page<Brand> brandPage = brandRepository.findAll(brandSpec, pageable);
+    return brandPage.map(brand -> objectMapper.convertValue(brand,BrandReponse.class));
   }
 
-  private BrandReponse mapToResponse(Brand brand) {
-    return BrandReponse.builder()
-        .id(brand.getId())
-        .name(brand.getName())
-        .isDeleted(brand.getIsDeleted())
-        .code(brand.getCode())
-        .createdAt(brand.getCreatedAt())
-        .updatedAt(brand.getUpdatedAt())
-        .createdBy(brand.getCreatedBy())
-        .updatedBy(brand.getUpdatedBy())
-        .build();
-  }
 }

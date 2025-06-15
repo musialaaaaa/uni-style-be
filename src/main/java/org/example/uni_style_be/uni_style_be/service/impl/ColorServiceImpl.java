@@ -1,5 +1,7 @@
 package org.example.uni_style_be.uni_style_be.service.impl;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.example.uni_style_be.uni_style_be.entities.Color;
 import org.example.uni_style_be.uni_style_be.enums.NotFoundError;
@@ -20,27 +22,22 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ColorServiceImpl implements ColorService {
   private final ColorRepository colorRepository;
-
+  private final ObjectMapper objectMapper;
+  private final String PREFIX_CODE = "CL";
   @Override
   @Transactional
   public ColorResponse create(ColorRequest colorRequest) {
-    Color color =
-        Color.builder()
-            .isDeleted(false)
-            .code("CL" + colorRepository.getNextSeq())
-            .name(colorRequest.getName())
-            .build();
-    colorRepository.save(color);
-    return mapToResponse(color);
+    Color color = objectMapper.convertValue(colorRequest, Color.class);
+    color.setCode(PREFIX_CODE + colorRepository.getNextSeq());
+    return objectMapper.convertValue(colorRepository.save(color), ColorResponse.class);
   }
 
   @Override
   @Transactional
-  public ColorResponse update(Long id, ColorRequest colorRequest) {
+  public ColorResponse update(Long id, ColorRequest colorRequest) throws JsonMappingException {
     Color color = findById(id);
-    color.setName(colorRequest.getName());
-    colorRepository.save(color);
-    return mapToResponse(color);
+    objectMapper.updateValue(color, colorRequest);
+    return objectMapper.convertValue(colorRepository.save(color), ColorResponse.class);
   }
 
   @Override
@@ -59,21 +56,9 @@ public class ColorServiceImpl implements ColorService {
   }
 
   @Override
-  public Page<Color> filter(ColorParam param, Pageable pageable) {
+  public Page<ColorResponse> filter(ColorParam param, Pageable pageable) {
     Specification<Color> colorSpec = ColorSpecification.filterSpec(param);
-    return colorRepository.findAll(colorSpec, pageable);
-  }
-
-  private ColorResponse mapToResponse(Color color) {
-    return ColorResponse.builder()
-        .id(color.getId())
-        .name(color.getName())
-        .code(color.getCode())
-        .isDeleted(color.getIsDeleted())
-        .createdBy(color.getCreatedBy())
-        .createdAt(color.getCreatedAt())
-        .updatedBy(color.getUpdatedBy())
-        .updatedAt(color.getUpdatedAt())
-        .build();
+    Page<Color> colorPage = colorRepository.findAll(colorSpec, pageable);
+    return colorPage.map(color -> objectMapper.convertValue(color, ColorResponse.class));
   }
 }

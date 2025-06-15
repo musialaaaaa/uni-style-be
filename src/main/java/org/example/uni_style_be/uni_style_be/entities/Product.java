@@ -28,5 +28,5 @@ public class Product extends BaseEntity {
   String description;
 
   @Column(nullable = false, name = "is_deleted")
-  Boolean isDeleted;
+  Boolean isDeleted =Boolean.FALSE;
 }

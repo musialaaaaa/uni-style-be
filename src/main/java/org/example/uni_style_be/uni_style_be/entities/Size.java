@@ -25,5 +25,5 @@ public class Size extends BaseEntity {
   String name;
 
   @Column(nullable = false, name = "is_deleted")
-  Boolean isDeleted;
+  Boolean isDeleted =Boolean.FALSE;
 }

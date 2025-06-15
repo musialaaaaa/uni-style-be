@@ -1,5 +1,6 @@
 package org.example.uni_style_be.uni_style_be.controller;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.example.uni_style_be.uni_style_be.model.filter.ProductParam;
 import org.example.uni_style_be.uni_style_be.model.request.ProductRequest;
 import org.example.uni_style_be.uni_style_be.model.response.ProductResponse;
 import org.example.uni_style_be.uni_style_be.service.ProductService;
+import org.example.uni_style_be.uni_style_be.utils.PageUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +22,8 @@ public class ProductController {
   private final ProductService productService;
 
   @GetMapping
-  public Page<Product> filter(ProductParam param, Pageable pageable) {
-    return productService.filter(param, pageable);
+  public PageUtils<ProductResponse> filter(ProductParam param, Pageable pageable) {
+    return new PageUtils<>(productService.filter(param, pageable));
   }
 
   @PostMapping
@@ -31,7 +33,7 @@ public class ProductController {
 
   @PutMapping("/{id}")
   public ProductResponse update(
-      @PathVariable Long id, @Valid @RequestBody ProductRequest productRequest) {
+      @PathVariable Long id, @Valid @RequestBody ProductRequest productRequest) throws JsonMappingException {
     return productService.update(id, productRequest);
   }
 

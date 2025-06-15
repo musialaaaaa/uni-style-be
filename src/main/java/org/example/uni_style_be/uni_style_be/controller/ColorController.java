@@ -1,5 +1,6 @@
 package org.example.uni_style_be.uni_style_be.controller;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.example.uni_style_be.uni_style_be.model.filter.ColorParam;
 import org.example.uni_style_be.uni_style_be.model.request.ColorRequest;
 import org.example.uni_style_be.uni_style_be.model.response.ColorResponse;
 import org.example.uni_style_be.uni_style_be.service.ColorService;
+import org.example.uni_style_be.uni_style_be.utils.PageUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +22,8 @@ public class ColorController {
   private final ColorService colorService;
 
   @GetMapping
-  public Page<Color> filter(ColorParam colorParam, Pageable pageable) {
-    return colorService.filter(colorParam, pageable);
+  public PageUtils<ColorResponse> filter(ColorParam colorParam, Pageable pageable) {
+    return new PageUtils<>(colorService.filter(colorParam,pageable));
   }
 
   @PostMapping
@@ -30,7 +32,7 @@ public class ColorController {
   }
 
   @PutMapping("/{id}")
-  public ColorResponse update(@PathVariable Long id, @Valid @RequestBody ColorRequest colorReq) {
+  public ColorResponse update(@PathVariable Long id, @Valid @RequestBody ColorRequest colorReq) throws JsonMappingException {
     return colorService.update(id, colorReq);
   }
 

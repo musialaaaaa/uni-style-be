@@ -37,7 +37,7 @@ public class ProductDetail extends BaseEntity {
   String description;
 
   @Column(nullable = false, name = "is_deleted")
-  Boolean isDeleted;
+  Boolean isDeleted =Boolean.FALSE;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "product_id")

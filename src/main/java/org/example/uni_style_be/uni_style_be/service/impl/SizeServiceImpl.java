@@ -1,5 +1,7 @@
 package org.example.uni_style_be.uni_style_be.service.impl;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.example.uni_style_be.uni_style_be.entities.Size;
 import org.example.uni_style_be.uni_style_be.enums.NotFoundError;
@@ -20,27 +22,22 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class SizeServiceImpl implements SizeService {
   private final SizeRepository sizeRepository;
-
+  private final ObjectMapper objectMapper;
+  private final String PREFIX_CODE = "SZ";
   @Override
   @Transactional
   public SizeResponse create(SizeRequest sizeRequest) {
-    Size size =
-        Size.builder()
-            .name(sizeRequest.getName())
-            .isDeleted(false)
-            .code("SZ" + sizeRepository.getNextSeq())
-            .build();
-    sizeRepository.save(size);
-    return mapToResponse(size);
+    Size size = objectMapper.convertValue(sizeRequest, Size.class);
+    size.setCode(PREFIX_CODE + sizeRepository.getNextSeq());
+    return objectMapper.convertValue(sizeRepository.save(size), SizeResponse.class);
   }
 
   @Override
   @Transactional
-  public SizeResponse update(Long id, SizeRequest sizeRequest) {
+  public SizeResponse update(Long id, SizeRequest sizeRequest) throws JsonMappingException {
     Size size = findByID(id);
-    size.setName(sizeRequest.getName());
-    sizeRepository.save(size);
-    return mapToResponse(size);
+    objectMapper.updateValue(size,sizeRequest);
+    return objectMapper.convertValue(sizeRepository.save(size), SizeResponse.class);
   }
 
   @Override
@@ -59,21 +56,11 @@ public class SizeServiceImpl implements SizeService {
   }
 
   @Override
-  public Page<Size> filter(SizeParam param, Pageable pageable) {
+  public Page<SizeResponse> filter(SizeParam param, Pageable pageable) {
     Specification<Size> sizeSpec = SizeSpecification.filterSpec(param);
-    return sizeRepository.findAll(sizeSpec, pageable);
+    Page<Size> sizePage = sizeRepository.findAll(sizeSpec, pageable);
+    return sizePage.map(size -> objectMapper.convertValue(size,SizeResponse.class));
   }
 
-  private SizeResponse mapToResponse(Size size) {
-    return SizeResponse.builder()
-        .id(size.getId())
-        .name(size.getName())
-        .code(size.getCode())
-        .isDeleted(size.getIsDeleted())
-        .createdBy(size.getCreatedBy())
-        .createdAt(size.getCreatedAt())
-        .updatedBy(size.getUpdatedBy())
-        .updatedAt(size.getUpdatedAt())
-        .build();
-  }
+
 }

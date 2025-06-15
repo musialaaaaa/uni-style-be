@@ -1,5 +1,6 @@
 package org.example.uni_style_be.uni_style_be.controller;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.example.uni_style_be.uni_style_be.model.filter.BrandParam;
 import org.example.uni_style_be.uni_style_be.model.request.BrandRequest;
 import org.example.uni_style_be.uni_style_be.model.response.BrandReponse;
 import org.example.uni_style_be.uni_style_be.service.BrandService;
+import org.example.uni_style_be.uni_style_be.utils.PageUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +22,8 @@ public class BrandController {
   private final BrandService brandService;
 
   @GetMapping
-  public Page<Brand> filter(BrandParam param, Pageable pageable) {
-    return brandService.filter(param, pageable);
+  public PageUtils<BrandReponse> filter(BrandParam param, Pageable pageable) {
+    return new PageUtils<>(brandService.filter(param,pageable));
   }
 
   @PostMapping
@@ -30,7 +32,7 @@ public class BrandController {
   }
 
   @PutMapping("/{id}")
-  public BrandReponse update(@PathVariable Long id, @Valid @RequestBody BrandRequest brandRequest) {
+  public BrandReponse update(@PathVariable Long id, @Valid @RequestBody BrandRequest brandRequest) throws JsonMappingException {
     return brandService.update(id, brandRequest);
   }
 

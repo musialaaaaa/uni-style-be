@@ -1,5 +1,6 @@
 package org.example.uni_style_be.uni_style_be.controller;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.example.uni_style_be.uni_style_be.model.filter.SizeParam;
 import org.example.uni_style_be.uni_style_be.model.request.SizeRequest;
 import org.example.uni_style_be.uni_style_be.model.response.SizeResponse;
 import org.example.uni_style_be.uni_style_be.service.SizeService;
+import org.example.uni_style_be.uni_style_be.utils.PageUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +23,8 @@ public class SizeController {
   private final SizeService sizeService;
 
   @GetMapping
-  public Page<Size> filter(SizeParam param, Pageable pageable) {
-    return sizeService.filter(param, pageable);
+  public PageUtils<SizeResponse> filter(SizeParam param, Pageable pageable) {
+    return new PageUtils<>(sizeService.filter(param,pageable));
   }
 
   @PostMapping
@@ -31,7 +33,7 @@ public class SizeController {
   }
 
   @PutMapping("/{id}")
-  public SizeResponse update(@PathVariable Long id, @Valid @RequestBody SizeRequest sizeReq) {
+  public SizeResponse update(@PathVariable Long id, @Valid @RequestBody SizeRequest sizeReq) throws JsonMappingException {
     return sizeService.update(id, sizeReq);
   }
 

@@ -1,5 +1,7 @@
 package org.example.uni_style_be.uni_style_be.service.impl;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.example.uni_style_be.uni_style_be.entities.Material;
 import org.example.uni_style_be.uni_style_be.enums.NotFoundError;
@@ -21,18 +23,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class MaterialServiceImpl implements MaterialService {
 
   private final MaterialRepository materialRepository;
-
+  private final ObjectMapper objectMapper;
+  private final String PREFIX_CODE = "MT";
   @Override
   @Transactional
   public MaterialResponse create(MaterialRequest materialRequest) {
-    Material material =
-        Material.builder()
-            .name(materialRequest.getName())
-            .isDeleted(false)
-            .code("MT" + materialRepository.getNextSeq())
-            .build();
-    materialRepository.save(material);
-    return mapToResponse(material);
+    Material material = objectMapper.convertValue(materialRequest, Material.class);
+    material.setCode(PREFIX_CODE + materialRepository.getNextSeq());
+    return objectMapper.convertValue(materialRepository.save(material), MaterialResponse.class);
   }
 
   @Override
@@ -44,11 +42,11 @@ public class MaterialServiceImpl implements MaterialService {
 
   @Override
   @Transactional
-  public MaterialResponse update(Long id, MaterialRequest materialRequest) {
+  public MaterialResponse update(Long id, MaterialRequest materialRequest) throws JsonMappingException {
     Material material = findById(id);
-    material.setName(materialRequest.getName());
-    materialRepository.save(material);
-    return mapToResponse(material);
+
+    objectMapper.updateValue(material, materialRequest);
+    return objectMapper.convertValue(materialRepository.save(material), MaterialResponse.class);
   }
 
   @Override
@@ -60,21 +58,10 @@ public class MaterialServiceImpl implements MaterialService {
   }
 
   @Override
-  public Page<Material> filter(MaterialParam param, Pageable pageable) {
+  public Page<MaterialResponse> filter(MaterialParam param, Pageable pageable) {
     Specification<Material> materialSpec = MaterialSpecification.filterSpec(param);
-    return materialRepository.findAll(materialSpec, pageable);
+    Page<Material> materialPage = materialRepository.findAll(materialSpec,pageable);
+    return materialPage.map(material -> objectMapper.convertValue(material, MaterialResponse.class));
   }
 
-  private MaterialResponse mapToResponse(Material material) {
-    return MaterialResponse.builder()
-        .code(material.getCode())
-        .id(material.getId())
-        .name(material.getName())
-        .createdAt(material.getCreatedAt())
-        .updatedAt(material.getUpdatedAt())
-        .isDeleted(material.getIsDeleted())
-        .updatedBy(material.getUpdatedBy())
-        .createdBy(material.getCreatedBy())
-        .build();
-  }
 }

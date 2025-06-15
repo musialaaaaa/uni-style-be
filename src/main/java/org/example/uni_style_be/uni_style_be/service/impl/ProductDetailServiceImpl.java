@@ -1,11 +1,15 @@
 package org.example.uni_style_be.uni_style_be.service.impl;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.example.uni_style_be.uni_style_be.entities.Material;
 import org.example.uni_style_be.uni_style_be.entities.ProductDetail;
 import org.example.uni_style_be.uni_style_be.enums.NotFoundError;
 import org.example.uni_style_be.uni_style_be.exception.ResponseException;
 import org.example.uni_style_be.uni_style_be.model.filter.ProductDetailParam;
 import org.example.uni_style_be.uni_style_be.model.request.ProductDetailRequest;
+import org.example.uni_style_be.uni_style_be.model.response.MaterialResponse;
 import org.example.uni_style_be.uni_style_be.model.response.ProductDetailResponse;
 import org.example.uni_style_be.uni_style_be.repositories.ProductDetailRepository;
 import org.example.uni_style_be.uni_style_be.repositories.specification.ProductDetailSpecification;
@@ -27,48 +31,32 @@ public class ProductDetailServiceImpl implements ProductDetailService {
   private final BrandService brandService;
   private final MaterialService materialService;
 
+  private final ObjectMapper objectMapper;
+  private final String PREFIX_CODE = "PRD";
+
   @Override
   @Transactional
   public ProductDetailResponse create(ProductDetailRequest productDetailRequest) {
-    ProductDetail productDetail =
-        ProductDetail.builder()
-            .name(productDetailRequest.getName())
-            .image(productDetailRequest.getImage())
-            .description(productDetailRequest.getDescription())
-            .price(productDetailRequest.getPrice())
-            .quantity(productDetailRequest.getQuantity())
-            .isDeleted(false)
-            .code("PD" + productDetailRepository.getNextSeq())
-            .size(sizeService.findByID(productDetailRequest.getSizeId()))
-            .color(colorService.findById(productDetailRequest.getColorId()))
-            .brand(brandService.findById(productDetailRequest.getBrandId()))
-            .material(materialService.findById(productDetailRequest.getMaterialId()))
-            .product(productService.findById(productDetailRequest.getProductId()))
-            .build();
-    return mapToResponse(productDetailRepository.save(productDetail));
+    ProductDetail productDetail = objectMapper.convertValue(productDetailRequest, ProductDetail.class);
+    productDetail.setCode(PREFIX_CODE +productDetailRepository.getNextSeq());
+    setEntityRel(productDetail, productDetailRequest);
+    return objectMapper.convertValue(productDetailRepository.save(productDetail), ProductDetailResponse.class);
   }
 
   @Override
   @Transactional
-  public ProductDetailResponse update(Long id, ProductDetailRequest productDetailRequest) {
+  public ProductDetailResponse update(Long id, ProductDetailRequest productDetailRequest) throws JsonMappingException {
     ProductDetail prDetail = findById(id);
-    prDetail.setName(productDetailRequest.getName());
-    prDetail.setImage(productDetailRequest.getImage());
-    prDetail.setDescription(productDetailRequest.getDescription());
-    prDetail.setPrice(productDetailRequest.getPrice());
-    prDetail.setQuantity(productDetailRequest.getQuantity());
-    prDetail.setProduct(productService.findById(productDetailRequest.getProductId()));
-    prDetail.setBrand(brandService.findById(productDetailRequest.getBrandId()));
-    prDetail.setMaterial(materialService.findById(productDetailRequest.getMaterialId()));
-    prDetail.setSize(sizeService.findByID(productDetailRequest.getSizeId()));
-    prDetail.setColor(colorService.findById(productDetailRequest.getColorId()));
-    return mapToResponse(productDetailRepository.save(prDetail));
+    objectMapper.updateValue(prDetail, productDetailRequest);
+    setEntityRel(prDetail, productDetailRequest);
+    return objectMapper.convertValue(productDetailRepository.save(prDetail), ProductDetailResponse.class);
   }
 
   @Override
-  public Page<ProductDetail> filter(ProductDetailParam param, Pageable pageable) {
+  public Page<ProductDetailResponse> filter(ProductDetailParam param, Pageable pageable) {
     Specification<ProductDetail> prDetailSpec = ProductDetailSpecification.filterSpec(param);
-    return productDetailRepository.findAll(prDetailSpec, pageable);
+    Page<ProductDetail> productDetailPage = productDetailRepository.findAll(prDetailSpec,pageable);
+    return productDetailPage.map(product -> objectMapper.convertValue(product, ProductDetailResponse.class));
   }
 
   @Override
@@ -86,23 +74,13 @@ public class ProductDetailServiceImpl implements ProductDetailService {
         .orElseThrow(() -> new ResponseException(NotFoundError.PRODUCT_DETAIL_NOT_FOUND));
   }
 
-  private ProductDetailResponse mapToResponse(ProductDetail productDetail) {
-    return ProductDetailResponse.builder()
-        .id(productDetail.getId())
-        .name(productDetail.getName())
-        .image(productDetail.getImage())
-        .description(productDetail.getDescription())
-        .price(productDetail.getPrice())
-        .quantity(productDetail.getQuantity())
-        .color(productDetail.getColor())
-        .brand(productDetail.getBrand())
-        .material(productDetail.getMaterial())
-        .product(productDetail.getProduct())
-        .isDeleted(productDetail.getIsDeleted())
-        .createdBy(productDetail.getCreatedBy())
-        .createdAt(productDetail.getCreatedAt())
-        .updatedBy(productDetail.getUpdatedBy())
-        .updatedAt(productDetail.getUpdatedAt())
-        .build();
+  private void setEntityRel (ProductDetail productDetail, ProductDetailRequest productDetailRequest){
+    productDetail.setProduct(productService.findById(productDetailRequest.getProductId()));
+    productDetail.setBrand(brandService.findById(productDetailRequest.getBrandId()));
+    productDetail.setMaterial(materialService.findById(productDetailRequest.getMaterialId()));
+    productDetail.setSize(sizeService.findByID(productDetailRequest.getSizeId()));
+    productDetail.setColor(colorService.findById(productDetailRequest.getColorId()));
   }
+
+
 }
