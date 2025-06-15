@@ -14,9 +14,9 @@ import org.hibernate.annotations.Where;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "material")
+@Table(name = "brand")
 @Where(clause = "is_deleted = false")
-public class Material extends BaseEntity {
+public class Brand extends BaseEntity {
 
   @Column(nullable = false, name = "code")
   String code;

@@ -1,5 +1,6 @@
 package org.example.uni_style_be.service;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
 import org.example.uni_style_be.entities.Material;
 import org.example.uni_style_be.model.filter.MaterialParam;
 import org.example.uni_style_be.model.request.MaterialRequest;
@@ -11,11 +12,11 @@ public interface MaterialService {
 
   MaterialResponse create(MaterialRequest materialRequest);
 
-  MaterialResponse update(Long id, MaterialRequest materialRequest);
+  MaterialResponse update(Long id, MaterialRequest materialRequest) throws JsonMappingException;
 
   void delete(Long id);
 
   Material findById(Long id);
 
-  Page<Material> filter(MaterialParam param, Pageable pageable);
+  Page<MaterialResponse> filter(MaterialParam param, Pageable pageable);
 }

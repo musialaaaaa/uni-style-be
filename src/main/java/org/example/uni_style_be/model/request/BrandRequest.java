@@ -6,9 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class MaterialRequest {
-  @NotBlank(message = "Chất liệu không được để trống")
+@NoArgsConstructor
+public class BrandRequest {
+  @NotBlank(message = "Thương hiệu không được để trống")
   private String name;
 }

@@ -25,5 +25,5 @@ public class Color extends BaseEntity {
   String name;
 
   @Column(nullable = false, name = "is_deleted")
-  Boolean isDeleted;
+  Boolean isDeleted = Boolean.FALSE;
 }
