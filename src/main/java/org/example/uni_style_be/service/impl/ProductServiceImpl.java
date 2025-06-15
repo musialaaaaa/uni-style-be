@@ -25,6 +25,7 @@ public class ProductServiceImpl implements ProductService {
   private final ProductRepository productRepository;
   private final ObjectMapper objectMapper;
   private final String PREFIX_CODE = "CL";
+
   @Override
   @Transactional
   public ProductResponse create(ProductRequest productRequest) {
