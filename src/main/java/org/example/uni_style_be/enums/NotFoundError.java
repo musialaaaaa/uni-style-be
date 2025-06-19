@@ -11,7 +11,8 @@ public enum NotFoundError implements ResponseError {
   COLOR_NOT_FOUND("Màu không được để trống"),
   BRAND_NOT_FOUND("Thương hiệu không được để trống"),
   PRODUCT_NOT_FOUND("Sản phẩm không được để trống"),
-  PRODUCT_DETAIL_NOT_FOUND("Sản phẩm chi tiet không được để trống");
+  PRODUCT_DETAIL_NOT_FOUND("Sản phẩm chi tiet không được để trống"),
+  CATEGORY_NOT_FOUND("Danh mục không được để trống");
 
   private final String message;
 
