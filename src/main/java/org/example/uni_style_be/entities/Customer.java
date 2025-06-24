@@ -18,10 +18,6 @@ import org.hibernate.annotations.Where;
 @Where(clause = "is_deleted = false")
 public class Customer extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @Column(name = "code")
     private String code;
 
@@ -35,6 +31,7 @@ public class Customer extends BaseEntity {
     private String phoneNumber;
 
     @Column(name = "gender")
+    @Enumerated(EnumType.STRING)
     private Gender gender;
 
     @Column(name = "city")
