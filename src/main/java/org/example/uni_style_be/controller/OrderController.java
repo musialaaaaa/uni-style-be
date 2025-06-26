@@ -45,7 +45,7 @@ public class OrderController {
     @Operation(summary = "Danh sách")
     public ServiceResponse<PageResponse<OrderResponse>> filter(
             @RequestParam(value = "orderDate", required = false) LocalDateTime orderDate,
-            @RequestParam(value = "total_amount", required = false) BigDecimal total_amount,
+            @RequestParam(value = "totalAmount", required = false) BigDecimal totalAmount,
             @RequestParam(value = "status", required = false)     String status,
             @RequestParam(value = "shipping_address", required = false)  String shipping_address,
             @RequestParam(value = "isDeleted", required = false)  Boolean isDeleted,
@@ -54,7 +54,7 @@ public class OrderController {
     ) {
         OrderParam param = OrderParam.builder()
                 .orderDate(orderDate)
-                .total_amount(total_amount)
+                .totalAmount(totalAmount)
                 .status(status)
                 .shipping_address(shipping_address)
                 .page(page)

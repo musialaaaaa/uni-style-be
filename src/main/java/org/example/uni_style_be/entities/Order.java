@@ -22,11 +22,11 @@ public class Order  extends BaseEntity{
 @Column(nullable = false)
 LocalDateTime orderDate;
 @Column(nullable = false)
-    BigDecimal total_amount;
+    BigDecimal totalAmount;
 @Column(nullable = false)
     String status;
 @Column(nullable = false)
-    String shipping_address;
+    String shippingAddress;
 @Column(nullable = false, name = "is_deleted")
     Boolean isDeleted =Boolean.FALSE;
 

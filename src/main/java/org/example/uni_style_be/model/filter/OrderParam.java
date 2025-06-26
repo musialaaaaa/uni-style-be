@@ -20,7 +20,7 @@ public class OrderParam {
 
     LocalDateTime orderDate;
 
-    BigDecimal total_amount;
+    BigDecimal totalAmount;
 
     String status;
 

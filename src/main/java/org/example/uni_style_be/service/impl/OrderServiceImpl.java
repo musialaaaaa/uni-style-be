@@ -40,9 +40,9 @@ public class OrderServiceImpl implements OrderService {
 
         Order oder = Order.builder()
                 .orderDate(rq.getOrderDate())
-                .total_amount(rq.getTotal_amount())
+                .totalAmount(rq.getTotalAmount())
                 .status(rq.getStatus())
-                .shipping_address(rq.getShipping_address())
+                .shippingAddress(rq.getShippingAddress())
                 .build();
         // luu vao bang
         Order savedOrder = orderRepository.save(oder);
@@ -67,14 +67,14 @@ public class OrderServiceImpl implements OrderService {
     public PageResponse<OrderResponse> filter(OrderParam param) {
         Pageable pageable = PageRequest.of(param.getPage()-1,param.getLimit());
 
-        BigDecimal total_amount = null;
+        BigDecimal totalAmount = null;
         String status = null;
         String shipping_address= null;
         Boolean isDeleted = null;
         LocalDateTime orderDate = param.getOrderDate();
 
-            if (param.getTotal_amount() != null && param.getTotal_amount().compareTo(BigDecimal.ZERO) > 0) {
-                total_amount = param.getTotal_amount();
+            if (param.getTotalAmount() != null && param.getTotalAmount().compareTo(BigDecimal.ZERO) > 0) {
+                totalAmount = param.getTotalAmount();
 
             }
             if (StringUtils.isNotBlank(param.getStatus())) {
@@ -85,7 +85,7 @@ public class OrderServiceImpl implements OrderService {
             }
              isDeleted = param.getIsDeleted();
 
-        Page<Order> page= orderRepository.filter(orderDate, total_amount, status, shipping_address, isDeleted, pageable);
+        Page<Order> page= orderRepository.filter(orderDate, totalAmount, status, shipping_address, isDeleted, pageable);
         List <Order> orders = page.getContent();
         List<OrderResponse> orderResponses = OrderMapper.mapToCreateResponse(orders);
         return new PageResponse<>(page.getTotalElements(), orderResponses );

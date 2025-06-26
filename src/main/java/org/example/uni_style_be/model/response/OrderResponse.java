@@ -1,7 +1,5 @@
 package org.example.uni_style_be.model.response;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
@@ -18,11 +16,11 @@ public class OrderResponse extends BaseResponse {
 
     LocalDateTime orderDate;
 
-    BigDecimal total_amount;
+    BigDecimal totalAmount;
 
     String status;
 
-    String shipping_address;
+    String shippingAddress;
 
     Boolean isDeleted;
 }

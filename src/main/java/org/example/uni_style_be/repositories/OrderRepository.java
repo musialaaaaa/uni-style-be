@@ -20,16 +20,16 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query("""
            SELECT d FROM Order d
            WHERE (:orderDate IS NULL OR d.orderDate = :orderDate)
-           AND (:total_amount IS NULL OR d.total_amount = :total_amount)
+           AND (:totalAmount IS NULL OR d.totalAmount = :totalAmount)
            AND (:status IS NULL OR d.status = :status)
-           AND (:shipping_address IS NULL OR d.shipping_address = :shipping_address)
+           AND (:shippingAddress IS NULL OR d.shippingAddress = :shippingAddress)
            AND (:isDeleted IS NULL OR d.isDeleted = :isDeleted)
            """)
     Page<Order> filter(
             LocalDateTime orderDate,
-            BigDecimal total_amount,
+            BigDecimal totalAmount,
             String status,
-            String shipping_address,
+            String shippingAddress,
             Boolean isDeleted,
             Pageable pageable
     );
