@@ -7,7 +7,7 @@ spring:
         implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
     show-sql: true
   datasource:
-    url: jdbc:mysql://localhost:3307/uni_style?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/uni_style?createDatabaseIfNotExist=true
     username: ${DB_USERNAME:root}
     password: ${DB_PASSWORD:12345678}
     driver-class-name: com.mysql.cj.jdbc.Driver
