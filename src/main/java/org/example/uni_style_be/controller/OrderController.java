@@ -5,13 +5,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.uni_style_be.entities.Order;
 import org.example.uni_style_be.model.filter.OrderParam;
 import org.example.uni_style_be.model.request.OrderRequest;
-import org.example.uni_style_be.model.request.ProductRequest;
 import org.example.uni_style_be.model.response.OrderResponse;
 import org.example.uni_style_be.model.response.PageResponse;
-import org.example.uni_style_be.model.response.ProductResponse;
 import org.example.uni_style_be.model.response.ServiceResponse;
 import org.example.uni_style_be.service.OrderService;
 import org.springframework.web.bind.annotation.*;
@@ -47,7 +44,7 @@ public class OrderController {
             @RequestParam(value = "orderDate", required = false) LocalDateTime orderDate,
             @RequestParam(value = "totalAmount", required = false) BigDecimal totalAmount,
             @RequestParam(value = "status", required = false)     String status,
-            @RequestParam(value = "shipping_address", required = false)  String shipping_address,
+            @RequestParam(value = "shippingAddress", required = false)  String shippingAddress,
             @RequestParam(value = "isDeleted", required = false)  Boolean isDeleted,
             @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
             @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit
@@ -56,7 +53,7 @@ public class OrderController {
                 .orderDate(orderDate)
                 .totalAmount(totalAmount)
                 .status(status)
-                .shipping_address(shipping_address)
+                .shippingAddress(shippingAddress)
                 .page(page)
                 .isDeleted(isDeleted)
                 .limit(limit)

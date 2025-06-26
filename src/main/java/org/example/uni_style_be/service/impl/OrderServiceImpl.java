@@ -69,7 +69,7 @@ public class OrderServiceImpl implements OrderService {
 
         BigDecimal totalAmount = null;
         String status = null;
-        String shipping_address= null;
+        String shippingAddress= null;
         Boolean isDeleted = null;
         LocalDateTime orderDate = param.getOrderDate();
 
@@ -80,12 +80,12 @@ public class OrderServiceImpl implements OrderService {
             if (StringUtils.isNotBlank(param.getStatus())) {
                 status = param.getStatus().trim().toUpperCase();
             }
-            if (StringUtils.isNotBlank(param.getShipping_address())) {
-                shipping_address = param.getShipping_address().trim().toUpperCase();
+            if (StringUtils.isNotBlank(param.getShippingAddress())) {
+                shippingAddress = param.getShippingAddress().trim().toUpperCase();
             }
              isDeleted = param.getIsDeleted();
 
-        Page<Order> page= orderRepository.filter(orderDate, totalAmount, status, shipping_address, isDeleted, pageable);
+        Page<Order> page= orderRepository.filter(orderDate, totalAmount, status, shippingAddress, isDeleted, pageable);
         List <Order> orders = page.getContent();
         List<OrderResponse> orderResponses = OrderMapper.mapToCreateResponse(orders);
         return new PageResponse<>(page.getTotalElements(), orderResponses );

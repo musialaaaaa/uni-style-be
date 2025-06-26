@@ -24,7 +24,7 @@ public class OrderParam {
 
     String status;
 
-    String shipping_address;
+    String shippingAddress;
 
     Boolean isDeleted;
 }
