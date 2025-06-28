@@ -8,7 +8,6 @@ public class UniStyleBeApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(UniStyleBeApplication.class, args);
-        System.out.println("runn");
     }
 
 }

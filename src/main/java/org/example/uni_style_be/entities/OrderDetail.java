@@ -29,7 +29,7 @@ public class OrderDetail extends BaseEntity {
     ProductDetail productDetailId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "oder_id")
+    @JoinColumn(name = "order_id")
     @NotFound(action = NotFoundAction.IGNORE)
-    Order oder;
+    Order order;
 }

@@ -1,16 +1,25 @@
 package org.example.uni_style_be.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.example.uni_style_be.enums.UnauthorizedError;
+import org.example.uni_style_be.exception.ResponseException;
 import org.example.uni_style_be.model.request.CreateOderRequest;
 import org.example.uni_style_be.service.OrderService;
+import org.example.uni_style_be.utils.SecurityUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
     public void createOrder(CreateOderRequest request) {
         //B1: có được user_id
-
+        Optional<Long> accountIdOptional = SecurityUtils.getCurrentAccountId();
+        if (accountIdOptional.isEmpty()) {
+            throw new ResponseException(UnauthorizedError.UNAUTHORIZED);
+        }
+        Long accountId = accountIdOptional.get();
         //B2:  lấy giỏ hàng qua user_id
 
         //B3: lấy những sản pẩm trong giỏ hàng(product_detail_id) và số lượng
