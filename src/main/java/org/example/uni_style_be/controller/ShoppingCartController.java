@@ -19,21 +19,21 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @Tag(name = "gio hang")
 public class ShoppingCartController {
-    private final ShoppingCartService shoppingCartService;
-    @PostMapping
-    @Operation(summary = "them moi")
-    public ShoppingCartResponse create(@RequestBody @Valid ShoppingCartRequest rq) {
-        return shoppingCartService.create(rq);
-    }
-    @DeleteMapping("/{id}")
-    @Operation(summary = "delete")
-    public void delete(@PathVariable Long id) {
-        shoppingCartService.delete(id);
-    }
-    @PutMapping("/{id}")
-    @Operation(summary = "update")
-    public ShoppingCartRequest update(
-            @PathVariable Long id, @Valid @RequestBody ShoppingCartRequest shoppingCartRequest) throws JsonMappingException {
-        return shoppingCartService.update(id, shoppingCartRequest);
-    }
+//    private final ShoppingCartService shoppingCartService;
+//    @PostMapping
+//    @Operation(summary = "them moi")
+//    public ShoppingCartResponse create(@RequestBody @Valid ShoppingCartRequest rq) {
+//        return shoppingCartService.create(rq);
+//    }
+//    @DeleteMapping("/{id}")
+//    @Operation(summary = "delete")
+//    public void delete(@PathVariable Long id) {
+//        shoppingCartService.delete(id);
+//    }
+//    @PutMapping("/{id}")
+//    @Operation(summary = "update")
+//    public ShoppingCartRequest update(
+//            @PathVariable Long id, @Valid @RequestBody ShoppingCartRequest shoppingCartRequest) throws JsonMappingException {
+//        return shoppingCartService.update(id, shoppingCartRequest);
+//    }
 }

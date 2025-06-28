@@ -1,95 +1,39 @@
 package org.example.uni_style_be.service.impl;
 
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
-import org.apache.commons.lang3.StringUtils;
-import org.example.uni_style_be.entities.Order;
-import org.example.uni_style_be.mapper.OrderMapper;
-import org.example.uni_style_be.model.filter.OrderParam;
-import org.example.uni_style_be.model.request.OrderRequest;
-import org.example.uni_style_be.model.response.OrderResponse;
-import org.example.uni_style_be.model.response.PageResponse;
-import org.example.uni_style_be.repositories.OrderRepository;
+import org.example.uni_style_be.enums.UnauthorizedError;
+import org.example.uni_style_be.exception.ResponseException;
+import org.example.uni_style_be.model.request.CreateOderRequest;
 import org.example.uni_style_be.service.OrderService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.example.uni_style_be.utils.SecurityUtils;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class OrderServiceImpl implements OrderService {
-    private final String PREFIX_CODE = "OD";
-    OrderRepository orderRepository;
-    private final ObjectMapper objectMapper;
+    public void createOrder(CreateOderRequest request) {
+        //B1: có được user_id
+        Optional<Long> accountIdOptional = SecurityUtils.getCurrentAccountId();
+        if (accountIdOptional.isEmpty()) {
+            throw new ResponseException(UnauthorizedError.UNAUTHORIZED);
+        }
+        Long accountId = accountIdOptional.get();
+        //B2:  lấy giỏ hàng qua user_id
 
-    @Override
-    public OrderResponse create(OrderRequest rq) {
-        // tu sinh ma order
+        //B3: lấy những sản pẩm trong giỏ hàng(product_detail_id) và số lượng
 
-        Long nextValue = orderRepository.getNextSeq();
-        String code =  PREFIX_CODE+nextValue;
+        //B4: lấy các product_detail qua danh sách product_detail_id
 
-        Order oder = Order.builder()
-                .orderDate(rq.getOrderDate())
-                .totalAmount(rq.getTotalAmount())
-                .status(rq.getStatus())
-                .shippingAddress(rq.getShippingAddress())
-                .build();
-        // luu vao bang
-        Order savedOrder = orderRepository.save(oder);
-        return OrderMapper.mapToCreateResponse(savedOrder);
+        //B5: lấy mã giảm giá
 
+        //B6: tính tổng tien
+
+        //B7: insert bảng order
+
+        //B8: lặp product_detail mỗi lần lặp đều insert vào bảng orderDetail và ập nhật lại trong bảng productDetail dồng thời đặt phải trừ đi số lượng và validate số lượng
+
+        //B9: payment insert bản ghi ở trạng thái pending vào bản payment trong trường hợp phương thức thanh toán chuyển khoản ngân hàng thì gọi sang paymantgetway để lay link thanh toán
     }
-
-    @Override
-    public void delete(Long id) {
-        Order Order = orderRepository.findById(id).orElseThrow();
-        Order.setIsDeleted(true);
-        orderRepository.save(Order);
-    }
-
-    @Override
-    public OrderRequest  update(Long id, OrderRequest orderRequest) throws JsonMappingException {
-       Order order = orderRepository.findById(id).orElseThrow();
-        objectMapper.updateValue(order, orderRequest);
-        return objectMapper.convertValue(orderRepository.save(order), OrderRequest.class);
-    }
-    @Override
-    public PageResponse<OrderResponse> filter(OrderParam param) {
-        Pageable pageable = PageRequest.of(param.getPage()-1,param.getLimit());
-
-        BigDecimal totalAmount = null;
-        String status = null;
-        String shippingAddress= null;
-        Boolean isDeleted = null;
-        LocalDateTime orderDate = param.getOrderDate();
-
-            if (param.getTotalAmount() != null && param.getTotalAmount().compareTo(BigDecimal.ZERO) > 0) {
-                totalAmount = param.getTotalAmount();
-
-            }
-            if (StringUtils.isNotBlank(param.getStatus())) {
-                status = param.getStatus().trim().toUpperCase();
-            }
-            if (StringUtils.isNotBlank(param.getShippingAddress())) {
-                shippingAddress = param.getShippingAddress().trim().toUpperCase();
-            }
-             isDeleted = param.getIsDeleted();
-
-        Page<Order> page= orderRepository.filter(orderDate, totalAmount, status, shippingAddress, isDeleted, pageable);
-        List <Order> orders = page.getContent();
-        List<OrderResponse> orderResponses = OrderMapper.mapToCreateResponse(orders);
-        return new PageResponse<>(page.getTotalElements(), orderResponses );
-
-    }
-
 }

@@ -1,13 +1,14 @@
 package org.example.uni_style_be.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.example.uni_style_be.enums.OrderStatus;
+import org.springframework.security.core.userdetails.User;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -15,19 +16,34 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "orders")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Order  extends BaseEntity{
+@Table(name = "orders") // Đổi tên tránh conflict với từ khóa SQL
+public class Order extends BaseEntity {
 
-@Column(nullable = false)
-LocalDateTime orderDate;
-@Column(nullable = false)
+    @Column(name = "total_amount", nullable = false, precision = 10, scale = 2)
     BigDecimal totalAmount;
-@Column(nullable = false)
-    String status;
-@Column(nullable = false)
-    String shippingAddress;
-@Column(nullable = false, name = "is_deleted")
-    Boolean isDeleted =Boolean.FALSE;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, length = 50)
+    OrderStatus status;
+
+    @Column(name = "shipping_address", columnDefinition = "TEXT", nullable = false)
+    String shippingAddress;
+
+    @Column(name = "phone_number", length = 15, nullable = false)
+    String phoneNumber;
+
+    // Quan hệ với user
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "users_id")
+//    User user;
+//
+//    // Quan hệ với voucher (coupon)
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "voucher_id")
+//    Coupon voucher;
+
+    // Quan hệ với order_detail
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    List<OrderDetail> orderDetails;
 }

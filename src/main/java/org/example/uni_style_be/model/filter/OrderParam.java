@@ -1,30 +1,17 @@
 package org.example.uni_style_be.model.filter;
 
-import lombok.*;
-import lombok.experimental.FieldDefaults;
+import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
-@Getter
-@Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE )
 public class OrderParam {
-    Integer page;
+    private LocalDateTime orderDate;
 
-    Integer limit;
+    private BigDecimal totalAmount;
 
-    LocalDateTime orderDate;
+    private String status;
 
-    BigDecimal totalAmount;
-
-    String status;
-
-    String shippingAddress;
-
-    Boolean isDeleted;
+    private String shippingAddress;
 }

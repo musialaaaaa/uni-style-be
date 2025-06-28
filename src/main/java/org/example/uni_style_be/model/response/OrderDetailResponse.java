@@ -8,19 +8,14 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class OrderResponse {
-    LocalDateTime orderDate;
+public class OrderDetailResponse {
+    Integer quantity;
 
-    BigDecimal totalAmount;
-
-    String status;
-
-    String shippingAddress;
+    BigDecimal price_at_time;
 }
