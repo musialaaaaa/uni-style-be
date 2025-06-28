@@ -7,6 +7,8 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.Where;
 
+import java.math.BigDecimal;
+
 @Entity
 @Getter
 @Setter
@@ -28,7 +30,7 @@ public class ProductDetail extends BaseEntity {
   Integer quantity;
 
   @Column(nullable = false, name = "price")
-  Double price;
+  BigDecimal price;
 
   @Column(nullable = false, name = "image")
   String image;

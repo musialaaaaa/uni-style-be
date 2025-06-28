@@ -33,15 +33,15 @@ public class Order extends BaseEntity {
     @Column(name = "phone_number", length = 15, nullable = false)
     String phoneNumber;
 
-    // Quan hệ với user
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "users_id")
-//    User user;
-//
-//    // Quan hệ với voucher (coupon)
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "voucher_id")
-//    Coupon voucher;
+    //Quan hệ với acccount
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_id")
+    Account account;
+
+    // Quan hệ với voucher (coupon)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "voucher_id")
+    Coupon voucher;
 
     // Quan hệ với order_detail
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
