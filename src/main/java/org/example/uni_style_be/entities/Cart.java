@@ -13,7 +13,7 @@ import lombok.experimental.FieldDefaults;
 @Table(name = "shopping_cart")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Cart extends BaseEntity {
+
     @Column(nullable = false, name = "account_id", unique = true)
     Long accountId;
-
 }

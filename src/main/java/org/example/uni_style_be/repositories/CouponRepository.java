@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface CouponRepository extends JpaRepository<Coupon, String>, JpaSpecificationExecutor<Coupon> {
+public interface CouponRepository extends JpaRepository<Coupon, Long>, JpaSpecificationExecutor<Coupon> {
     Optional<Coupon> findByCode(String code);
 
     @Query(value = "SELECT CONCAT('CP', LPAD(COUNT(*) + 1, 4, '0')) FROM coupon", nativeQuery = true)

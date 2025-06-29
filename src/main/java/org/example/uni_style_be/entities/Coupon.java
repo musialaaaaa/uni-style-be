@@ -2,6 +2,7 @@ package org.example.uni_style_be.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 import org.example.uni_style_be.enums.DiscountType;
 
 import java.math.BigDecimal;
@@ -9,12 +10,15 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "coupon")
-@Data
+@Getter
+@Setter
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class Coupon {
+@AllArgsConstructor
+@Table(name = "coupon")
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class Coupon extends BaseEntity {
+
     @Id
     @Column(name = "voucher_id")
     private String voucherId;
