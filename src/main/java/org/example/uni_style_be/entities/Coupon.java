@@ -19,6 +19,10 @@ import java.time.LocalDateTime;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Coupon extends BaseEntity {
 
+    @Id
+    @Column(name = "voucher_id")
+    private String voucherId;
+
     private String code;
 
     @Enumerated(EnumType.STRING)
