@@ -32,6 +32,8 @@ public class ProductDetailResponse extends BaseResponse {
 
   Product product;
 
+  Category category;
+
   Material material;
 
   Brand brand;

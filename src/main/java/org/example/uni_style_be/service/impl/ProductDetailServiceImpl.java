@@ -28,6 +28,7 @@ public class ProductDetailServiceImpl implements ProductDetailService {
   private final ColorService colorService;
   private final BrandService brandService;
   private final MaterialService materialService;
+  private final CategoryService categoryService;
 
   private final ObjectMapper objectMapper;
   private final String PREFIX_CODE = "PRD";
@@ -74,6 +75,7 @@ public class ProductDetailServiceImpl implements ProductDetailService {
 
   private void setEntityRel (ProductDetail productDetail, ProductDetailRequest productDetailRequest){
     productDetail.setProduct(productService.findById(productDetailRequest.getProductId()));
+    productDetail.setCategory(categoryService.findById(productDetailRequest.getCategoryId()));
     productDetail.setBrand(brandService.findById(productDetailRequest.getBrandId()));
     productDetail.setMaterial(materialService.findById(productDetailRequest.getMaterialId()));
     productDetail.setSize(sizeService.findByID(productDetailRequest.getSizeId()));
