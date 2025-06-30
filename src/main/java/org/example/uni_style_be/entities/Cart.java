@@ -10,7 +10,7 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "shopping_cart")
+@Table(name = "cart")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Cart extends BaseEntity {
     @Column(nullable = false, name = "account_id", unique = true)

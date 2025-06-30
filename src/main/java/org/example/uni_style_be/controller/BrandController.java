@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/brands")
 @RequiredArgsConstructor
 @Tag(name = "Api thương hiệu")
-public class BrandController {
+public class  BrandController {
   private final BrandService brandService;
 
   @GetMapping

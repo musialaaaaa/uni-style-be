@@ -14,6 +14,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "cart_detail")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CartDetail extends BaseEntity{
 
@@ -24,11 +25,7 @@ public class CartDetail extends BaseEntity{
     @JoinColumn(name = "cart_id")
     Cart cart;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "cart_product_detail",
-        joinColumns = @JoinColumn(name = "cart_detail_id"),
-        inverseJoinColumns = @JoinColumn(name = "product_detail_id")
-    )
-    List<ProductDetail> productDetails;
+    @ManyToOne
+    @JoinColumn(name = "product_detail_id")
+    private ProductDetail productDetail;
 }
