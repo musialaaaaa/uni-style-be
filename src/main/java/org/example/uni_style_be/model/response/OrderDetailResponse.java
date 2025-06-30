@@ -17,5 +17,5 @@ import java.math.BigDecimal;
 public class OrderDetailResponse {
     Integer quantity;
 
-    BigDecimal price_at_time;
+    BigDecimal priceAtTime;
 }
