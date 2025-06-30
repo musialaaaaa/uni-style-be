@@ -18,6 +18,8 @@ public class ProductDetailParam {
 
   private Long productId;
 
+  private Long categoryId;
+
   private Long materialId;
 
   private Long brandId;
