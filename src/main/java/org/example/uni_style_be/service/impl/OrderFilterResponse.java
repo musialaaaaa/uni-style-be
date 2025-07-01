@@ -1,19 +1,18 @@
-package org.example.uni_style_be.model.response;
+package org.example.uni_style_be.service.impl;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.example.uni_style_be.enums.OrderStatus;
+import org.example.uni_style_be.model.response.BaseResponse;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class OrderResponse extends BaseResponse {
+public class OrderFilterResponse extends BaseResponse {
 
     Long code;
 
@@ -26,15 +25,5 @@ public class OrderResponse extends BaseResponse {
     String phoneNumber;
 
     String fullName;
-
-    LocalDateTime expiredAt;
-
-    AccountResponse account;
-
-    CouponResponse coupon;
-
-    List<OrderDetailResponse> orderDetails;
-
-    List<PaymentResponse> payments;
 
 }

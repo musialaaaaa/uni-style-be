@@ -13,6 +13,7 @@ public class ResponseException extends RuntimeException {
     private Object data;
 
     public ResponseException(ResponseError error, Object... params) {
+        super(error.getName());
         this.error = error;
         this.params = params;
     }

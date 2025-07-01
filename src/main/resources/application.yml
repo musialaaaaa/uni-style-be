@@ -6,14 +6,27 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
         implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
     show-sql: true
+    properties:
+      hibernate.jdbc.time_zone: UTC
+
   datasource:
     url: jdbc:mysql://localhost:3306/uni_style?createDatabaseIfNotExist=true
     username: ${DB_USERNAME:root}
     password: ${DB_PASSWORD:123456}
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+  mvc:
+    log-resolved-exception: false
+
 app:
   security:
     jwt:
       secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5971
       token-expiration: 86400000 # a day
       refresh-token-expiration: 604800000 # 7 days
+
+  payos:
+    client-id: ${PAYOS_CLIENT_ID:b96f2236-deba-410f-9f77-c35d3402e72e}
+    api-key: ${PAYOS_API_KEY:5a471fbd-1c07-463e-aac1-d2064534143a}
+    checksum-key: ${PAYOS_CHECKSUM_KEY:7c0f5342abeac25b0809d2a84e50a4167891c66b2d2df9fa6517a170985ae2ae}
+    webhook-url: ${PAYOS_WEBHOOK_URL:https://harmless-chigger-amazingly.ngrok-free.app/payment/payOS/webhook}

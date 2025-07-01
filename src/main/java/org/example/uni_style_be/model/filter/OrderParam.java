@@ -1,17 +1,18 @@
 package org.example.uni_style_be.model.filter;
 
-import lombok.Data;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldDefaults;
+import org.example.uni_style_be.enums.OrderStatus;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
-@Data
+@Getter
+@Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class OrderParam {
-    private LocalDateTime orderDate;
+    Long code;
 
-    private BigDecimal totalAmount;
+    String phoneNumber;
 
-    private String status;
-
-    private String shippingAddress;
+    OrderStatus status;
 }
