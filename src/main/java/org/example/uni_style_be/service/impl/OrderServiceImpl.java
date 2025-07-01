@@ -47,7 +47,7 @@ import java.util.Objects;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class OrderServiceImpl implements OrderService {
     OrderDetailRepository orderDetailRepository;
-    ShoppingCartReposotory shoppingCartReposotory;
+    CartRepository cartRepository;
     CartDetailRepository cartDetailRepository;
     ProductDetailRepository productDetailRepository;
     CouponRepository couponRepository;
@@ -66,10 +66,8 @@ public class OrderServiceImpl implements OrderService {
         Long accountId = currentAccount.getId();
 
         // Lấy giỏ hàng của account đang đăng nhập
-        Cart cart = shoppingCartReposotory.findByAccountId(accountId);
-        if (cart == null) {
-            throw new ResponseException(NotFoundError.CART_NOT_FOUND);
-        }
+        Cart cart = cartRepository.findByAccountId(accountId)
+                .orElseThrow(()-> new ResponseException(NotFoundError.CART_NOT_FOUND));
         Long cartId = cart.getId();
         List<CartDetail> cartDetails = cartDetailRepository.findByCartId(cartId);
 

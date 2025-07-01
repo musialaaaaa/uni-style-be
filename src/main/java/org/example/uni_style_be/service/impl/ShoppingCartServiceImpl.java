@@ -1,14 +1,8 @@
 package org.example.uni_style_be.service.impl;
 
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.example.uni_style_be.entities.Cart;
-import org.example.uni_style_be.model.request.ShoppingCartRequest;
-import org.example.uni_style_be.model.response.ShoppingCartResponse;
-import org.example.uni_style_be.repositories.ShoppingCartReposotory;
 import org.example.uni_style_be.service.ShoppingCartService;
 import org.springframework.stereotype.Service;
 

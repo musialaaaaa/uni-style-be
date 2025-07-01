@@ -5,10 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
-public interface CartDetailRepository extends JpaRepository<CartDetail, Long> {
-    List<CartDetail> findByCartId(Long cartId); // Tìm CartDetail theo cartId
-    // Các phương thức tùy chỉnh có thể được thêm vào đây nếu cần
-    // Ví dụ: tìm kiếm theo tài khoản, sản phẩm, v.v.
+public interface CartDetailRepository extends JpaRepository<CartDetail,Long> {
+    Optional<CartDetail> findByCartIdAndProductDetail_Id(Long cartId, Long productDetailId);
+    List<CartDetail> findByCartId(Long cartId);
+
 }
