@@ -11,7 +11,7 @@ import org.example.uni_style_be.model.response.OrderResponse;
 import org.example.uni_style_be.model.response.PageResponse;
 import org.example.uni_style_be.model.response.ServiceResponse;
 import org.example.uni_style_be.service.OrderService;
-import org.example.uni_style_be.service.impl.OrderFilterResponse;
+import org.example.uni_style_be.model.response.OrderFilterResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 

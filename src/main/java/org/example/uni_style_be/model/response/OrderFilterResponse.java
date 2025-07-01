@@ -1,11 +1,10 @@
-package org.example.uni_style_be.service.impl;
+package org.example.uni_style_be.model.response;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.example.uni_style_be.enums.OrderStatus;
-import org.example.uni_style_be.model.response.BaseResponse;
 
 import java.math.BigDecimal;
 
