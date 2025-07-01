@@ -4,10 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.example.uni_style_be.enums.DiscountType;
+import org.hibernate.annotations.SQLDelete;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -15,29 +15,31 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "coupon")
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@SQLDelete(sql = "UPDATE coupon SET is_deleted = true WHERE id = ?")
 public class Coupon extends BaseEntity {
 
-    @Id
-    @Column(name = "voucher_id")
-    private String voucherId;
-
-    private String code;
+    String code;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "discount_type")
-    private DiscountType discountType;
+    DiscountType discountType;
 
-    private BigDecimal value;
+    BigDecimal value;
 
     @Column(name = "expiration_date")
-    private LocalDate expirationDate;
+    LocalDate expirationDate;
 
     @Column(name = "usage_limit")
-    private Integer usageLimit;
+    Integer usageLimit;
 
-    private Integer used;
+    Integer used;
 
-    private Boolean isDeleted;
+    Boolean isDeleted;
+
+    @PrePersist
+    public void prePersist() {
+        this.isDeleted = false;
+        this.used = 0;
+    }
 }

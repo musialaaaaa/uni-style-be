@@ -9,29 +9,23 @@ import org.example.uni_style_be.entities.Order;
 import org.example.uni_style_be.model.filter.OrderParam;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.Objects;
+
 public class OrderSpecification {
     public static Specification<Order> filterSpec(OrderParam param) {
         return (Root<Order> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
             Predicate predicate = cb.conjunction();
 
-            // Lọc theo orderDate (nếu có)
-            if (param.getOrderDate() != null) {
-                predicate = cb.and(predicate, cb.equal(root.get("orderDate"), param.getOrderDate()));
+            if (Objects.nonNull(param.getCode())) {
+                predicate = cb.and(predicate, cb.equal(root.get("code"), param.getCode()));
             }
 
-            // Lọc theo totalAmount (nếu có)
-            if (param.getTotalAmount() != null) {
-                predicate = cb.and(predicate, cb.equal(root.get("totalAmount"), param.getTotalAmount()));
+            if (StringUtils.isNotEmpty(param.getPhoneNumber())) {
+                predicate = cb.and(predicate, cb.equal(root.get("phoneNumber"), param.getPhoneNumber()));
             }
 
-            // Lọc theo status (nếu có, không phân biệt hoa thường)
-            if (StringUtils.isNotBlank(param.getStatus())) {
-                predicate = cb.and(predicate, cb.like(cb.lower(root.get("status")), "%" + param.getStatus().toLowerCase() + "%"));
-            }
-
-            // Lọc theo shippingAddress (nếu có, không phân biệt hoa thường)
-            if (StringUtils.isNotBlank(param.getShippingAddress())) {
-                predicate = cb.and(predicate, cb.like(cb.lower(root.get("shippingAddress")), "%" + param.getShippingAddress().toLowerCase() + "%"));
+            if (Objects.nonNull(param.getStatus())) {
+                predicate = cb.and(predicate, cb.equal(root.get("status"), param.getStatus()));
             }
 
             return predicate;

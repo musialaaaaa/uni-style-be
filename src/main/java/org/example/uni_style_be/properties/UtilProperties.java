@@ -9,4 +9,8 @@ public class UtilProperties {
     public static JwtProperties jwt() {
         return ApplicationContextProvider.getApplicationContext().getBean(JwtProperties.class);
     }
+
+    public static PayOSProperties payOS() {
+        return ApplicationContextProvider.getApplicationContext().getBean(PayOSProperties.class);
+    }
 }

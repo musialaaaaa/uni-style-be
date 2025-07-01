@@ -5,16 +5,14 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
-import java.math.BigDecimal;
-
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class OrderDetailResponse extends BaseResponse {
+public class AccountResponse extends BaseResponse {
 
-    Integer quantity;
+    String username;
 
-    BigDecimal priceAtTime;
+    String fullName;
 
-    ProductDetailResponse productDetail;
+    String email;
 }

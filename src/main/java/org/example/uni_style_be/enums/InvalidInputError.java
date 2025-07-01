@@ -7,6 +7,13 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum InvalidInputError implements ResponseError {
     INVALID_INPUT("Tham số không hợp lệ"),
+    CART_DETAIL_NOT_FOUND("Không tìm thấy sản phẩm trong giỏ hàng"),
+    COUPON_EXPIRED("Mã giảm giá đã hết hạn hoặc lượt sử dụng"),
+    COUPON_NOT_FOUND("Mã giảm giá không tồn tại"),
+    PRODUCT_QUANTITY_IS_NOT_ENOUGH("Số lượng sản phẩm {0} không đủ, chỉ còn lại {1}"),
+    ORDER_STATUS_INVALID("Không thể hủy đơn hàng với trạng thái hiện tại"),
+    ORDER_NOT_FOUND("Đơn hàng không tồn tại"),
+    PAYMENT_NOT_FOUND("Thanh toán không tồn tại")
     ;
 
     private final String message;

@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.example.uni_style_be.enums.OrderStatus;
-import org.springframework.security.core.userdetails.User;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -20,6 +19,9 @@ import java.util.List;
 @Table(name = "orders") // Đổi tên tránh conflict với từ khóa SQL
 public class Order extends BaseEntity {
 
+    @Column(nullable = false, unique = true)
+    Long code;
+
     @Column(name = "total_amount", nullable = false, precision = 10, scale = 2)
     BigDecimal totalAmount;
 
@@ -33,17 +35,24 @@ public class Order extends BaseEntity {
     @Column(name = "phone_number", length = 15, nullable = false)
     String phoneNumber;
 
+    @Column(nullable = false, length = 50)
+    String fullName;
+
+    LocalDateTime expiredAt;
+
     //Quan hệ với acccount
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
     Account account;
 
-    // Quan hệ với voucher (coupon)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "voucher_id")
-    Coupon voucher;
+    @JoinColumn(name = "coupon_id")
+    Coupon coupon;
 
     // Quan hệ với order_detail
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     List<OrderDetail> orderDetails;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    List<Payment> payments;
 }

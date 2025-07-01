@@ -7,18 +7,21 @@ import lombok.RequiredArgsConstructor;
 import org.example.uni_style_be.entities.Coupon;
 import org.example.uni_style_be.enums.CommonError;
 import org.example.uni_style_be.enums.DiscountType;
+import org.example.uni_style_be.enums.NotFoundError;
 import org.example.uni_style_be.exception.ResponseException;
+import org.example.uni_style_be.mapper.CouponMapper;
 import org.example.uni_style_be.model.filter.CouponParam;
 import org.example.uni_style_be.model.request.CouponRequest;
 import org.example.uni_style_be.model.response.CouponResponse;
 import org.example.uni_style_be.repositories.CouponRepository;
 import org.example.uni_style_be.repositories.specification.CouponSpecification;
 import org.example.uni_style_be.service.CouponService;
-import org.example.uni_style_be.enums.NotFoundError;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 
 @Service
@@ -27,20 +30,18 @@ public class CouponServiceImpl implements CouponService {
 
     private final CouponRepository couponRepo;
     private final ObjectMapper objectMapper;
+    private final CouponMapper couponMapper;
 
     @Override
     @Transactional
     public CouponResponse create(CouponRequest request) {
-        Coupon coupon = objectMapper.convertValue(request, Coupon.class);
-        coupon.setVoucherId(couponRepo.getNextSeq());
-        coupon.setUsed(0);
-        coupon.setIsDeleted(false);
-        return objectMapper.convertValue(couponRepo.save(coupon), CouponResponse.class);
+        Coupon coupon = couponMapper.toCoupon(request);
+        Coupon result = couponRepo.save(coupon);
+        return couponMapper.toCouponResponse(result);
     }
 
     @Override
-    @Transactional
-    public CouponResponse update(String id, CouponRequest request) {
+    public CouponResponse update(Long id, CouponRequest request) {
         Coupon coupon = findById(id);
         try {
             objectMapper.updateValue(coupon, request);
@@ -50,12 +51,11 @@ public class CouponServiceImpl implements CouponService {
         }
         return objectMapper.convertValue(couponRepo.save(coupon), CouponResponse.class);
     }
+
     @Override
-    @Transactional
-    public void delete(String id) {
-        Coupon coupon = findById(id);
-        coupon.setIsDeleted(true);
-        couponRepo.save(coupon);
+    public void delete(Long id) {
+        findById(id);
+        couponRepo.deleteById(id);
     }
 
     @Override
@@ -66,9 +66,9 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
-    public Coupon findById(String id) {
-        return couponRepo.findById(id)
-                .orElseThrow(() -> new ResponseException(NotFoundError.DATA_NOT_FOUND));
+    public CouponResponse detail(Long id) {
+        Coupon coupon = findById(id);
+        return couponMapper.toCouponResponse(coupon);
     }
 
     @Override
@@ -83,11 +83,15 @@ public class CouponServiceImpl implements CouponService {
             throw new ResponseException(CommonError.COUPON_LIMIT_REACHED);
 
 
-
         BigDecimal discount = coupon.getDiscountType() == DiscountType.PERCENT
-                ? total.multiply(coupon.getValue()).divide(BigDecimal.valueOf(100))
+                ? total.multiply(coupon.getValue()).divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP)
                 : coupon.getValue();
 
         return total.subtract(discount.min(total));
+    }
+
+    private Coupon findById(Long id) {
+        return couponRepo.findById(id)
+                .orElseThrow(() -> new ResponseException(NotFoundError.DATA_NOT_FOUND));
     }
 }
