@@ -19,8 +19,9 @@ import java.time.LocalDateTime;
 @Table(name = "payments")
 public class Payment extends BaseEntity {
 
-    @Column(name = "order_id", nullable = false)
-    Long orderId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
+    Order order;
 
     @Column(name = "payment_method", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -41,4 +42,16 @@ public class Payment extends BaseEntity {
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     PaymentStatus status;
+
+    String checkoutUrl;
+
+    String qrCode;
+
+    @Column(length = 10)
+    String partnerStatus;
+
+    @Column(length = 10)
+    String partnerCode;
+
+    String paymentLinkId;
 }

@@ -15,7 +15,11 @@ public enum NotFoundError implements ResponseError {
   CATEGORY_NOT_FOUND("Danh mục không được để trống"),
   CUSTOMER_NOT_FOUND("Không tìm thấy khách hàng"),
   COUPON_NOT_FOUND("Coupon not found"),
-  DATA_NOT_FOUND("Data not found");
+  DATA_NOT_FOUND("Data not found"),
+  ACCOUNT_NOT_FOUND("Tài khoản không được để trống"),
+  QUANTITY_NOT_FOUND("Số lượng không đủ"),
+  CART_NOT_FOUND("Giỏ hàng không được để trống"),
+  ORDER_NOT_FOUND("Đơn hàng không tồn tại")
   ;
 
   private final String message;

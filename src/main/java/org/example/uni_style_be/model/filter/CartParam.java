@@ -10,11 +10,5 @@ public class CartParam {
 
     private String name;
 
-    private String color;
 
-    private String size;
-
-    private int quantity;
-
-    private Double  price;
 }

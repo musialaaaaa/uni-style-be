@@ -38,6 +38,10 @@ public class GlobalExceptionHandler {
         log.error("Failed to handle request {} {}: {}", request.getMethod(), request.getRequestURI(), ex.getMessage(), ex);
     }
 
+    private void logWarn(HttpServletRequest request, Throwable ex) {
+        log.warn("Failed to handle request {} {}: {}", request.getMethod(), request.getRequestURI(), ex.getMessage(), ex);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public InvalidInputResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
@@ -88,7 +92,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ResponseException.class)
-    public ResponseEntity<ErrorResponse<Object>> handleResponseException(ResponseException e) {
+    public ResponseEntity<ErrorResponse<Object>> handleResponseException(ResponseException e, HttpServletRequest request) {
+        logWarn(request, e);
         ResponseError error = e.getError();
         String message = MessageFormat.format(error.getMessage(), e.getParams());
         ErrorResponse<Object> errorResponse = ErrorResponse.builder()

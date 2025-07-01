@@ -26,7 +26,7 @@ public class OrderDetail extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_detail_id")
     @NotFound(action = NotFoundAction.IGNORE)
-    ProductDetail productDetailId;
+    ProductDetail productDetail;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")

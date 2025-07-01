@@ -8,6 +8,7 @@ import org.example.uni_style_be.model.filter.CartParam;
 import org.example.uni_style_be.model.request.AddToCartRequest;
 import org.example.uni_style_be.model.request.DeleteCartRequest;
 import org.example.uni_style_be.model.response.AddToCartResponse;
+import org.example.uni_style_be.model.response.CartResponse;
 import org.example.uni_style_be.model.response.ServiceResponse;
 import org.example.uni_style_be.service.CartService;
 import org.springframework.stereotype.Controller;
@@ -41,7 +42,7 @@ public class CartController {
    }
    @GetMapping
    @Operation(summary = "Xem giỏ hàng")
-   public ServiceResponse<List<CartParam>> getCartItems() {
+   public ServiceResponse<List<CartResponse>> getCartItems() {
       return ServiceResponse.ok(cartService.getCartItems());
    }
 

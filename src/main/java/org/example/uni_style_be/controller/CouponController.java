@@ -1,15 +1,15 @@
 package org.example.uni_style_be.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.uni_style_be.entities.Coupon;
 import org.example.uni_style_be.model.filter.CouponParam;
 import org.example.uni_style_be.model.request.CouponRequest;
 import org.example.uni_style_be.model.response.CouponResponse;
+import org.example.uni_style_be.model.response.ServiceResponse;
 import org.example.uni_style_be.service.CouponService;
 import org.example.uni_style_be.utils.PageUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -21,18 +21,18 @@ public class CouponController {
 
     private final CouponService couponService;
 
-    @PostMapping("/add")
+    @PostMapping
     public ResponseEntity<CouponResponse> create(@RequestBody CouponRequest request) {
         return ResponseEntity.ok(couponService.create(request));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CouponResponse> update(@PathVariable String id, @RequestBody CouponRequest request) {
+    public ResponseEntity<CouponResponse> update(@PathVariable Long id, @RequestBody CouponRequest request) {
         return ResponseEntity.ok(couponService.update(id, request));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable String id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         couponService.delete(id);
         return ResponseEntity.noContent().build();
     }
@@ -46,15 +46,8 @@ public class CouponController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CouponResponse> getById(@PathVariable String id) {
-        Coupon coupon = couponService.findById(id);
-        return ResponseEntity.ok(new CouponResponse(
-                coupon.getVoucherId(),
-                coupon.getDiscountType(),
-                coupon.getValue(),
-                coupon.getExpirationDate().atStartOfDay(),
-                coupon.getUsageLimit()
-        ));
+    public ServiceResponse<CouponResponse> getById(@PathVariable Long id) {
+        return ServiceResponse.ok(couponService.detail(id));
     }
 
     @GetMapping("/apply-discount")
