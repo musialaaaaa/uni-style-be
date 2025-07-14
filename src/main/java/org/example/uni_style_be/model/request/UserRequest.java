@@ -11,10 +11,10 @@ import org.example.uni_style_be.enums.Gender;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CustomerRequest {
+public class UserRequest {
 
     @NotBlank(message = "Họ và tên không được để trống")
-    private String fullName;
+    private String name;
 
     @Email(message = "Email không hợp lệ")
     @NotBlank(message = "Email không được để trống")
@@ -24,9 +24,9 @@ public class CustomerRequest {
     private String phoneNumber;
 
     @NotNull(message = "Giới tính không được để trống")
-    private Gender gender;
+    private String status;
 
     @NotBlank(message = "Thành phố không được để trống")
-    private String city;
+    private String address;
 
 }

@@ -14,28 +14,27 @@ import org.hibernate.annotations.Where;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "customer")
+@Table(name = "users")
 @Where(clause = "is_deleted = false")
-public class Customer extends BaseEntity {
+public class User extends BaseEntity {
 
-    @Column(name = "code")
-    private String code;
-
-    @Column(name = "full_name")
-    private String fullName;
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "email", unique = true)
     private String email;
 
+    @Column(name = "password", unique = true)
+    private String password;
+
     @Column(name = "phone_number", unique = true)
     private String phoneNumber;
 
-    @Column(name = "gender")
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
+    @Column(name = "address")
+    private String address;
 
-    @Column(name = "city")
-    private String city;
+    @Column(name = "status")
+    private String status;
 
     @Column(name = "is_deleted")
     private Boolean isDeleted = Boolean.FALSE;

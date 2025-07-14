@@ -4,11 +4,11 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.uni_style_be.entities.Customer;
-import org.example.uni_style_be.model.filter.CustomerParam;
-import org.example.uni_style_be.model.request.CustomerRequest;
-import org.example.uni_style_be.model.response.CustomerResponse;
-import org.example.uni_style_be.service.CustomerService;
+import org.example.uni_style_be.entities.User;
+import org.example.uni_style_be.model.filter.UserParam;
+import org.example.uni_style_be.model.request.UserRequest;
+import org.example.uni_style_be.model.response.UserResponse;
+import org.example.uni_style_be.service.UserService;
 import org.example.uni_style_be.utils.PageUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -18,30 +18,30 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @Tag(name = "Api Khách hàng")
 public class CustomerController {
-    private final CustomerService customerService;
+    private final UserService userService;
 
     @GetMapping
-    public PageUtils<Customer> filter(CustomerParam param, Pageable pageable) {
-        return new PageUtils<>(customerService.filter(param, pageable));
+    public PageUtils<User> filter(UserParam param, Pageable pageable) {
+        return new PageUtils<>(userService.filter(param, pageable));
     }
 
     @PostMapping
-    public CustomerResponse create(@Valid @RequestBody CustomerRequest request) {
-        return customerService.create(request);
+    public UserResponse create(@Valid @RequestBody UserRequest request) {
+        return userService.create(request);
     }
 
     @PutMapping("/{id}")
-    public CustomerResponse update(@PathVariable Long id, @Valid @RequestBody CustomerRequest customerRequest) throws JsonMappingException {
-        return customerService.update(id, customerRequest);
+    public UserResponse update(@PathVariable Long id, @Valid @RequestBody UserRequest userRequest) throws JsonMappingException {
+        return userService.update(id, userRequest);
     }
 
     @GetMapping("/{id}")
-    public Customer findById(@PathVariable Long id) {
-        return customerService.findById(id);
+    public User findById(@PathVariable Long id) {
+        return userService.findById(id);
     }
 
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable Long id) {
-        customerService.delete(id);
+        userService.delete(id);
     }
 }
