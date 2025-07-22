@@ -5,14 +5,14 @@ import lombok.Setter;
 import org.example.uni_style_be.enums.DiscountType;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
 public class CouponResponse extends BaseResponse {
     private DiscountType discountType;
     private BigDecimal value;
-    private LocalDateTime expirationDate;
+    private LocalDate expirationDate;
     private Integer usageLimit;
 }
 
