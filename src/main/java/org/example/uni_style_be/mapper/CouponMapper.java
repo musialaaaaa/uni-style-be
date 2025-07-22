@@ -14,7 +14,7 @@ public interface CouponMapper {
 
     @AfterMapping
     default void afterMappingToCouponResponse(Coupon coupon, @MappingTarget CouponResponse couponResponse) {
-        couponResponse.setExpirationDate(coupon.getExpirationDate().atStartOfDay());
+        couponResponse.setExpirationDate(coupon.getExpirationDate());
     }
 
     Coupon toCoupon(CouponRequest couponRequest);
