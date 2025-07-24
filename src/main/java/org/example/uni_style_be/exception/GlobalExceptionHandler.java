@@ -2,6 +2,7 @@ package org.example.uni_style_be.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.example.uni_style_be.enums.ForbiddenError;
 import org.example.uni_style_be.enums.InternalServerError;
 import org.example.uni_style_be.enums.InvalidInputError;
 import org.example.uni_style_be.enums.UnauthorizedError;
@@ -16,6 +17,7 @@ import org.springframework.dao.NonTransientDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -123,6 +125,16 @@ public class GlobalExceptionHandler {
                 InvalidInputError.INVALID_INPUT.name(),
                 null
         );
+    }
+
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorResponse<Void> handleAuthorizationDeniedException(AuthorizationDeniedException e) {
+        ResponseError error = ForbiddenError.FORBIDDEN;
+        return ErrorResponse.<Void>builder()
+                .error(error.getName())
+                .message(error.getMessage())
+                .build();
     }
 
 }

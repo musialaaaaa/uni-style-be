@@ -1,11 +1,11 @@
 package org.example.uni_style_be.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.Where;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -15,11 +15,15 @@ import org.hibernate.annotations.Where;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "roles")
-@Where(clause = "is_deleted = false")
 public class Role extends BaseEntity {
-    @Column(nullable = false, name = "role_name")
-    String roleName;
 
-    @Column(nullable = false, name = "is_deleted")
-    Boolean isDeleted = Boolean.FALSE;
+    @Column(nullable = false, unique = true)
+    String code;
+
+    @Column(nullable = false)
+    String name;
+
+    @ManyToMany(mappedBy = "roles")
+    Set<Account> accounts = new HashSet<>();
+
 }

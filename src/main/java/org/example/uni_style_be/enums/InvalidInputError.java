@@ -16,7 +16,9 @@ public enum InvalidInputError implements ResponseError {
     PAYMENT_NOT_FOUND("Thanh toán không tồn tại"),
     PRODUCT_DETAIL_NOT_EXIST("Sản phẩm không tồn tại"),
     QUANTITY_IS_NOT_ENOUGH("Số lượng không đủ, chỉ còn lại {0}"),
-    CART_NOT_EXIST("Giỏ hàng của bạn hiện chưa tồn tại");
+    CART_NOT_EXIST("Giỏ hàng của bạn hiện chưa tồn tại"),
+    ACCOUNT_NOT_FOUND("Tài khoản không tồn tại"),
+    ROLE_NOT_FOUND("Quyền hạn không tồn tại")
     ;
 
     private final String message;
