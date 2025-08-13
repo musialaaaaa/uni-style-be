@@ -8,6 +8,8 @@ import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.Where;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -70,4 +72,13 @@ public class ProductDetail extends BaseEntity {
     @JoinColumn(name = "size_id")
     @NotFound(action = NotFoundAction.IGNORE)
     Size size;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "product_detail_image",
+            joinColumns = @JoinColumn(name = "product_detail_id"),
+            inverseJoinColumns = @JoinColumn(name = "image_id")
+    )
+    Set<Image> images = new HashSet<>();
+
 }

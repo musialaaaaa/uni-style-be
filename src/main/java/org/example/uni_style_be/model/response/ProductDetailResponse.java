@@ -8,6 +8,8 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 import org.example.uni_style_be.entities.*;
 
+import java.util.Set;
+
 
 @Data
 @AllArgsConstructor
@@ -41,4 +43,6 @@ public class ProductDetailResponse extends BaseResponse {
   Color color;
 
   Size size;
+
+  Set<Image> images;
 }
