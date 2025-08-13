@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Set;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -22,9 +24,6 @@ public class ProductDetailRequest {
 
   @NotNull(message = "Giá không được để trống")
   Double price;
-
-  @NotBlank(message = "Ảnh không được để trống")
-  String image;
 
   String description;
 
@@ -45,4 +44,6 @@ public class ProductDetailRequest {
 
   @NotNull(message = "Kích thước không được để trống")
   Long sizeId;
+
+  Set<Long> imageIds;
 }
