@@ -42,11 +42,8 @@ public class ColorServiceImpl implements ColorService {
     }
 
     @Override
-    @Transactional
     public void delete(Long id) {
-        Color color = findById(id);
-        color.setIsDeleted(true);
-        colorRepository.save(color);
+        colorRepository.deleteById(id);
     }
 
     @Override

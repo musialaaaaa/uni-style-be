@@ -3,7 +3,6 @@ package org.example.uni_style_be.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.Where;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -16,8 +15,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "product_detail")
-@Where(clause = "is_deleted = false")
 public class ProductDetail extends BaseEntity {
 
     @Column(nullable = false, name = "code")
@@ -35,9 +32,6 @@ public class ProductDetail extends BaseEntity {
     @Column(name = "description")
     String description;
 
-    @Column(nullable = false, name = "is_deleted")
-    Boolean isDeleted = Boolean.FALSE;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     Product product;
@@ -49,10 +43,6 @@ public class ProductDetail extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "material_id")
     Material material;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "brand_id")
-    Brand brand;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "color_id")

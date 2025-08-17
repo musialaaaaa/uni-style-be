@@ -1,23 +1,22 @@
 package org.example.uni_style_be.model.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
+@Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserResponse extends BaseResponse {
 
-    private String name;
+    String name;
 
-    private String email;
+    String email;
 
-    private String phoneNumber;
+    String phoneNumber;
 
-    private String address;
+    String address;
 
-    private String status;
-
-    private Boolean isDeleted;
+    String status;
 }

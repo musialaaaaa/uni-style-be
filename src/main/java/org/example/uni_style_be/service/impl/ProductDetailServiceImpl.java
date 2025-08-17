@@ -36,7 +36,6 @@ public class ProductDetailServiceImpl implements ProductDetailService {
     ProductService productService;
     SizeService sizeService;
     ColorService colorService;
-    BrandService brandService;
     MaterialService materialService;
     CategoryService categoryService;
     ImageRepository imageRepository;
@@ -79,11 +78,8 @@ public class ProductDetailServiceImpl implements ProductDetailService {
     }
 
     @Override
-    @Transactional
     public void delete(Long id) {
-        ProductDetail prDetail = findById(id);
-        prDetail.setIsDeleted(true);
-        productDetailRepository.save(prDetail);
+        productDetailRepository.deleteById(id);
     }
 
     @Override
@@ -96,7 +92,6 @@ public class ProductDetailServiceImpl implements ProductDetailService {
     private void setEntityRel(ProductDetail productDetail, ProductDetailRequest productDetailRequest) {
         productDetail.setProduct(productService.findById(productDetailRequest.getProductId()));
         productDetail.setCategory(categoryService.findById(productDetailRequest.getCategoryId()));
-        productDetail.setBrand(brandService.findById(productDetailRequest.getBrandId()));
         productDetail.setMaterial(materialService.findById(productDetailRequest.getMaterialId()));
         productDetail.setSize(sizeService.findByID(productDetailRequest.getSizeId()));
         productDetail.setColor(colorService.findById(productDetailRequest.getColorId()));

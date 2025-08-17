@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.example.uni_style_be.enums.DiscountType;
-import org.hibernate.annotations.SQLDelete;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -16,7 +15,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@SQLDelete(sql = "UPDATE coupon SET is_deleted = true WHERE id = ?")
 public class Coupon extends BaseEntity {
 
     String code;
@@ -35,11 +33,8 @@ public class Coupon extends BaseEntity {
 
     Integer used;
 
-    Boolean isDeleted;
-
     @PrePersist
     public void prePersist() {
-        this.isDeleted = false;
         this.used = 0;
     }
 }

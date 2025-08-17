@@ -1,5 +1,6 @@
 package org.example.uni_style_be.utils;
 
+import lombok.experimental.UtilityClass;
 import org.example.uni_style_be.entities.Account;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -9,11 +10,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.util.Objects;
 import java.util.Optional;
 
-
+@UtilityClass
 public class SecurityUtils {
-    private SecurityUtils() {
-        // Private constructor to prevent instantiation
-    }
 
     public static Optional<Account> getCurrentAccount() {
         SecurityContext securityContext = SecurityContextHolder.getContext();

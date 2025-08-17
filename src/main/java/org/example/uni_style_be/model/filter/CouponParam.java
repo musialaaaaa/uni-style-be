@@ -1,11 +1,15 @@
 package org.example.uni_style_be.model.filter;
 
-import lombok.Data;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 import org.example.uni_style_be.enums.DiscountType;
 
-@Data
+@Getter
+@Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class CouponParam {
-    private String code;
-    private DiscountType discountType;
-    private Boolean isDeleted = false;
+    String code;
+    DiscountType discountType;
 }

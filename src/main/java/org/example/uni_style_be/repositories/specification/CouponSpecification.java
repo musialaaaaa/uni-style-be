@@ -19,9 +19,6 @@ public class CouponSpecification {
             if (param.getDiscountType() != null) {
                 predicates.add(cb.equal(root.get("discountType"), param.getDiscountType()));
             }
-            if (param.getIsDeleted() != null) {
-                predicates.add(cb.equal(root.get("isDeleted"), param.getIsDeleted()));
-            }
 
             return cb.and(predicates.toArray(new Predicate[0]));
         };

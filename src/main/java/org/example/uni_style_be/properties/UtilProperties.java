@@ -1,10 +1,9 @@
 package org.example.uni_style_be.properties;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.experimental.UtilityClass;
 import org.example.uni_style_be.config.ApplicationContextProvider;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@UtilityClass
 public class UtilProperties {
     public static JwtProperties jwt() {
         return ApplicationContextProvider.getApplicationContext().getBean(JwtProperties.class);

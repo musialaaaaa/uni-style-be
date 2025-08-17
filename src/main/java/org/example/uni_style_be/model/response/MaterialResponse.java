@@ -1,19 +1,17 @@
 package org.example.uni_style_be.model.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@SuperBuilder
+@Getter
+@Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class MaterialResponse extends BaseResponse {
 
-    private String code;
+    String code;
 
-    private String name;
+    String name;
 
-    private Boolean isDeleted;
 }

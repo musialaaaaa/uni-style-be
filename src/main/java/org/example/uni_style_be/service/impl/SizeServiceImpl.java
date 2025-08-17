@@ -2,7 +2,9 @@ package org.example.uni_style_be.service.impl;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.example.uni_style_be.entities.Size;
 import org.example.uni_style_be.enums.NotFoundError;
 import org.example.uni_style_be.exception.ResponseException;
@@ -20,10 +22,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class SizeServiceImpl implements SizeService {
-    private final SizeRepository sizeRepository;
-    private final ObjectMapper objectMapper;
-    private final String PREFIX_CODE = "SZ";
+
+    private static final String PREFIX_CODE = "SZ";
+
+    SizeRepository sizeRepository;
+    ObjectMapper objectMapper;
 
     @Override
     @Transactional
@@ -42,11 +47,8 @@ public class SizeServiceImpl implements SizeService {
     }
 
     @Override
-    @Transactional
     public void delete(Long id) {
-        Size size = findByID(id);
-        size.setIsDeleted(true);
-        sizeRepository.save(size);
+        sizeRepository.deleteById(id);
     }
 
     @Override

@@ -56,11 +56,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional
     public void delete(Long id) {
-        Product product = findById(id);
-        product.setIsDeleted(true);
-        productRepository.save(product);
+        productRepository.deleteById(id);
     }
 
     @Override

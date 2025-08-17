@@ -2,7 +2,9 @@ package org.example.uni_style_be.service.impl;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.example.uni_style_be.entities.Material;
 import org.example.uni_style_be.enums.NotFoundError;
 import org.example.uni_style_be.exception.ResponseException;
@@ -20,11 +22,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class MaterialServiceImpl implements MaterialService {
 
-    private final MaterialRepository materialRepository;
-    private final ObjectMapper objectMapper;
-    private final String PREFIX_CODE = "MT";
+    private static final String PREFIX_CODE = "MT";
+
+    MaterialRepository materialRepository;
+    ObjectMapper objectMapper;
 
     @Override
     @Transactional
@@ -51,11 +55,8 @@ public class MaterialServiceImpl implements MaterialService {
     }
 
     @Override
-    @Transactional
     public void delete(Long id) {
-        Material material = findById(id);
-        material.setIsDeleted(true);
-        materialRepository.save(material);
+        materialRepository.deleteById(id);
     }
 
     @Override
