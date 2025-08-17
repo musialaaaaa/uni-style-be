@@ -3,22 +3,21 @@ package org.example.uni_style_be.model.response;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.uni_style_be.enums.Gender;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserResponse extends BaseResponse {
 
-  private String name;
+    private String name;
 
-  private String email;
+    private String email;
 
-  private String phoneNumber;
+    private String phoneNumber;
 
-  private String address;
+    private String address;
 
-  private String status;
+    private String status;
 
-  private Boolean isDeleted;
+    private Boolean isDeleted;
 }

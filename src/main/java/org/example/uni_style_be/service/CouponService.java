@@ -14,6 +14,7 @@ public interface CouponService {
     CouponResponse update(Long id, CouponRequest request);
 
     void delete(Long id);
+
     Page<CouponResponse> filter(CouponParam param, Pageable pageable);
 
     CouponResponse detail(Long id);

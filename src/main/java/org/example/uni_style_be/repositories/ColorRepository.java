@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ColorRepository
-    extends JpaRepository<Color, Long>, JpaSpecificationExecutor<Color> {
-  @Query("SELECT COALESCE(MAX(c.id), 0) + 1 FROM Color c")
-  Long getNextSeq();
+        extends JpaRepository<Color, Long>, JpaSpecificationExecutor<Color> {
+    @Query("SELECT COALESCE(MAX(c.id), 0) + 1 FROM Color c")
+    Long getNextSeq();
 }

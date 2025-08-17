@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BrandRequest {
-  @NotBlank(message = "Thương hiệu không được để trống")
-  private String name;
+    @NotBlank(message = "Thương hiệu không được để trống")
+    private String name;
 }

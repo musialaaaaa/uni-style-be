@@ -10,25 +10,25 @@ import org.example.uni_style_be.model.filter.BrandParam;
 import org.springframework.data.jpa.domain.Specification;
 
 public class BrandSpecification {
-  public static Specification<Brand> filterSpec(BrandParam param) {
-    return (Root<Brand> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
-      Predicate predicate = cb.conjunction();
+    public static Specification<Brand> filterSpec(BrandParam param) {
+        return (Root<Brand> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
+            Predicate predicate = cb.conjunction();
 
-      if (StringUtils.isNotBlank(param.getName())) {
-        predicate =
-            cb.and(
-                predicate,
-                cb.like(cb.lower(root.get("name")), "%" + param.getName().toLowerCase() + "%"));
-      }
+            if (StringUtils.isNotBlank(param.getName())) {
+                predicate =
+                        cb.and(
+                                predicate,
+                                cb.like(cb.lower(root.get("name")), "%" + param.getName().toLowerCase() + "%"));
+            }
 
-      if (StringUtils.isNotBlank(param.getCode())) {
-        predicate =
-            cb.and(
-                predicate,
-                cb.like(cb.lower(root.get("code")), "%" + param.getCode().toLowerCase() + "%"));
-      }
+            if (StringUtils.isNotBlank(param.getCode())) {
+                predicate =
+                        cb.and(
+                                predicate,
+                                cb.like(cb.lower(root.get("code")), "%" + param.getCode().toLowerCase() + "%"));
+            }
 
-      return predicate;
-    };
-  }
+            return predicate;
+        };
+    }
 }

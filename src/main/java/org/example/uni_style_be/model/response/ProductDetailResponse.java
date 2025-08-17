@@ -18,31 +18,29 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProductDetailResponse extends BaseResponse {
 
-  String code;
+    String code;
 
-  String name;
+    String name;
 
-  Integer quantity;
+    Integer quantity;
 
-  Double price;
+    Double price;
 
-  String image;
+    String description;
 
-  String description;
+    Boolean isDeleted;
 
-  Boolean isDeleted;
+//  Product product;
 
-  Product product;
+    Category category;
 
-  Category category;
+    Material material;
 
-  Material material;
+    Brand brand;
 
-  Brand brand;
+    Color color;
 
-  Color color;
+    Size size;
 
-  Size size;
-
-  Set<Image> images;
+    Set<Image> images;
 }

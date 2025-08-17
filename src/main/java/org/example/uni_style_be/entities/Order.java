@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "orders") // Đổi tên tránh conflict với từ khóa SQL
+@Table(name = "orders")
 public class Order extends BaseEntity {
 
     @Column(nullable = false, unique = true)

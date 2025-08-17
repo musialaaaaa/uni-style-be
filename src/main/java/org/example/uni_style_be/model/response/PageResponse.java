@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PageResponse <T>{
+public class PageResponse<T> {
     @Builder.Default
     long totalRecords = 0;
 

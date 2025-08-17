@@ -1,10 +1,11 @@
 package org.example.uni_style_be.entities;
 
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.example.uni_style_be.enums.Gender;
 import org.hibernate.annotations.Where;
 
 @Entity

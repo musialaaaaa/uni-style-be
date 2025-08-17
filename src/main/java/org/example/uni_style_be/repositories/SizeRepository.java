@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SizeRepository extends JpaRepository<Size, Long>, JpaSpecificationExecutor<Size> {
 
-  @Query("SELECT COALESCE(MAX(s.id), 0) + 1 FROM Size s")
-  Long getNextSeq();
+    @Query("SELECT COALESCE(MAX(s.id), 0) + 1 FROM Size s")
+    Long getNextSeq();
 }

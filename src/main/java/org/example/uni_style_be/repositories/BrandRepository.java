@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 public interface BrandRepository
-    extends CrudRepository<Brand, Long>, JpaSpecificationExecutor<Brand> {
-  @Query("SELECT COALESCE(MAX(b.id), 0) + 1 FROM Brand b")
-  Long getNextSeq();
+        extends CrudRepository<Brand, Long>, JpaSpecificationExecutor<Brand> {
+    @Query("SELECT COALESCE(MAX(b.id), 0) + 1 FROM Brand b")
+    Long getNextSeq();
 }

@@ -2,102 +2,105 @@ package org.example.uni_style_be.service.impl;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.example.uni_style_be.entities.Image;
 import org.example.uni_style_be.entities.ProductDetail;
 import org.example.uni_style_be.enums.NotFoundError;
 import org.example.uni_style_be.exception.ResponseException;
+import org.example.uni_style_be.mapper.ProductDetailMapper;
 import org.example.uni_style_be.model.filter.ProductDetailParam;
 import org.example.uni_style_be.model.request.ProductDetailRequest;
 import org.example.uni_style_be.model.response.ProductDetailResponse;
 import org.example.uni_style_be.repositories.ImageRepository;
 import org.example.uni_style_be.repositories.ProductDetailRepository;
-import org.example.uni_style_be.service.*;
 import org.example.uni_style_be.repositories.specification.ProductDetailSpecification;
+import org.example.uni_style_be.service.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ProductDetailServiceImpl implements ProductDetailService {
 
-  private final ProductDetailRepository productDetailRepository;
-  private final ProductService productService;
-  private final SizeService sizeService;
-  private final ColorService colorService;
-  private final BrandService brandService;
-  private final MaterialService materialService;
-  private final CategoryService categoryService;
-  private final ImageRepository imageRepository;
+    private static final String PREFIX_CODE = "PRD";
 
-  private final ObjectMapper objectMapper;
-  private final String PREFIX_CODE = "PRD";
+    ProductDetailRepository productDetailRepository;
+    ProductService productService;
+    SizeService sizeService;
+    ColorService colorService;
+    BrandService brandService;
+    MaterialService materialService;
+    CategoryService categoryService;
+    ImageRepository imageRepository;
+    ObjectMapper objectMapper;
+    ProductDetailMapper productDetailMapper;
 
-  @Override
-  @Transactional
-  public ProductDetailResponse create(ProductDetailRequest productDetailRequest) {
-    ProductDetail productDetail = objectMapper.convertValue(productDetailRequest, ProductDetail.class);
-    productDetail.setCode(PREFIX_CODE +productDetailRepository.getNextSeq());
-    setEntityRel(productDetail, productDetailRequest);
+    @Override
+    @Transactional
+    public ProductDetailResponse create(ProductDetailRequest productDetailRequest) {
+        ProductDetail productDetail = objectMapper.convertValue(productDetailRequest, ProductDetail.class);
+        productDetail.setCode(PREFIX_CODE + productDetailRepository.getNextSeq());
+        setEntityRel(productDetail, productDetailRequest);
 
-    List<Image> images = imageRepository.findAllById(productDetailRequest.getImageIds());
-    productDetail.setImages(new HashSet<>(images));
+        List<Image> images = imageRepository.findAllById(productDetailRequest.getImageIds());
+        productDetail.setImages(images);
 
-    return objectMapper.convertValue(productDetailRepository.save(productDetail), ProductDetailResponse.class);
-  }
+        ProductDetail productDetailSaved = productDetailRepository.save(productDetail);
 
-  @Override
-  @Transactional
-  public ProductDetailResponse update(Long id, ProductDetailRequest productDetailRequest) throws JsonMappingException {
-    ProductDetail prDetail = findById(id);
-    objectMapper.updateValue(prDetail, productDetailRequest);
-    setEntityRel(prDetail, productDetailRequest);
+        return productDetailMapper.toProductDetailResponse(productDetailSaved);
+    }
 
-      List<Image> images = imageRepository.findAllById(productDetailRequest.getImageIds());
-      prDetail.setImages(new HashSet<>(images));
+    @Override
+    @Transactional
+    public ProductDetailResponse update(Long id, ProductDetailRequest productDetailRequest) throws JsonMappingException {
+        ProductDetail prDetail = findById(id);
+        objectMapper.updateValue(prDetail, productDetailRequest);
+        setEntityRel(prDetail, productDetailRequest);
 
-    return objectMapper.convertValue(productDetailRepository.save(prDetail), ProductDetailResponse.class);
-  }
+        List<Image> images = imageRepository.findAllById(productDetailRequest.getImageIds());
+        prDetail.setImages(images);
 
-  @Override
-  public Page<ProductDetailResponse> filter(ProductDetailParam param, Pageable pageable) {
-    Specification<ProductDetail> prDetailSpec = ProductDetailSpecification.filterSpec(param);
-    Page<ProductDetail> productDetailPage = productDetailRepository.findAll(prDetailSpec,pageable);
-    return productDetailPage.map(product -> objectMapper.convertValue(product, ProductDetailResponse.class));
-  }
+        return objectMapper.convertValue(productDetailRepository.save(prDetail), ProductDetailResponse.class);
+    }
 
-  @Override
-  @Transactional
-  public void delete(Long id) {
-    ProductDetail prDetail = findById(id);
-    prDetail.setIsDeleted(true);
-    productDetailRepository.save(prDetail);
-  }
+    @Override
+    public Page<ProductDetailResponse> filter(ProductDetailParam param, Pageable pageable) {
+        Specification<ProductDetail> prDetailSpec = ProductDetailSpecification.filterSpec(param);
+        Page<ProductDetail> productDetailPage = productDetailRepository.findAll(prDetailSpec, pageable);
+        return productDetailPage.map(product -> objectMapper.convertValue(product, ProductDetailResponse.class));
+    }
 
-  @Override
-  public ProductDetail findById(Long id) {
-    return productDetailRepository
-        .findById(id)
-        .orElseThrow(() -> new ResponseException(NotFoundError.PRODUCT_DETAIL_NOT_FOUND));
-  }
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        ProductDetail prDetail = findById(id);
+        prDetail.setIsDeleted(true);
+        productDetailRepository.save(prDetail);
+    }
 
-  private void setEntityRel (ProductDetail productDetail, ProductDetailRequest productDetailRequest){
-    productDetail.setProduct(productService.findById(productDetailRequest.getProductId()));
-    productDetail.setCategory(categoryService.findById(productDetailRequest.getCategoryId()));
-    productDetail.setBrand(brandService.findById(productDetailRequest.getBrandId()));
-    productDetail.setMaterial(materialService.findById(productDetailRequest.getMaterialId()));
-    productDetail.setSize(sizeService.findByID(productDetailRequest.getSizeId()));
-    productDetail.setColor(colorService.findById(productDetailRequest.getColorId()));
-  }
+    @Override
+    public ProductDetail findById(Long id) {
+        return productDetailRepository
+                .findById(id)
+                .orElseThrow(() -> new ResponseException(NotFoundError.PRODUCT_DETAIL_NOT_FOUND));
+    }
+
+    private void setEntityRel(ProductDetail productDetail, ProductDetailRequest productDetailRequest) {
+        productDetail.setProduct(productService.findById(productDetailRequest.getProductId()));
+        productDetail.setCategory(categoryService.findById(productDetailRequest.getCategoryId()));
+        productDetail.setBrand(brandService.findById(productDetailRequest.getBrandId()));
+        productDetail.setMaterial(materialService.findById(productDetailRequest.getMaterialId()));
+        productDetail.setSize(sizeService.findByID(productDetailRequest.getSizeId()));
+        productDetail.setColor(colorService.findById(productDetailRequest.getColorId()));
+    }
 
 
 }

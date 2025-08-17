@@ -21,8 +21,7 @@ public enum InvalidInputError implements ResponseError {
     ROLE_NOT_FOUND("Quyền hạn không tồn tại"),
     FILE_TOO_LARGE("Tập tin quá lớn"),
     INVALID_FILE("Tệp tin không hợp lệ"),
-    INVALID_FILE_TYPE("Định dạng tệp tin không hợp lệ, chỉ hỗ trợ định dạng {0}")
-    ;
+    INVALID_FILE_TYPE("Định dạng tệp tin không hợp lệ, chỉ hỗ trợ định dạng {0}");
 
     private final String message;
 

@@ -10,13 +10,13 @@ import org.springframework.data.domain.Pageable;
 
 public interface SizeService {
 
-  SizeResponse create(SizeRequest sizeRequest);
+    SizeResponse create(SizeRequest sizeRequest);
 
-  SizeResponse update(Long id, SizeRequest sizeRequest) throws JsonMappingException;
+    SizeResponse update(Long id, SizeRequest sizeRequest) throws JsonMappingException;
 
-  void delete(Long id);
+    void delete(Long id);
 
-  Size findByID(Long id);
+    Size findByID(Long id);
 
-  Page<SizeResponse> filter(SizeParam param, Pageable pageable);
+    Page<SizeResponse> filter(SizeParam param, Pageable pageable);
 }

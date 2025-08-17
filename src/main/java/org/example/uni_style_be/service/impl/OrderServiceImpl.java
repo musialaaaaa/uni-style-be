@@ -67,7 +67,7 @@ public class OrderServiceImpl implements OrderService {
 
         // Lấy giỏ hàng của account đang đăng nhập
         Cart cart = cartRepository.findByAccountId(accountId)
-                .orElseThrow(()-> new ResponseException(NotFoundError.CART_NOT_FOUND));
+                .orElseThrow(() -> new ResponseException(NotFoundError.CART_NOT_FOUND));
         Long cartId = cart.getId();
         List<CartDetail> cartDetails = cartDetailRepository.findByCartId(cartId);
 

@@ -9,13 +9,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface ProductService {
-  ProductResponse create(ProductRequest productRequest);
+    ProductResponse create(ProductRequest productRequest);
 
-  ProductResponse update(Long id, ProductRequest productRequest) throws JsonMappingException;
+    ProductResponse update(Long id, ProductRequest productRequest) throws JsonMappingException;
 
-  void delete(Long id);
+    void delete(Long id);
 
-  Product findById(Long id);
+    Product findById(Long id);
 
-  Page<ProductResponse> filter(ProductParam param, Pageable pageable);
+    Page<ProductResponse> filter(ProductParam param, Pageable pageable);
 }

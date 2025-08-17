@@ -12,6 +12,6 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ColorRequest {
-  @NotBlank(message = "Màu không được để trống")
-  String name;
+    @NotBlank(message = "Màu không được để trống")
+    String name;
 }

@@ -14,14 +14,14 @@ import org.hibernate.annotations.Where;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name="category")
+@Table(name = "category")
 @Where(clause = "is_deleted = false")
-public class Category extends BaseEntity{
+public class Category extends BaseEntity {
 
     @Column(nullable = false, name = "name")
     String name;
 
     @Column(nullable = false, name = "is_deleted")
-    Boolean isDeleted =Boolean.FALSE;
+    Boolean isDeleted = Boolean.FALSE;
 
 }

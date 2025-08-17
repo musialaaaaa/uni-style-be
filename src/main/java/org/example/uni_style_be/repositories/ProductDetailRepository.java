@@ -8,7 +8,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProductDetailRepository
-    extends JpaRepository<ProductDetail, Long>, JpaSpecificationExecutor<ProductDetail> {
-  @Query("SELECT COALESCE(MAX(m.id), 0) + 1 FROM ProductDetail m")
-  Long getNextSeq();
+        extends JpaRepository<ProductDetail, Long>,
+        JpaSpecificationExecutor<ProductDetail> {
+
+    @Query("SELECT COALESCE(MAX(m.id), 0) + 1 FROM ProductDetail m")
+    Long getNextSeq();
+
 }

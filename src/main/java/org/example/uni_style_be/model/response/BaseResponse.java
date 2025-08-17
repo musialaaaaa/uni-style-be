@@ -1,10 +1,11 @@
 package org.example.uni_style_be.model.response;
 
-import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+
+import java.time.Instant;
 
 @Data
 @NoArgsConstructor
@@ -12,13 +13,13 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class BaseResponse {
 
-  private Long id;
+    private Long id;
 
-  private String createdBy;
+    private String createdBy;
 
-  private Instant createdAt;
+    private Instant createdAt;
 
-  private String updatedBy;
+    private String updatedBy;
 
-  private Instant updatedAt;
+    private Instant updatedAt;
 }

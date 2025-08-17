@@ -10,13 +10,13 @@ import org.springframework.data.domain.Pageable;
 
 public interface MaterialService {
 
-  MaterialResponse create(MaterialRequest materialRequest);
+    MaterialResponse create(MaterialRequest materialRequest);
 
-  MaterialResponse update(Long id, MaterialRequest materialRequest) throws JsonMappingException;
+    MaterialResponse update(Long id, MaterialRequest materialRequest) throws JsonMappingException;
 
-  void delete(Long id);
+    void delete(Long id);
 
-  Material findById(Long id);
+    Material findById(Long id);
 
-  Page<MaterialResponse> filter(MaterialParam param, Pageable pageable);
+    Page<MaterialResponse> filter(MaterialParam param, Pageable pageable);
 }

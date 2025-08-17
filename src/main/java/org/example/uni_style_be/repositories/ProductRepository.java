@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProductRepository
-    extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
+        extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
 
-  @Query("SELECT COALESCE(MAX(p.id), 0) + 1 FROM Product p")
-  Long getNextSeq();
+    @Query("SELECT COALESCE(MAX(p.id), 0) + 1 FROM Product p")
+    Long getNextSeq();
 }

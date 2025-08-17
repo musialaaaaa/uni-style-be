@@ -21,9 +21,9 @@ public class PayOSConfig {
         String webhookUrl = payOSProperties.getWebhookUrl();
         if (
                 !StringUtils.hasText(clientId)
-                        || !StringUtils.hasText(apiKey)
-                        || !StringUtils.hasText(checksumKey)
-                        || !StringUtils.hasText(webhookUrl)
+                || !StringUtils.hasText(apiKey)
+                || !StringUtils.hasText(checksumKey)
+                || !StringUtils.hasText(webhookUrl)
         ) {
             log.error("Cổng thanh toán chưa được cấu hình");
             System.exit(1);

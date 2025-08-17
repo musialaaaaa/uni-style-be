@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class BrandParam {
 
-  private String code;
+    private String code;
 
-  private String name;
+    private String name;
 }

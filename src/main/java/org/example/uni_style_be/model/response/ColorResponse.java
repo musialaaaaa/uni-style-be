@@ -14,9 +14,9 @@ import lombok.experimental.SuperBuilder;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ColorResponse extends BaseResponse {
 
-  String code;
+    String code;
 
-  String name;
+    String name;
 
-  Boolean isDeleted;
+    Boolean isDeleted;
 }
