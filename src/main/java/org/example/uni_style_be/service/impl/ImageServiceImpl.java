@@ -128,7 +128,7 @@ public class ImageServiceImpl implements ImageService {
     public ImageResponse getImageInfo(String fileName) {
         Image image = imageRepository.findByFileName(fileName)
                 .orElseThrow(() -> new ResponseException(NotFoundError.FILE_NOT_FOUND));
-        return  imageMapper.toImageResponse(image);
+        return imageMapper.toImageResponse(image);
     }
 
     @Override
@@ -175,7 +175,7 @@ public class ImageServiceImpl implements ImageService {
     private String generateUniqueFileName(String originalFileName) {
         String extension = getFileExtension(originalFileName);
         String baseName = getFileBaseName(originalFileName);
-        return baseName + "_" + UUID.randomUUID().toString() + "." + extension;
+        return baseName + "_" + UUID.randomUUID() + "." + extension;
     }
 
     private String getFileExtension(String fileName) {

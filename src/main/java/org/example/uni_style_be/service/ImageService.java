@@ -1,6 +1,5 @@
 package org.example.uni_style_be.service;
 
-import org.example.uni_style_be.entities.Image;
 import org.example.uni_style_be.model.response.ImageResponse;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;

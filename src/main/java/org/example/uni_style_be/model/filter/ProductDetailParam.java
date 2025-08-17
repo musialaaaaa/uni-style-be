@@ -4,27 +4,27 @@ import lombok.Data;
 
 @Data
 public class ProductDetailParam {
-  private String code;
+    private String code;
 
-  private String name;
+    private String name;
 
-  private String description;
+    private String description;
 
-  private Integer quantity;
+    private Integer quantity;
 
-  private Double price;
+    private Double price;
 
-  private String image;
+    private String image;
 
-  private Long productId;
+    private Long productId;
 
-  private Long categoryId;
+    private Long categoryId;
 
-  private Long materialId;
+    private Long materialId;
 
-  private Long brandId;
+    private Long brandId;
 
-  private Long colorId;
+    private Long colorId;
 
-  private Long sizeId;
+    private Long sizeId;
 }

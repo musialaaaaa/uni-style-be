@@ -162,10 +162,9 @@ public class CartServiceImpl implements CartService {
             productDetailResponse.setName(productDetail.getName());
             productDetailResponse.setQuantity(productDetail.getQuantity());
             productDetailResponse.setPrice(productDetail.getPrice().doubleValue());
-            productDetailResponse.setImage(productDetail.getImage());
             productDetailResponse.setDescription(productDetail.getDescription());
             productDetailResponse.setIsDeleted(productDetail.getIsDeleted());
-            productDetailResponse.setProduct(productDetail.getProduct());
+//            productDetailResponse.setProduct(productDetail.getProduct());
             productDetailResponse.setCategory(productDetail.getCategory());
             productDetailResponse.setMaterial(productDetail.getMaterial());
             productDetailResponse.setBrand(productDetail.getBrand());

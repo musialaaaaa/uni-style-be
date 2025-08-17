@@ -18,12 +18,12 @@ import org.hibernate.annotations.Where;
 @Where(clause = "is_deleted = false")
 public class Material extends BaseEntity {
 
-  @Column(nullable = false, name = "code")
-  String code;
+    @Column(nullable = false, name = "code")
+    String code;
 
-  @Column(nullable = false, name = "name")
-  String name;
+    @Column(nullable = false, name = "name")
+    String name;
 
-  @Column(nullable = false, name = "is_deleted")
-  Boolean isDeleted =Boolean.FALSE;
+    @Column(nullable = false, name = "is_deleted")
+    Boolean isDeleted = Boolean.FALSE;
 }

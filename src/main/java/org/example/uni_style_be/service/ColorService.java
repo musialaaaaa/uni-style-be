@@ -10,13 +10,13 @@ import org.springframework.data.domain.Pageable;
 
 public interface ColorService {
 
-  ColorResponse create(ColorRequest colorRequest);
+    ColorResponse create(ColorRequest colorRequest);
 
-  ColorResponse update(Long id, ColorRequest colorRequest) throws JsonMappingException;
+    ColorResponse update(Long id, ColorRequest colorRequest) throws JsonMappingException;
 
-  void delete(Long id);
+    void delete(Long id);
 
-  Color findById(Long id);
+    Color findById(Long id);
 
-  Page<ColorResponse> filter(ColorParam param, Pageable pageable);
+    Page<ColorResponse> filter(ColorParam param, Pageable pageable);
 }

@@ -1,24 +1,27 @@
 package org.example.uni_style_be.model.response;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import lombok.experimental.SuperBuilder;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@SuperBuilder
+import java.math.BigDecimal;
+
+@Getter
+@Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProductResponse extends BaseResponse {
 
-  String code;
+    String code;
 
-  String name;
+    String name;
 
-  String description;
+    String description;
 
-  Boolean isDeleted;
+    Boolean isDeleted;
+
+    String imageFileName;
+
+    BigDecimal price = BigDecimal.ZERO;
+
 }

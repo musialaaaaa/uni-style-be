@@ -3,13 +3,11 @@ package org.example.uni_style_be.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.Where;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -34,9 +32,6 @@ public class ProductDetail extends BaseEntity {
     @Column(nullable = false, name = "price")
     BigDecimal price;
 
-    @Column(nullable = false, name = "image")
-    String image;
-
     @Column(name = "description")
     String description;
 
@@ -45,32 +40,26 @@ public class ProductDetail extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
-    @NotFound(action = NotFoundAction.IGNORE)
     Product product;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
-    @NotFound(action = NotFoundAction.IGNORE)
     Category Category;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "material_id")
-    @NotFound(action = NotFoundAction.IGNORE)
     Material material;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id")
-    @NotFound(action = NotFoundAction.IGNORE)
     Brand brand;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "color_id")
-    @NotFound(action = NotFoundAction.IGNORE)
     Color color;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "size_id")
-    @NotFound(action = NotFoundAction.IGNORE)
     Size size;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -79,6 +68,6 @@ public class ProductDetail extends BaseEntity {
             joinColumns = @JoinColumn(name = "product_detail_id"),
             inverseJoinColumns = @JoinColumn(name = "image_id")
     )
-    Set<Image> images = new HashSet<>();
+    List<Image> images = new ArrayList<>();
 
 }

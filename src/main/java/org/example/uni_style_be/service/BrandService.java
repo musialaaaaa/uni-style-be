@@ -10,13 +10,13 @@ import org.springframework.data.domain.Pageable;
 
 public interface BrandService {
 
-  BrandReponse create(BrandRequest brandRequest);
+    BrandReponse create(BrandRequest brandRequest);
 
-  BrandReponse update(Long id, BrandRequest brandRequest) throws JsonMappingException;
+    BrandReponse update(Long id, BrandRequest brandRequest) throws JsonMappingException;
 
-  void delete(Long id);
+    void delete(Long id);
 
-  Brand findById(Long id);
+    Brand findById(Long id);
 
-  Page<BrandReponse> filter(BrandParam param, Pageable pageable);
+    Page<BrandReponse> filter(BrandParam param, Pageable pageable);
 }

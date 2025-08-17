@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProductRequest {
 
-  @NotBlank(message = "Tên không được để trống")
-  private String name;
+    @NotBlank(message = "Tên không được để trống")
+    private String name;
 
-  private String description;
+    private String description;
 }

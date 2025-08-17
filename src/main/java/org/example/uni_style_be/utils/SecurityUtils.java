@@ -1,6 +1,5 @@
 package org.example.uni_style_be.utils;
 
-import org.example.uni_style_be.config.Constants;
 import org.example.uni_style_be.entities.Account;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,14 +14,15 @@ public class SecurityUtils {
     private SecurityUtils() {
         // Private constructor to prevent instantiation
     }
+
     public static Optional<Account> getCurrentAccount() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         Authentication authentication = securityContext.getAuthentication();
         if (
                 Objects.isNull(authentication)
-                        || Objects.isNull(authentication.getPrincipal())
-                        || authentication instanceof AnonymousAuthenticationToken
-                        || !authentication.isAuthenticated()
+                || Objects.isNull(authentication.getPrincipal())
+                || authentication instanceof AnonymousAuthenticationToken
+                || !authentication.isAuthenticated()
         ) {
             return Optional.empty();
         }

@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MaterialRequest {
-  @NotBlank(message = "Chất liệu không được để trống")
-  private String name;
+    @NotBlank(message = "Chất liệu không được để trống")
+    private String name;
 }

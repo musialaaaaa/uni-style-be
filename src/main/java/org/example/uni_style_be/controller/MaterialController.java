@@ -5,10 +5,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.uni_style_be.entities.Material;
-import org.example.uni_style_be.service.MaterialService;
 import org.example.uni_style_be.model.filter.MaterialParam;
 import org.example.uni_style_be.model.request.MaterialRequest;
 import org.example.uni_style_be.model.response.MaterialResponse;
+import org.example.uni_style_be.service.MaterialService;
 import org.example.uni_style_be.utils.PageUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -19,30 +19,30 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Api chất liệu")
 public class MaterialController {
 
-  private final MaterialService materialService;
+    private final MaterialService materialService;
 
-  @GetMapping
-  public PageUtils<MaterialResponse> filter(MaterialParam param, Pageable pageable) {
-    return new PageUtils<>(materialService.filter(param, pageable));
-  }
+    @GetMapping
+    public PageUtils<MaterialResponse> filter(MaterialParam param, Pageable pageable) {
+        return new PageUtils<>(materialService.filter(param, pageable));
+    }
 
-  @PostMapping
-  public MaterialResponse create(@Valid @RequestBody MaterialRequest req) {
-    return materialService.create(req);
-  }
+    @PostMapping
+    public MaterialResponse create(@Valid @RequestBody MaterialRequest req) {
+        return materialService.create(req);
+    }
 
-  @PutMapping("/{id}")
-  public MaterialResponse update(@PathVariable Long id, @Valid @RequestBody MaterialRequest req) throws JsonMappingException {
-    return materialService.update(id, req);
-  }
+    @PutMapping("/{id}")
+    public MaterialResponse update(@PathVariable Long id, @Valid @RequestBody MaterialRequest req) throws JsonMappingException {
+        return materialService.update(id, req);
+    }
 
-  @GetMapping("/{id}")
-  public Material findByID(@PathVariable Long id) {
-    return materialService.findById(id);
-  }
+    @GetMapping("/{id}")
+    public Material findByID(@PathVariable Long id) {
+        return materialService.findById(id);
+    }
 
-  @DeleteMapping("/{id}")
-  public void delete(@PathVariable Long id) {
-    materialService.delete(id);
-  }
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        materialService.delete(id);
+    }
 }

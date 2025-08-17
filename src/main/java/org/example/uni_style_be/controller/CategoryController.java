@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/category")
 @RequiredArgsConstructor
 @Tag(name = "Api danh mục")
-public class    CategoryController {
+public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping
