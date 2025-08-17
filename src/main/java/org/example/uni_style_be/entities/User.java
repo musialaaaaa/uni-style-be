@@ -6,7 +6,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.Where;
 
 @Entity
 @Getter
@@ -16,29 +15,24 @@ import org.hibernate.annotations.Where;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "users")
-@Where(clause = "is_deleted = false")
 public class User extends BaseEntity {
 
     @Column(name = "name")
-    private String name;
+    String name;
 
     @Column(name = "email", unique = true)
-    private String email;
+    String email;
 
     @Column(name = "password", unique = true)
-    private String password;
+    String password;
 
     @Column(name = "phone_number", unique = true)
-    private String phoneNumber;
+    String phoneNumber;
 
     @Column(name = "address")
-    private String address;
+    String address;
 
     @Column(name = "status")
-    private String status;
-
-    @Column(name = "is_deleted")
-    private Boolean isDeleted = Boolean.FALSE;
-
+    String status;
 
 }

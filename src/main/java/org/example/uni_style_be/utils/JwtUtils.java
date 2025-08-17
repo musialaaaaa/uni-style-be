@@ -3,15 +3,14 @@ package org.example.uni_style_be.utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.experimental.UtilityClass;
 import org.example.uni_style_be.enums.UnauthorizedError;
 import org.example.uni_style_be.model.response.ErrorResponse;
 import org.springframework.http.MediaType;
 
 import java.io.IOException;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@UtilityClass
 public class JwtUtils {
     public static void handleUnauthorized(HttpServletResponse response, UnauthorizedError error, JwtException exception) throws IOException {
         response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);

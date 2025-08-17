@@ -18,8 +18,6 @@ public class ProductResponse extends BaseResponse {
 
     String description;
 
-    Boolean isDeleted;
-
     String imageFileName;
 
     BigDecimal price = BigDecimal.ZERO;
