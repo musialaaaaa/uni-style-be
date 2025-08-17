@@ -87,7 +87,7 @@ public class PaymentServiceImpl implements PaymentService {
             log.info("PayOS Webhook đã cấu hình thành công tại: {}", result);
         } catch (Exception e) {
             log.error("Cấu hình PayOS Webhook thất bại", e);
-//            System.exit(1);
+            System.exit(1);
         }
     }
 }

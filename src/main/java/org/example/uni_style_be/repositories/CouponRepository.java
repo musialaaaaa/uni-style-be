@@ -15,5 +15,4 @@ public interface CouponRepository extends JpaRepository<Coupon, Long>, JpaSpecif
     @Query(value = "SELECT CONCAT('CP', LPAD(COUNT(*) + 1, 4, '0')) FROM coupon", nativeQuery = true)
     String getNextSeq();
 
-    Optional<Coupon> findByIdAndIsDeletedFalse(Long id);
 }

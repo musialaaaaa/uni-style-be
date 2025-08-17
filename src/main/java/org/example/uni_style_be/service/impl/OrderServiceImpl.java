@@ -78,7 +78,7 @@ public class OrderServiceImpl implements OrderService {
         // Lấy mã giảm giá
         Coupon coupon = null;
         if (Objects.nonNull(request.getCouponId())) {
-            coupon = couponRepository.findByIdAndIsDeletedFalse(request.getCouponId())
+            coupon = couponRepository.findById(request.getCouponId())
                     .orElseThrow(() -> new ResponseException(InvalidInputError.COUPON_NOT_FOUND));
 
             if (coupon.getExpirationDate().isBefore(LocalDate.now()) || coupon.getUsed() >= coupon.getUsageLimit()) {
