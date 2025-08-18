@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.example.uni_style_be.entities.*;
 
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -23,15 +24,11 @@ public class ProductDetailResponse extends BaseResponse {
 
     String description;
 
-//  Product product;
+    MaterialResponse material;
 
-    Category category;
+    ColorResponse color;
 
-    Material material;
+    SizeResponse size;
 
-    Color color;
-
-    Size size;
-
-    Set<Image> images;
+    List<ImageResponse> images;
 }

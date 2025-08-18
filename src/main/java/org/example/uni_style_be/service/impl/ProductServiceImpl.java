@@ -1,19 +1,24 @@
 package org.example.uni_style_be.service.impl;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.example.uni_style_be.entities.Category;
 import org.example.uni_style_be.entities.Image;
 import org.example.uni_style_be.entities.Product;
 import org.example.uni_style_be.entities.ProductDetail;
+import org.example.uni_style_be.enums.InvalidInputError;
 import org.example.uni_style_be.enums.NotFoundError;
 import org.example.uni_style_be.exception.ResponseException;
+import org.example.uni_style_be.mapper.ProductDetailMapper;
 import org.example.uni_style_be.mapper.ProductMapper;
 import org.example.uni_style_be.model.filter.ProductParam;
 import org.example.uni_style_be.model.request.ProductRequest;
+import org.example.uni_style_be.model.response.ProductDetailResponse;
+import org.example.uni_style_be.model.response.ProductDetailShopResponse;
 import org.example.uni_style_be.model.response.ProductResponse;
+import org.example.uni_style_be.repositories.CategoryRepository;
 import org.example.uni_style_be.repositories.ProductRepository;
 import org.example.uni_style_be.repositories.specification.ProductSpecification;
 import org.example.uni_style_be.service.ProductService;
@@ -21,7 +26,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
@@ -36,35 +40,49 @@ public class ProductServiceImpl implements ProductService {
     private static final String PREFIX_CODE = "CL";
 
     ProductRepository productRepository;
-    ObjectMapper objectMapper;
     ProductMapper productMapper;
+    CategoryRepository categoryRepository;
+    ProductDetailMapper productDetailMapper;
 
     @Override
-    @Transactional
-    public ProductResponse create(ProductRequest productRequest) {
-        Product product = objectMapper.convertValue(productRequest, Product.class);
+    public ProductResponse create(ProductRequest rq) {
+
+        Category category = categoryRepository.findById(rq.getCategoryId())
+                .orElseThrow(() -> new ResponseException(InvalidInputError.CATEGORY_NOT_FOUND));
+
+        Product product = productMapper.toProduct(rq);
         product.setCode(PREFIX_CODE + productRepository.getNextSeq());
-        return objectMapper.convertValue(productRepository.save(product), ProductResponse.class);
+        product.setCategory(category);
+
+        Product productSaved = productRepository.save(product);
+
+        return productMapper.toProductResponse(productSaved);
     }
 
     @Override
-    @Transactional
-    public ProductResponse update(Long id, ProductRequest productRequest) throws JsonMappingException {
+    public ProductResponse update(Long id, ProductRequest rq) throws JsonMappingException {
         Product product = findById(id);
-        objectMapper.updateValue(product, productRequest);
-        return objectMapper.convertValue(productRepository.save(product), ProductResponse.class);
+
+        Category category = categoryRepository.findById(rq.getCategoryId())
+                .orElseThrow(() -> new ResponseException(InvalidInputError.CATEGORY_NOT_FOUND));
+
+        productMapper.toProduct(product, rq);
+        product.setCategory(category);
+
+        Product productSaved = productRepository.save(product);
+        return productMapper.toProductResponse(productSaved);
     }
 
     @Override
-    public void delete(Long id) {
+    public Void delete(Long id) {
         productRepository.deleteById(id);
+        return null;
     }
 
     @Override
-    public Product findById(Long id) {
-        return productRepository
-                .findById(id)
-                .orElseThrow(() -> new ResponseException(NotFoundError.PRODUCT_NOT_FOUND));
+    public ProductResponse detail(Long id) {
+        Product product = findById(id);
+        return productMapper.toProductResponse(product);
     }
 
     @Override
@@ -72,6 +90,15 @@ public class ProductServiceImpl implements ProductService {
         Specification<Product> productSpec = ProductSpecification.filterSpec(param);
         Page<Product> productPage = productRepository.findAll(productSpec, pageable);
         return productPage.map(this::enrichFilter);
+    }
+
+    @Override
+    public ProductDetailShopResponse detailShop(Long id) {
+        Product product = findById(id);
+        ProductDetailShopResponse response = productMapper.toProductDetailShopResponse(product);
+        List<ProductDetailResponse> productDetails = productDetailMapper.toProductDetailResponse(product.getProductDetails());
+        response.setProductDetails(productDetails);
+        return response;
     }
 
     private BigDecimal getMinPrice(List<ProductDetail> productDetails) {
@@ -99,4 +126,11 @@ public class ProductServiceImpl implements ProductService {
 
         return productResponse;
     }
+
+    private Product findById(Long id) {
+        return productRepository
+                .findById(id)
+                .orElseThrow(() -> new ResponseException(NotFoundError.PRODUCT_NOT_FOUND));
+    }
+
 }

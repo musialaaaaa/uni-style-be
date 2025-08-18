@@ -1,6 +1,7 @@
 package org.example.uni_style_be.model.request;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,4 +15,7 @@ public class ProductRequest {
     private String name;
 
     private String description;
+
+    @NotNull(message = "Danh mục không được để trống")
+    Long categoryId;
 }

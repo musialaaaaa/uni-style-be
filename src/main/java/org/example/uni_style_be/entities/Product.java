@@ -22,9 +22,13 @@ public class Product extends BaseEntity {
     @Column(nullable = false, name = "name")
     String name;
 
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "text")
     String description;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     List<ProductDetail> productDetails;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    Category category;
 }
