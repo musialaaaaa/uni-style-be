@@ -22,4 +22,6 @@ public class ProductResponse extends BaseResponse {
 
     BigDecimal price = BigDecimal.ZERO;
 
+    CategoryResponse category;
+
 }

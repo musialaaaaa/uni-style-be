@@ -37,10 +37,6 @@ public class ProductDetail extends BaseEntity {
     Product product;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
-    Category Category;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "material_id")
     Material material;
 

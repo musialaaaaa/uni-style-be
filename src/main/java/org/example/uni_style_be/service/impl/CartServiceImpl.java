@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -144,7 +145,11 @@ public class CartServiceImpl implements CartService {
                 .orElseThrow(() -> new ResponseException(UnauthorizedError.UNAUTHORIZED));
 
         Cart cart = cartRepository.findByAccountId(accountId)
-                .orElseThrow(() -> new ResponseException(InvalidInputError.CART_NOT_EXIST));
+                .orElse(null);
+
+        if (cart == null) {
+            return Collections.emptyList();
+        }
 
         List<CartDetail> cartDetails = cartDetailRepository.findByCartId(cart.getId());
         List<CartResponse> cartResponses = new ArrayList<>();
@@ -164,10 +169,9 @@ public class CartServiceImpl implements CartService {
             productDetailResponse.setPrice(productDetail.getPrice().doubleValue());
             productDetailResponse.setDescription(productDetail.getDescription());
 //            productDetailResponse.setProduct(productDetail.getProduct());
-            productDetailResponse.setCategory(productDetail.getCategory());
-            productDetailResponse.setMaterial(productDetail.getMaterial());
-            productDetailResponse.setColor(productDetail.getColor());
-            productDetailResponse.setSize(productDetail.getSize());
+//            productDetailResponse.setMaterialName(productDetail.getMaterial().getName());
+//            productDetailResponse.setColorName(productDetail.getColor().getName());
+//            productDetailResponse.setSizeName(productDetail.getSize().getName());
 
             cartResponse.setProductDetail(productDetailResponse);
             cartResponses.add(cartResponse);

@@ -6,7 +6,9 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.example.uni_style_be.entities.Image;
+import org.example.uni_style_be.entities.Product;
 import org.example.uni_style_be.entities.ProductDetail;
+import org.example.uni_style_be.enums.InvalidInputError;
 import org.example.uni_style_be.enums.NotFoundError;
 import org.example.uni_style_be.exception.ResponseException;
 import org.example.uni_style_be.mapper.ProductDetailMapper;
@@ -15,6 +17,7 @@ import org.example.uni_style_be.model.request.ProductDetailRequest;
 import org.example.uni_style_be.model.response.ProductDetailResponse;
 import org.example.uni_style_be.repositories.ImageRepository;
 import org.example.uni_style_be.repositories.ProductDetailRepository;
+import org.example.uni_style_be.repositories.ProductRepository;
 import org.example.uni_style_be.repositories.specification.ProductDetailSpecification;
 import org.example.uni_style_be.service.*;
 import org.springframework.data.domain.Page;
@@ -33,14 +36,13 @@ public class ProductDetailServiceImpl implements ProductDetailService {
     private static final String PREFIX_CODE = "PRD";
 
     ProductDetailRepository productDetailRepository;
-    ProductService productService;
     SizeService sizeService;
     ColorService colorService;
     MaterialService materialService;
-    CategoryService categoryService;
     ImageRepository imageRepository;
     ObjectMapper objectMapper;
     ProductDetailMapper productDetailMapper;
+    ProductRepository productRepository;
 
     @Override
     @Transactional
@@ -90,12 +92,13 @@ public class ProductDetailServiceImpl implements ProductDetailService {
     }
 
     private void setEntityRel(ProductDetail productDetail, ProductDetailRequest productDetailRequest) {
-        productDetail.setProduct(productService.findById(productDetailRequest.getProductId()));
-        productDetail.setCategory(categoryService.findById(productDetailRequest.getCategoryId()));
+        Product product = productRepository.findById(productDetailRequest.getProductId())
+                .orElseThrow(() -> new ResponseException(InvalidInputError.PRODUCT_NOT_FOUND));
+
+        productDetail.setProduct(product);
         productDetail.setMaterial(materialService.findById(productDetailRequest.getMaterialId()));
         productDetail.setSize(sizeService.findByID(productDetailRequest.getSizeId()));
         productDetail.setColor(colorService.findById(productDetailRequest.getColorId()));
     }
-
 
 }

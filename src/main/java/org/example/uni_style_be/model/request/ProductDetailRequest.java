@@ -30,14 +30,9 @@ public class ProductDetailRequest {
     @NotNull(message = "Sản phẩm không được để trống")
     Long productId;
 
-    @NotNull(message = "Danh mục không được để trống")
-    Long categoryId;
 
     @NotNull(message = "Chất liệu không được để trống")
     Long materialId;
-
-    @NotNull(message = "Thương hiệu không được để trống")
-    Long brandId;
 
     @NotNull(message = "Màu không được để trống")
     Long colorId;
