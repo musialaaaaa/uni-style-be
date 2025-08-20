@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.uni_style_be.model.request.AuthenticationRequest;
+import org.example.uni_style_be.model.request.RegisterRequest;
 import org.example.uni_style_be.model.response.AuthenticationResponse;
 import org.example.uni_style_be.model.response.ServiceResponse;
 import org.example.uni_style_be.service.AuthenticationService;
@@ -28,6 +29,12 @@ public class AuthenticationController {
     @Operation(summary = "Đăng nhập")
     public ServiceResponse<AuthenticationResponse> authenticate(@RequestBody @Valid AuthenticationRequest request) {
         return ServiceResponse.ok(authenticationService.authenticate(request));
+    }
+
+    @PostMapping("/register")
+    @Operation(summary = "Đăng ký")
+    public ServiceResponse<AuthenticationResponse> register(@RequestBody @Valid RegisterRequest request) {
+        return ServiceResponse.ok(authenticationService.register(request));
     }
 
     @PostMapping("/refresh-token")

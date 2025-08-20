@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Account extends BaseEntity implements UserDetails {
 
-    @Column(nullable = false, unique = true, length = 10)
+    @Column(nullable = false, unique = true, length = 50)
     String username;
 
     @Column(nullable = false)
