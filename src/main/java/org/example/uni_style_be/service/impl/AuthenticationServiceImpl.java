@@ -11,9 +11,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.example.uni_style_be.entities.Account;
 import org.example.uni_style_be.entities.Token;
+import org.example.uni_style_be.enums.InvalidInputError;
 import org.example.uni_style_be.enums.UnauthorizedError;
 import org.example.uni_style_be.exception.ResponseException;
+import org.example.uni_style_be.mapper.AccountMapper;
 import org.example.uni_style_be.model.request.AuthenticationRequest;
+import org.example.uni_style_be.model.request.RegisterRequest;
 import org.example.uni_style_be.model.response.AuthenticationResponse;
 import org.example.uni_style_be.model.response.ServiceResponse;
 import org.example.uni_style_be.repositories.AccountRepository;
@@ -24,6 +27,7 @@ import org.example.uni_style_be.utils.JwtUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -36,6 +40,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     JwtService jwtService;
     TokenRepository tokenRepository;
     AuthenticationManager authenticationManager;
+    AccountMapper accountMapper;
+    PasswordEncoder passwordEncoder;
 
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
@@ -49,6 +55,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .orElseThrow(() -> new ResponseException(UnauthorizedError.UNAUTHORIZED));
 
         return saveToken(account);
+    }
+
+    @Override
+    public AuthenticationResponse register(RegisterRequest rq) {
+        if (!rq.getPassword().equals(rq.getConfirmPassword())) {
+            throw new ResponseException(InvalidInputError.PASSWORD_NOT_MATCH);
+        }
+
+        Account account = accountMapper.toAccount(rq);
+        account.setPassword(passwordEncoder.encode(rq.getPassword()));
+        Account accountSaved = accountRepository.save(account);
+        return saveToken(accountSaved);
     }
 
     @Override
