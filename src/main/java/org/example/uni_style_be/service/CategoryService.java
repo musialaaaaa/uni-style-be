@@ -1,7 +1,6 @@
 package org.example.uni_style_be.service;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
-import org.example.uni_style_be.entities.Category;
 import org.example.uni_style_be.model.filter.CategoryParam;
 import org.example.uni_style_be.model.request.CategoryRequest;
 import org.example.uni_style_be.model.response.CategoryResponse;
@@ -16,7 +15,7 @@ public interface CategoryService {
 
     void delete(Long id);
 
-    Category findById(Long id);
+    CategoryResponse detail(Long id);
 
     Page<CategoryResponse> filter(CategoryParam param, Pageable pageable);
 }

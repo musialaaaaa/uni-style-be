@@ -3,6 +3,7 @@ package org.example.uni_style_be.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.example.uni_style_be.enums.ProductDetailStatus;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -32,6 +33,9 @@ public class ProductDetail extends BaseEntity {
     @Column(name = "description")
     String description;
 
+    @Column(name = "status")
+    ProductDetailStatus status;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     Product product;
@@ -48,12 +52,16 @@ public class ProductDetail extends BaseEntity {
     @JoinColumn(name = "size_id")
     Size size;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "product_detail_image",
-            joinColumns = @JoinColumn(name = "product_detail_id"),
-            inverseJoinColumns = @JoinColumn(name = "image_id")
-    )
+    @OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL)
     List<Image> images = new ArrayList<>();
 
+    @OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL)
+    List<CartDetail> cartDetails = new ArrayList<>();
+
+    @PrePersist
+    void prePersist() {
+        if (this.status == null) {
+            this.status = ProductDetailStatus.INACTIVE;
+        }
+    }
 }

@@ -16,6 +16,7 @@ import org.example.uni_style_be.enums.UnauthorizedError;
 import org.example.uni_style_be.exception.ResponseException;
 import org.example.uni_style_be.mapper.AccountMapper;
 import org.example.uni_style_be.model.request.AuthenticationRequest;
+import org.example.uni_style_be.model.request.ChangePasswordRequest;
 import org.example.uni_style_be.model.request.RegisterRequest;
 import org.example.uni_style_be.model.response.AuthenticationResponse;
 import org.example.uni_style_be.model.response.ServiceResponse;
@@ -24,6 +25,7 @@ import org.example.uni_style_be.repositories.TokenRepository;
 import org.example.uni_style_be.service.AuthenticationService;
 import org.example.uni_style_be.service.JwtService;
 import org.example.uni_style_be.utils.JwtUtils;
+import org.example.uni_style_be.utils.SecurityUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -61,6 +63,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public AuthenticationResponse register(RegisterRequest rq) {
         if (!rq.getPassword().equals(rq.getConfirmPassword())) {
             throw new ResponseException(InvalidInputError.PASSWORD_NOT_MATCH);
+        }
+
+        if (accountRepository.existsByUsernameIgnoreCase(rq.getUsername())) {
+            throw new ResponseException(InvalidInputError.ACCOUNT_EXIST);
         }
 
         Account account = accountMapper.toAccount(rq);
@@ -109,6 +115,21 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             JwtUtils.handleUnauthorized(response, UnauthorizedError.TOKEN_INVALID, e);
         }
 
+    }
+
+    @Override
+    public Void changePassword(ChangePasswordRequest rq) {
+        if (!rq.getPassword().equals(rq.getConfirmPassword())) {
+            throw new ResponseException(InvalidInputError.PASSWORD_NOT_MATCH);
+        }
+
+        Account account = SecurityUtils.getCurrentAccount()
+                .orElseThrow(() -> new ResponseException(UnauthorizedError.UNAUTHORIZED));
+
+        account.setPassword(passwordEncoder.encode(rq.getPassword()));
+        accountRepository.save(account);
+
+        return null;
     }
 
     private AuthenticationResponse saveToken(Account account) {

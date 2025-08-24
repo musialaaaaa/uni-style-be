@@ -1,8 +1,6 @@
 package org.example.uni_style_be.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -30,5 +28,8 @@ public class Image extends BaseEntity {
 
     @Column(nullable = false)
     Long fileSize;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    ProductDetail productDetail;
 
 }

@@ -19,7 +19,10 @@ import org.example.uni_style_be.repositories.ImageRepository;
 import org.example.uni_style_be.repositories.ProductDetailRepository;
 import org.example.uni_style_be.repositories.ProductRepository;
 import org.example.uni_style_be.repositories.specification.ProductDetailSpecification;
-import org.example.uni_style_be.service.*;
+import org.example.uni_style_be.service.ColorService;
+import org.example.uni_style_be.service.MaterialService;
+import org.example.uni_style_be.service.ProductDetailService;
+import org.example.uni_style_be.service.SizeService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -53,6 +56,7 @@ public class ProductDetailServiceImpl implements ProductDetailService {
 
         List<Image> images = imageRepository.findAllById(productDetailRequest.getImageIds());
         productDetail.setImages(images);
+        images.forEach(image -> image.setProductDetail(productDetail));
 
         ProductDetail productDetailSaved = productDetailRepository.save(productDetail);
 

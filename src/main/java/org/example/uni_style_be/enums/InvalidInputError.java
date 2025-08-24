@@ -24,8 +24,9 @@ public enum InvalidInputError implements ResponseError {
     INVALID_FILE_TYPE("Định dạng tệp tin không hợp lệ, chỉ hỗ trợ định dạng {0}"),
     CATEGORY_NOT_FOUND("Danh mục không tồn tại"),
     PRODUCT_NOT_FOUND("Sản phẩm không tồn tại"),
-    PASSWORD_NOT_MATCH("Mật khẩu không khớp")
-    ;
+    PASSWORD_NOT_MATCH("Mật khẩu không khớp"),
+    ACCOUNT_EXIST("Tên tài khoản đã tồn tại"),
+    CATEGORY_USING("Không thể thực hiện thao tác này do danh mục đang được sử dụng");
 
     private final String message;
 

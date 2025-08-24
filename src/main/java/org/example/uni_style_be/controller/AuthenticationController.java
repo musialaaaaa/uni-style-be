@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.uni_style_be.model.request.AuthenticationRequest;
+import org.example.uni_style_be.model.request.ChangePasswordRequest;
 import org.example.uni_style_be.model.request.RegisterRequest;
 import org.example.uni_style_be.model.response.AuthenticationResponse;
 import org.example.uni_style_be.model.response.ServiceResponse;
@@ -44,6 +45,12 @@ public class AuthenticationController {
             HttpServletResponse response
     ) throws IOException {
         authenticationService.refreshToken(request, response);
+    }
+
+    @PostMapping("/change-password")
+    @Operation(summary = "Đổi mật khẩu")
+    public ServiceResponse<Void> changePassword(@RequestBody @Valid ChangePasswordRequest request) {
+        return ServiceResponse.ok(authenticationService.changePassword(request));
     }
 
 }

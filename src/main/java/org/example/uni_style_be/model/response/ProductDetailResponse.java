@@ -4,10 +4,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import org.example.uni_style_be.entities.*;
+import org.example.uni_style_be.enums.ProductDetailStatus;
 
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -31,4 +30,6 @@ public class ProductDetailResponse extends BaseResponse {
     SizeResponse size;
 
     List<ImageResponse> images;
+
+    ProductDetailStatus status;
 }
