@@ -2,20 +2,25 @@ package org.example.uni_style_be.model.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+import org.example.uni_style_be.enums.ProductStatus;
 
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProductRequest {
 
     @NotBlank(message = "Tên không được để trống")
-    private String name;
+    String name;
 
-    private String description;
+    String description;
 
     @NotNull(message = "Danh mục không được để trống")
     Long categoryId;
+
+    ProductStatus status;
 }

@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.example.uni_style_be.enums.ProductDetailStatus;
 
 import java.util.Set;
 
@@ -41,4 +42,6 @@ public class ProductDetailRequest {
     Long sizeId;
 
     Set<Long> imageIds;
+
+    ProductDetailStatus status;
 }

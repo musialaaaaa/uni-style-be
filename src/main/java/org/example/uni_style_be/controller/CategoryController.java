@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.uni_style_be.entities.Category;
 import org.example.uni_style_be.model.filter.CategoryParam;
 import org.example.uni_style_be.model.request.CategoryRequest;
 import org.example.uni_style_be.model.response.CategoryResponse;
@@ -36,8 +35,8 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public Category findById(@PathVariable Long id) {
-        return categoryService.findById(id);
+    public CategoryResponse detail(@PathVariable Long id) {
+        return categoryService.detail(id);
     }
 
     @DeleteMapping("/{id}")

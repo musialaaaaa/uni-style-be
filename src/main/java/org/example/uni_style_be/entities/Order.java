@@ -40,7 +40,6 @@ public class Order extends BaseEntity {
 
     LocalDateTime expiredAt;
 
-    //Quan hệ với acccount
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
     Account account;
@@ -49,7 +48,6 @@ public class Order extends BaseEntity {
     @JoinColumn(name = "coupon_id")
     Coupon coupon;
 
-    // Quan hệ với order_detail
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     List<OrderDetail> orderDetails;
 

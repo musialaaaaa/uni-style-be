@@ -7,7 +7,6 @@ import org.example.uni_style_be.model.response.ProductResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-import org.mapstruct.Mappings;
 
 @Mapper
 public interface ProductMapper {
@@ -19,6 +18,5 @@ public interface ProductMapper {
     void toProduct(@MappingTarget Product product, ProductRequest productRequest);
 
     @Mapping(target = "productDetails", ignore = true)
-    @Mapping(target = "category", ignore = true)
     ProductDetailShopResponse toProductDetailShopResponse(Product product);
 }

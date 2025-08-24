@@ -18,7 +18,7 @@ public class Token extends BaseEntity {
 
     boolean expired;
 
-    boolean revoked; //thu hoi
+    boolean revoked;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")

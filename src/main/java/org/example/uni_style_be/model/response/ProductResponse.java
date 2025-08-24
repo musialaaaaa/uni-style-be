@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import org.example.uni_style_be.enums.ProductStatus;
 
 import java.math.BigDecimal;
 
@@ -23,5 +24,7 @@ public class ProductResponse extends BaseResponse {
     BigDecimal price = BigDecimal.ZERO;
 
     CategoryResponse category;
+
+    ProductStatus status;
 
 }

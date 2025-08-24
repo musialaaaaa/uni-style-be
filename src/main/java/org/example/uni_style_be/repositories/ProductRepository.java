@@ -12,4 +12,6 @@ public interface ProductRepository
 
     @Query("SELECT COALESCE(MAX(p.id), 0) + 1 FROM Product p")
     Long getNextSeq();
+
+    boolean existsByCategory_Id(Long id);
 }
