@@ -26,7 +26,8 @@ public enum InvalidInputError implements ResponseError {
     PRODUCT_NOT_FOUND("Sản phẩm không tồn tại"),
     PASSWORD_NOT_MATCH("Mật khẩu không khớp"),
     ACCOUNT_EXIST("Tên tài khoản đã tồn tại"),
-    CATEGORY_USING("Không thể thực hiện thao tác này do danh mục đang được sử dụng");
+    CATEGORY_USING("Không thể thực hiện thao tác này do danh mục đang được sử dụng"),
+    ONLY_DELETE_STAFF_ACCOUNT("Chỉ có thể xoá tài khoản của nhân viên");
 
     private final String message;
 

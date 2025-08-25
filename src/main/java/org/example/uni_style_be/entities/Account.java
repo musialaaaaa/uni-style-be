@@ -3,6 +3,7 @@ package org.example.uni_style_be.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.example.uni_style_be.enums.AccountType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,6 +36,10 @@ public class Account extends BaseEntity implements UserDetails {
 
     @Column(nullable = false, length = 10)
     String phone;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    AccountType type;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     Set<Token> tokens;

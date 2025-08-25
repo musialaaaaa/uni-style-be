@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.example.uni_style_be.entities.Account;
 import org.example.uni_style_be.entities.Role;
+import org.example.uni_style_be.enums.AccountType;
 import org.example.uni_style_be.repositories.AccountRepository;
 import org.example.uni_style_be.repositories.RoleRepository;
 import org.springframework.boot.ApplicationArguments;
@@ -65,6 +66,7 @@ public class DataInitializer implements ApplicationRunner {
                 .fullName(ADMIN_FULL_NAME)
                 .email(ADMIN_EMAIL)
                 .phone(ADMIN_PHONE)
+                .type(AccountType.ADMIN)
                 .build();
 
         return accountRepository.save(newAdmin);
