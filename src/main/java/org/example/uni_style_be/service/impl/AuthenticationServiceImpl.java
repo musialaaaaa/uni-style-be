@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.example.uni_style_be.entities.Account;
 import org.example.uni_style_be.entities.Token;
+import org.example.uni_style_be.enums.AccountType;
 import org.example.uni_style_be.enums.InvalidInputError;
 import org.example.uni_style_be.enums.UnauthorizedError;
 import org.example.uni_style_be.exception.ResponseException;
@@ -71,6 +72,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         Account account = accountMapper.toAccount(rq);
         account.setPassword(passwordEncoder.encode(rq.getPassword()));
+        account.setType(AccountType.CUSTOMER);
+
         Account accountSaved = accountRepository.save(account);
         return saveToken(accountSaved);
     }

@@ -18,9 +18,9 @@ public class SecurityUtils {
         Authentication authentication = securityContext.getAuthentication();
         if (
                 Objects.isNull(authentication)
-                || Objects.isNull(authentication.getPrincipal())
-                || authentication instanceof AnonymousAuthenticationToken
-                || !authentication.isAuthenticated()
+                        || Objects.isNull(authentication.getPrincipal())
+                        || authentication instanceof AnonymousAuthenticationToken
+                        || !authentication.isAuthenticated()
         ) {
             return Optional.empty();
         }
