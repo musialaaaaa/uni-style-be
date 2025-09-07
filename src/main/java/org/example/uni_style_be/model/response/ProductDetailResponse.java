@@ -32,4 +32,6 @@ public class ProductDetailResponse extends BaseResponse {
     List<ImageResponse> images;
 
     ProductDetailStatus status;
+
+    ProductResponse product;
 }

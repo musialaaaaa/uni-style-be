@@ -42,4 +42,10 @@ public class OrderController {
     public ServiceResponse<PageResponse<OrderFilterResponse>> filter(OrderParam param, Pageable pageable) {
         return ServiceResponse.ok(orderService.filter(param, pageable));
     }
+
+    @GetMapping("/my-orders")
+    @Operation(summary = "Danh sách đơn hàng của người dùng hiện tại")
+    public ServiceResponse<PageResponse<OrderFilterResponse>> filterMyOrder(OrderParam param, Pageable pageable) {
+        return ServiceResponse.ok(orderService.filterMyOrder(param, pageable));
+    }
 }

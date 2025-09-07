@@ -31,4 +31,26 @@ public class OrderSpecification {
             return predicate;
         };
     }
+
+    public static Specification<Order> filterSpecMyOrder(OrderParam param, String username) {
+        return (Root<Order> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
+            Predicate predicate = cb.conjunction();
+
+            predicate = cb.and(predicate, cb.equal(root.get("createdBy"), username));
+
+            if (Objects.nonNull(param.getCode())) {
+                predicate = cb.and(predicate, cb.equal(root.get("code"), param.getCode()));
+            }
+
+            if (StringUtils.isNotEmpty(param.getPhoneNumber())) {
+                predicate = cb.and(predicate, cb.equal(root.get("phoneNumber"), param.getPhoneNumber()));
+            }
+
+            if (Objects.nonNull(param.getStatus())) {
+                predicate = cb.and(predicate, cb.equal(root.get("status"), param.getStatus()));
+            }
+
+            return predicate;
+        };
+    }
 }

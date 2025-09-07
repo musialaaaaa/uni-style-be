@@ -1,5 +1,6 @@
 package org.example.uni_style_be.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.example.uni_style_be.model.filter.CouponParam;
 import org.example.uni_style_be.model.request.CouponRequest;
@@ -17,6 +18,7 @@ import java.math.BigDecimal;
 @RestController
 @RequestMapping("/api/coupons")
 @RequiredArgsConstructor
+@Tag(name = "Api mã khuyến mại")
 public class CouponController {
 
     private final CouponService couponService;

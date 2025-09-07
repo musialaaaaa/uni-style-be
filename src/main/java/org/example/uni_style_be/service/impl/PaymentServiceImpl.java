@@ -39,6 +39,12 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public PayOSWebhookResponse payOSWebhook(Webhook webhook) {
+
+        // Khi khởi động PayOS sẽ gửi reference như dưới để check kết nối, return luôn để tránh exception
+        if (webhook != null && "TF230204212323".equals(webhook.getData().getReference())) {
+            return new PayOSWebhookResponse();
+        }
+
         try {
             WebhookData webhookData = payOS.verifyPaymentWebhookData(webhook);
             Order order = orderRepository.findByCode(webhookData.getOrderCode())
@@ -87,7 +93,7 @@ public class PaymentServiceImpl implements PaymentService {
             log.info("PayOS Webhook đã cấu hình thành công tại: {}", result);
         } catch (Exception e) {
             log.error("Cấu hình PayOS Webhook thất bại", e);
-//            System.exit(1);
+            System.exit(1);
         }
     }
 }

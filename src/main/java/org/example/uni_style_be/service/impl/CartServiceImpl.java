@@ -9,9 +9,10 @@ import org.example.uni_style_be.entities.ProductDetail;
 import org.example.uni_style_be.enums.InvalidInputError;
 import org.example.uni_style_be.enums.UnauthorizedError;
 import org.example.uni_style_be.exception.ResponseException;
+import org.example.uni_style_be.mapper.ImageMapper;
+import org.example.uni_style_be.mapper.ProductMapper;
 import org.example.uni_style_be.model.request.AddToCartRequest;
-import org.example.uni_style_be.model.response.CartResponse;
-import org.example.uni_style_be.model.response.ProductDetailResponse;
+import org.example.uni_style_be.model.response.*;
 import org.example.uni_style_be.repositories.CartDetailRepository;
 import org.example.uni_style_be.repositories.CartRepository;
 import org.example.uni_style_be.repositories.ProductDetailRepository;
@@ -33,6 +34,8 @@ public class CartServiceImpl implements CartService {
     CartRepository cartRepository;
     CartDetailRepository cartDetailRepository;
     ProductDetailRepository productDetailRepository;
+    ProductMapper productMapper;
+    ImageMapper imageMapper;
 
     @Transactional
     @Override
@@ -168,10 +171,26 @@ public class CartServiceImpl implements CartService {
             productDetailResponse.setQuantity(productDetail.getQuantity());
             productDetailResponse.setPrice(productDetail.getPrice().doubleValue());
             productDetailResponse.setDescription(productDetail.getDescription());
-//            productDetailResponse.setProduct(productDetail.getProduct());
-//            productDetailResponse.setMaterialName(productDetail.getMaterial().getName());
-//            productDetailResponse.setColorName(productDetail.getColor().getName());
-//            productDetailResponse.setSizeName(productDetail.getSize().getName());
+            productDetailResponse.setProduct(productMapper.toProductResponse(productDetail.getProduct()));
+            productDetailResponse.setImages(imageMapper.toImageResponse(productDetail.getImages()));
+
+            MaterialResponse material = new MaterialResponse();
+            material.setId(productDetail.getMaterial().getId());
+            material.setName(productDetail.getMaterial().getName());
+            material.setCode(productDetail.getMaterial().getCode());
+            productDetailResponse.setMaterial(material);
+
+            ColorResponse color = new ColorResponse();
+            color.setId(productDetail.getColor().getId());
+            color.setName(productDetail.getColor().getName());
+            color.setCode(productDetail.getColor().getCode());
+            productDetailResponse.setColor(color);
+
+            SizeResponse size = new SizeResponse();
+            size.setId(productDetail.getSize().getId());
+            size.setName(productDetail.getSize().getName());
+            size.setCode(productDetail.getSize().getCode());
+            productDetailResponse.setSize(size);
 
             cartResponse.setProductDetail(productDetailResponse);
             cartResponses.add(cartResponse);

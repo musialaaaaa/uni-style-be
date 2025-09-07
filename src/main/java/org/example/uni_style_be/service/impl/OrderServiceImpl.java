@@ -267,6 +267,16 @@ public class OrderServiceImpl implements OrderService {
         return new PageResponse<>(page.getTotalElements(), orderMapper.toOrderFilterResponse(rows));
     }
 
+    @Override
+    public PageResponse<OrderFilterResponse> filterMyOrder(OrderParam param, Pageable pageable) {
+       String currentUsername = SecurityUtils.getCurrentUsername()
+               .orElseThrow(() -> new ResponseException(UnauthorizedError.UNAUTHORIZED));
+        Specification<Order> orderSpec = OrderSpecification.filterSpecMyOrder(param, currentUsername);
+        Page<Order> page = orderRepository.findAll(orderSpec, pageable);
+        List<Order> rows = page.getContent();
+        return new PageResponse<>(page.getTotalElements(), orderMapper.toOrderFilterResponse(rows));
+    }
+
     @Scheduled(fixedRate = 60000)
     @Transactional(propagation = Propagation.REQUIRED)
     public void cancelOrderJob() {
