@@ -31,4 +31,8 @@ public class SecurityUtils {
     public static Optional<Long> getCurrentAccountId() {
         return getCurrentAccount().map(Account::getId);
     }
+
+    public static Optional<String> getCurrentUsername() {
+        return getCurrentAccount().map(Account::getUsername);
+    }
 }

@@ -21,4 +21,6 @@ public interface OrderService {
     OrderResponse detail(Long id);
 
     PageResponse<OrderFilterResponse> filter(OrderParam param, Pageable pageable);
+
+    PageResponse<OrderFilterResponse> filterMyOrder(OrderParam param, Pageable pageable);
 }
