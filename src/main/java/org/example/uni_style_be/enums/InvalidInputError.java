@@ -27,7 +27,10 @@ public enum InvalidInputError implements ResponseError {
     PASSWORD_NOT_MATCH("Mật khẩu không khớp"),
     ACCOUNT_EXIST("Tên tài khoản đã tồn tại"),
     CATEGORY_USING("Không thể thực hiện thao tác này do danh mục đang được sử dụng"),
-    ONLY_DELETE_STAFF_ACCOUNT("Chỉ có thể xoá tài khoản của nhân viên");
+    ONLY_DELETE_STAFF_ACCOUNT("Chỉ có thể xoá tài khoản của nhân viên"),
+    START_TIME_GR_END_TIME("Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc"),
+    INVALID_DATE("Định dạng ngày không đúng, yêu cầu yyyy-MM-dd")
+    ;
 
     private final String message;
 

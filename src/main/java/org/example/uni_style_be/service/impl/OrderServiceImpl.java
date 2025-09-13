@@ -193,6 +193,9 @@ public class OrderServiceImpl implements OrderService {
                 log.error(e.getMessage(), e);
                 throw new ResponseException(InternalServerError.INTERNAL_SERVER_ERROR);
             }
+        } else if (Objects.equals(request.getPaymentMethod(), PaymentMethod.CASH)) {
+            payment.setStatus(PaymentStatus.CONFIRMED);
+            payment.setPaymentTime(LocalDateTime.now());
         }
 
         // Update database
