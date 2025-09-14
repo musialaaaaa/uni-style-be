@@ -8,8 +8,10 @@ import org.example.uni_style_be.entities.*;
 import org.example.uni_style_be.enums.*;
 import org.example.uni_style_be.exception.ResponseException;
 import org.example.uni_style_be.mapper.OrderMapper;
+import org.example.uni_style_be.model.CartStoreDto;
 import org.example.uni_style_be.model.filter.OrderParam;
 import org.example.uni_style_be.model.request.CreateOderRequest;
+import org.example.uni_style_be.model.request.OrderStoreRequest;
 import org.example.uni_style_be.model.response.CreateOrderResponse;
 import org.example.uni_style_be.model.response.OrderFilterResponse;
 import org.example.uni_style_be.model.response.OrderResponse;
@@ -98,6 +100,7 @@ public class OrderServiceImpl implements OrderService {
                 .phoneNumber(request.getPhoneNumber())
                 .account(currentAccount)
                 .coupon(coupon)
+                .note(request.getNote())
                 .build();
         order = orderRepository.save(order);
 
@@ -193,6 +196,10 @@ public class OrderServiceImpl implements OrderService {
                 log.error(e.getMessage(), e);
                 throw new ResponseException(InternalServerError.INTERNAL_SERVER_ERROR);
             }
+        } else if (Objects.equals(request.getPaymentMethod(), PaymentMethod.CASH)) {
+            payment.setStatus(PaymentStatus.CONFIRMED);
+            payment.setPaymentTime(LocalDateTime.now());
+            order.setStatus(OrderStatus.CONFIRMED);
         }
 
         // Update database
@@ -200,6 +207,169 @@ public class OrderServiceImpl implements OrderService {
             couponRepository.save(coupon);
         }
         cartDetailRepository.deleteAll(cartDetails);
+        productDetailRepository.saveAll(productDetails);
+        payment = paymentRepository.save(payment);
+        order = orderRepository.save(order);
+        orderDetailRepository.saveAll(orderDetails);
+
+        return CreateOrderResponse.builder()
+                .id(order.getId())
+                .code(order.getCode())
+                .totalAmount(order.getTotalAmount())
+                .checkoutUrl(payment.getCheckoutUrl())
+                .qrCode(payment.getQrCode())
+                .build();
+    }
+
+
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Override
+    public CreateOrderResponse orderAtStore(OrderStoreRequest request) {
+
+        // Lấy account đang đăng nhập
+        Account currentAccount = SecurityUtils.getCurrentAccount()
+                .orElseThrow(() -> new ResponseException(UnauthorizedError.UNAUTHORIZED));
+//        Long accountId = currentAccount.getId();
+//
+//        // Lấy giỏ hàng của account đang đăng nhập
+//        Cart cart = cartRepository.findByAccountId(accountId)
+//                .orElseThrow(() -> new ResponseException(NotFoundError.CART_NOT_FOUND));
+//        Long cartId = cart.getId();
+//        List<CartDetail> cartDetails = cartDetailRepository.findByCartId(cartId);
+//
+//        if (CollectionUtils.isEmpty(cartDetails)) {
+//            throw new ResponseException(InvalidInputError.CART_DETAIL_NOT_FOUND);
+//        }
+
+        // Lấy mã giảm giá
+        Coupon coupon = null;
+        if (Objects.nonNull(request.getCouponId())) {
+            coupon = couponRepository.findById(request.getCouponId())
+                    .orElseThrow(() -> new ResponseException(InvalidInputError.COUPON_NOT_FOUND));
+
+            if (coupon.getExpirationDate().isBefore(LocalDate.now()) || coupon.getUsed() >= coupon.getUsageLimit()) {
+                throw new ResponseException(InvalidInputError.COUPON_EXPIRED);
+            }
+            coupon.setUsed(coupon.getUsed() + 1);
+        }
+
+        // Khởi tạo đơn hàng
+        Long orderCode = generateOrderCode();
+        Order order = Order.builder()
+                .code(orderCode)
+                .totalAmount(BigDecimal.ZERO)
+                .status(OrderStatus.PENDING)
+                .fullName("Khách đặt tại quầy")
+                .shippingAddress("Khách đặt tại quầy")
+                .phoneNumber("")
+                .account(currentAccount)
+                .coupon(coupon)
+                .note(request.getNote())
+                .build();
+        order = orderRepository.save(order);
+
+        // Tính tiền
+        int totalAmount = 0;
+        List<ItemData> items = new ArrayList<>();
+        List<OrderDetail> orderDetails = new ArrayList<>();
+        List<ProductDetail> productDetails = new ArrayList<>();
+
+        for (CartStoreDto cartStore : request.getCart()) {
+            ProductDetail productDetail = productDetailRepository.findById(cartStore.getProductDetailId()).orElse(null);
+            if (Objects.isNull(productDetail)) continue;
+            String name = productDetail.getProduct().getName() + " - " + productDetail.getName();
+
+            // Kiểm tra còn hàng không
+            if (productDetail.getQuantity() < cartStore.getQuantity()) {
+                throw new ResponseException(InvalidInputError.PRODUCT_QUANTITY_IS_NOT_ENOUGH, name, productDetail.getQuantity());
+            }
+            Integer price = productDetail.getPrice().intValue();
+
+            OrderDetail orderDetail = OrderDetail.builder()
+                    .quantity(cartStore.getQuantity())
+                    .priceAtTime(productDetail.getPrice())
+                    .productDetail(productDetail)
+                    .order(order)
+                    .build();
+
+            ItemData item = ItemData.builder()
+                    .name(name)
+                    .quantity(cartStore.getQuantity())
+                    .price(price)
+                    .build();
+
+            // Trừ hàng còn lại trong kho
+            productDetail.setQuantity(productDetail.getQuantity() - cartStore.getQuantity());
+
+            totalAmount += (price * cartStore.getQuantity());
+            orderDetails.add(orderDetail);
+            items.add(item);
+            productDetails.add(productDetail);
+        }
+
+        if (CollectionUtils.isEmpty(orderDetails)) {
+            throw new ResponseException(InvalidInputError.CART_DETAIL_NOT_FOUND);
+        }
+
+        // Tính giảm giá
+        if (Objects.nonNull(coupon)) {
+            switch (coupon.getDiscountType()) {
+                case VALUE -> totalAmount -= coupon.getValue().intValue();
+                case PERCENT -> {
+                    double discountPercentage = coupon.getValue().doubleValue();
+                    double discountAmount = Math.round(totalAmount * discountPercentage / 100);
+                    totalAmount -= (int) discountAmount;
+                }
+            }
+        }
+
+        totalAmount = Math.max(totalAmount, 0);
+        order.setTotalAmount(BigDecimal.valueOf(totalAmount));
+
+        Payment payment = Payment.builder()
+                .order(order)
+                .paymentMethod(request.getPaymentMethod())
+                .status(PaymentStatus.PENDING)
+                .paymentAmount(BigDecimal.valueOf(totalAmount))
+                .build();
+
+        if (Objects.requireNonNull(request.getPaymentMethod()) == PaymentMethod.BANK_TRANSFER) {
+            long currentTimestamp = Instant.now().getEpochSecond();
+            long timestampPlus10Min = (currentTimestamp + 600); // Đơn hàng hết hạn sau 10 phút
+            PaymentData paymentData = PaymentData.builder()
+                    .orderCode(orderCode)
+                    .amount(totalAmount)
+                    .description("Thanh toan " + orderCode)
+                    .items(items)
+                    .cancelUrl(request.getCancelUrl())
+                    .returnUrl(request.getReturnUrl())
+                    .expiredAt(timestampPlus10Min)
+                    .build();
+
+            try {
+                CheckoutResponseData checkoutResponseData = payOS.createPaymentLink(paymentData);
+                payment.setCheckoutUrl(checkoutResponseData.getCheckoutUrl());
+                payment.setQrCode(checkoutResponseData.getQrCode());
+                payment.setPartnerStatus(checkoutResponseData.getStatus());
+                payment.setPaymentLinkId(checkoutResponseData.getPaymentLinkId());
+                order.setExpiredAt(LocalDateTime.ofInstant(
+                        Instant.ofEpochSecond(timestampPlus10Min),
+                        ZoneId.systemDefault()
+                ));
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
+                throw new ResponseException(InternalServerError.INTERNAL_SERVER_ERROR);
+            }
+        } else if (Objects.equals(request.getPaymentMethod(), PaymentMethod.CASH)) {
+            payment.setStatus(PaymentStatus.CONFIRMED);
+            payment.setPaymentTime(LocalDateTime.now());
+            order.setStatus(OrderStatus.CONFIRMED);
+        }
+
+        // Update database
+        if (Objects.nonNull(coupon)) {
+            couponRepository.save(coupon);
+        }
         productDetailRepository.saveAll(productDetails);
         payment = paymentRepository.save(payment);
         order = orderRepository.save(order);
@@ -269,8 +439,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public PageResponse<OrderFilterResponse> filterMyOrder(OrderParam param, Pageable pageable) {
-       String currentUsername = SecurityUtils.getCurrentUsername()
-               .orElseThrow(() -> new ResponseException(UnauthorizedError.UNAUTHORIZED));
+        String currentUsername = SecurityUtils.getCurrentUsername()
+                .orElseThrow(() -> new ResponseException(UnauthorizedError.UNAUTHORIZED));
         Specification<Order> orderSpec = OrderSpecification.filterSpecMyOrder(param, currentUsername);
         Page<Order> page = orderRepository.findAll(orderSpec, pageable);
         List<Order> rows = page.getContent();

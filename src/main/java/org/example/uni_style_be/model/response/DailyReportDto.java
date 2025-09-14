@@ -4,23 +4,17 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CreateOrderResponse {
+public class DailyReportDto {
 
-    Long id;
+    LocalDate date;
 
-    Long code;
-
-    BigDecimal totalAmount;
-
-    String checkoutUrl;
-
-    String qrCode;
-
+    BigDecimal revenue = BigDecimal.ZERO;
 }

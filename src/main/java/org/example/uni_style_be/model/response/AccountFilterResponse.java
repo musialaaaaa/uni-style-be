@@ -11,6 +11,8 @@ import org.example.uni_style_be.enums.AccountType;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AccountFilterResponse {
 
+    Long id;
+
     String username;
 
     String fullName;

@@ -19,5 +19,7 @@ public interface CouponService {
 
     CouponResponse detail(Long id);
 
+    CouponResponse getByCode(String code);
+
     BigDecimal applyDiscount(String code, BigDecimal total);
 }
