@@ -40,6 +40,9 @@ public class Order extends BaseEntity {
 
     LocalDateTime expiredAt;
 
+    @Column(columnDefinition = "TEXT")
+    String note;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
     Account account;

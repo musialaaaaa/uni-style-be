@@ -32,4 +32,6 @@ public class CreateOderRequest {
 
     @Size(max = 255)
     String cancelUrl;
+
+    String note;
 }

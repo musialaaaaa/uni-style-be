@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.uni_style_be.model.filter.OrderParam;
 import org.example.uni_style_be.model.request.CreateOderRequest;
+import org.example.uni_style_be.model.request.OrderStoreRequest;
 import org.example.uni_style_be.model.response.*;
 import org.example.uni_style_be.service.OrderService;
 import org.springframework.data.domain.Pageable;
@@ -47,5 +48,11 @@ public class OrderController {
     @Operation(summary = "Danh sách đơn hàng của người dùng hiện tại")
     public ServiceResponse<PageResponse<OrderFilterResponse>> filterMyOrder(OrderParam param, Pageable pageable) {
         return ServiceResponse.ok(orderService.filterMyOrder(param, pageable));
+    }
+
+    @PostMapping("at-store")
+    @Operation(summary = "Đặt hàng tại quầy")
+    public ServiceResponse<CreateOrderResponse> orderAtStore(@RequestBody @Valid OrderStoreRequest request) {
+        return ServiceResponse.ok(orderService.orderAtStore(request));
     }
 }

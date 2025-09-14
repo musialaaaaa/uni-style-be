@@ -80,7 +80,7 @@ public class ProductDetailServiceImpl implements ProductDetailService {
     public Page<ProductDetailResponse> filter(ProductDetailParam param, Pageable pageable) {
         Specification<ProductDetail> prDetailSpec = ProductDetailSpecification.filterSpec(param);
         Page<ProductDetail> productDetailPage = productDetailRepository.findAll(prDetailSpec, pageable);
-        return productDetailPage.map(product -> objectMapper.convertValue(product, ProductDetailResponse.class));
+        return productDetailPage.map(productDetailMapper::toProductDetailResponse);
     }
 
     @Override

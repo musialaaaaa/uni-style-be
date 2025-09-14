@@ -23,5 +23,4 @@ public class CreateOrderResponse {
 
     String qrCode;
 
-
 }

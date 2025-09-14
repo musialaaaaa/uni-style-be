@@ -2,6 +2,7 @@ package org.example.uni_style_be.service;
 
 import org.example.uni_style_be.model.filter.OrderParam;
 import org.example.uni_style_be.model.request.CreateOderRequest;
+import org.example.uni_style_be.model.request.OrderStoreRequest;
 import org.example.uni_style_be.model.response.CreateOrderResponse;
 import org.example.uni_style_be.model.response.OrderFilterResponse;
 import org.example.uni_style_be.model.response.OrderResponse;
@@ -14,6 +15,9 @@ public interface OrderService {
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     CreateOrderResponse createOrder(CreateOderRequest request);
+
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    CreateOrderResponse orderAtStore(OrderStoreRequest request);
 
     @Transactional
     Void cancelOrder(Long orderCode);

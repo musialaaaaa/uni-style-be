@@ -59,5 +59,11 @@ public class CouponController {
     ) {
         return ResponseEntity.ok(couponService.applyDiscount(code, total));
     }
+
+    @GetMapping("/code/{code}")
+    public ServiceResponse<CouponResponse> getByCode(@PathVariable String code) {
+        return ServiceResponse.ok(couponService.getByCode(code));
+    }
+
 }
 

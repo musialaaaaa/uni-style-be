@@ -29,7 +29,8 @@ public enum InvalidInputError implements ResponseError {
     CATEGORY_USING("Không thể thực hiện thao tác này do danh mục đang được sử dụng"),
     ONLY_DELETE_STAFF_ACCOUNT("Chỉ có thể xoá tài khoản của nhân viên"),
     START_TIME_GR_END_TIME("Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc"),
-    INVALID_DATE("Định dạng ngày không đúng, yêu cầu yyyy-MM-dd")
+    INVALID_DATE("Định dạng ngày không đúng, yêu cầu yyyy-MM-dd"),
+    COUPON_HAS_EXIST("Mã giảm giá đã tồn tại"),
     ;
 
     private final String message;

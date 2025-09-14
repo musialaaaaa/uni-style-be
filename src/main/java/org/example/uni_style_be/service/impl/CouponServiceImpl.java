@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.uni_style_be.entities.Coupon;
 import org.example.uni_style_be.enums.CommonError;
 import org.example.uni_style_be.enums.DiscountType;
+import org.example.uni_style_be.enums.InvalidInputError;
 import org.example.uni_style_be.enums.NotFoundError;
 import org.example.uni_style_be.exception.ResponseException;
 import org.example.uni_style_be.mapper.CouponMapper;
@@ -35,6 +36,9 @@ public class CouponServiceImpl implements CouponService {
     @Override
     @Transactional
     public CouponResponse create(CouponRequest request) {
+        if (couponRepo.existsByCodeIgnoreCase(request.getCode())) {
+            throw new ResponseException(InvalidInputError.COUPON_HAS_EXIST);
+        }
         Coupon coupon = couponMapper.toCoupon(request);
         Coupon result = couponRepo.save(coupon);
         return couponMapper.toCouponResponse(result);
@@ -43,6 +47,9 @@ public class CouponServiceImpl implements CouponService {
     @Override
     public CouponResponse update(Long id, CouponRequest request) {
         Coupon coupon = findById(id);
+        if (couponRepo.existsByCodeIgnoreCaseAndIdNot(request.getCode(), id)) {
+            throw new ResponseException(InvalidInputError.COUPON_HAS_EXIST);
+        }
         try {
             objectMapper.updateValue(coupon, request);
         } catch (JsonMappingException e) {
@@ -68,6 +75,13 @@ public class CouponServiceImpl implements CouponService {
     @Override
     public CouponResponse detail(Long id) {
         Coupon coupon = findById(id);
+        return couponMapper.toCouponResponse(coupon);
+    }
+
+    @Override
+    public CouponResponse getByCode(String code) {
+        Coupon coupon = couponRepo.findFirstByCodeIgnoreCase(code)
+                .orElseThrow(() -> new ResponseException(InvalidInputError.COUPON_NOT_FOUND));
         return couponMapper.toCouponResponse(coupon);
     }
 
