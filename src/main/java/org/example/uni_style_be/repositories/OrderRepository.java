@@ -29,5 +29,7 @@ public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecific
             @NonNull Instant createdAtEnd
     );
 
+    boolean existsByCoupon_Id(Long id);
+
 
 }

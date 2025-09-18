@@ -6,11 +6,13 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.example.uni_style_be.entities.Size;
+import org.example.uni_style_be.enums.InvalidInputError;
 import org.example.uni_style_be.enums.NotFoundError;
 import org.example.uni_style_be.exception.ResponseException;
 import org.example.uni_style_be.model.filter.SizeParam;
 import org.example.uni_style_be.model.request.SizeRequest;
 import org.example.uni_style_be.model.response.SizeResponse;
+import org.example.uni_style_be.repositories.ProductDetailRepository;
 import org.example.uni_style_be.repositories.SizeRepository;
 import org.example.uni_style_be.repositories.specification.SizeSpecification;
 import org.example.uni_style_be.service.SizeService;
@@ -29,6 +31,7 @@ public class SizeServiceImpl implements SizeService {
 
     SizeRepository sizeRepository;
     ObjectMapper objectMapper;
+    ProductDetailRepository productDetailRepository;
 
     @Override
     @Transactional
@@ -48,6 +51,9 @@ public class SizeServiceImpl implements SizeService {
 
     @Override
     public void delete(Long id) {
+        if (productDetailRepository.existsBySize_Id(id)) {
+            throw new ResponseException(InvalidInputError.SIZE_HAS_PRODUCT);
+        }
         sizeRepository.deleteById(id);
     }
 

@@ -14,4 +14,11 @@ public interface ProductDetailRepository
     @Query("SELECT COALESCE(MAX(m.id), 0) + 1 FROM ProductDetail m")
     Long getNextSeq();
 
+    boolean existsByColor_Id(Long id);
+
+    boolean existsByMaterial_Id(Long id);
+
+    boolean existsBySize_Id(Long id);
+
+
 }

@@ -15,6 +15,7 @@ import org.example.uni_style_be.model.filter.CouponParam;
 import org.example.uni_style_be.model.request.CouponRequest;
 import org.example.uni_style_be.model.response.CouponResponse;
 import org.example.uni_style_be.repositories.CouponRepository;
+import org.example.uni_style_be.repositories.OrderRepository;
 import org.example.uni_style_be.repositories.specification.CouponSpecification;
 import org.example.uni_style_be.service.CouponService;
 import org.springframework.data.domain.Page;
@@ -32,6 +33,7 @@ public class CouponServiceImpl implements CouponService {
     private final CouponRepository couponRepo;
     private final ObjectMapper objectMapper;
     private final CouponMapper couponMapper;
+    private final OrderRepository orderRepository;
 
     @Override
     @Transactional
@@ -62,6 +64,9 @@ public class CouponServiceImpl implements CouponService {
     @Override
     public void delete(Long id) {
         findById(id);
+        if (orderRepository.existsByCoupon_Id(id)) {
+            throw new ResponseException(InvalidInputError.COUPON_HAS_ORDER);
+        }
         couponRepo.deleteById(id);
     }
 

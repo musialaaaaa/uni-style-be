@@ -17,9 +17,11 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Cart extends BaseEntity {
 
-    @Column(nullable = false, name = "account_id", unique = true)
-    Long accountId;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
+    Account account;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
     List<CartDetail> cartDetails = new ArrayList<>();
+
 }

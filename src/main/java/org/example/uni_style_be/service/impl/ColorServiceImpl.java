@@ -4,12 +4,14 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.example.uni_style_be.entities.Color;
+import org.example.uni_style_be.enums.InvalidInputError;
 import org.example.uni_style_be.enums.NotFoundError;
 import org.example.uni_style_be.exception.ResponseException;
 import org.example.uni_style_be.model.filter.ColorParam;
 import org.example.uni_style_be.model.request.ColorRequest;
 import org.example.uni_style_be.model.response.ColorResponse;
 import org.example.uni_style_be.repositories.ColorRepository;
+import org.example.uni_style_be.repositories.ProductDetailRepository;
 import org.example.uni_style_be.repositories.specification.ColorSpecification;
 import org.example.uni_style_be.service.ColorService;
 import org.springframework.data.domain.Page;
@@ -24,6 +26,7 @@ public class ColorServiceImpl implements ColorService {
     private final ColorRepository colorRepository;
     private final ObjectMapper objectMapper;
     private final String PREFIX_CODE = "CL";
+    private final ProductDetailRepository productDetailRepository;
 
     @Override
     @Transactional
@@ -43,6 +46,11 @@ public class ColorServiceImpl implements ColorService {
 
     @Override
     public void delete(Long id) {
+
+        if (productDetailRepository.existsByColor_Id(id)) {
+            throw new ResponseException(InvalidInputError.COLOR_HAS_PRODUCT);
+        }
+
         colorRepository.deleteById(id);
     }
 

@@ -10,4 +10,9 @@ import org.springframework.stereotype.Repository;
 public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long>, JpaSpecificationExecutor<OrderDetail> {
     @Query("SELECT COALESCE(MAX(od.id), 0) + 1 FROM OrderDetail od")
     Long getNextSeq();
+
+    boolean existsByProductDetail_Product_Id(Long id);
+
+    boolean existsByProductDetail_Id(Long id);
+
 }
