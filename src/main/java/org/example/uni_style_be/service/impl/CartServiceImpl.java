@@ -3,6 +3,7 @@ package org.example.uni_style_be.service.impl;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.example.uni_style_be.entities.Account;
 import org.example.uni_style_be.entities.Cart;
 import org.example.uni_style_be.entities.CartDetail;
 import org.example.uni_style_be.entities.ProductDetail;
@@ -64,8 +65,10 @@ public class CartServiceImpl implements CartService {
         Optional<Cart> optionalCart = cartRepository.findByAccountId(accountId);
         Cart cart;
         if (optionalCart.isEmpty()) {
+            Account accountCart = new Account();
+            accountCart.setId(accountId);
             Cart cartToSave = Cart.builder()
-                    .accountId(accountId)
+                    .account(accountCart)
                     .build();
             cart = cartRepository.save(cartToSave);
 

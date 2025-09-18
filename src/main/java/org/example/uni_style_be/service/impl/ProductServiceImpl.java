@@ -19,6 +19,7 @@ import org.example.uni_style_be.model.response.ProductDetailResponse;
 import org.example.uni_style_be.model.response.ProductDetailShopResponse;
 import org.example.uni_style_be.model.response.ProductResponse;
 import org.example.uni_style_be.repositories.CategoryRepository;
+import org.example.uni_style_be.repositories.OrderDetailRepository;
 import org.example.uni_style_be.repositories.ProductRepository;
 import org.example.uni_style_be.repositories.specification.ProductSpecification;
 import org.example.uni_style_be.service.ProductService;
@@ -43,6 +44,7 @@ public class ProductServiceImpl implements ProductService {
     ProductMapper productMapper;
     CategoryRepository categoryRepository;
     ProductDetailMapper productDetailMapper;
+    OrderDetailRepository orderDetailRepository;
 
     @Override
     public ProductResponse create(ProductRequest rq) {
@@ -75,6 +77,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Void delete(Long id) {
+        if (orderDetailRepository.existsByProductDetail_Product_Id(id)) {
+            throw new ResponseException(InvalidInputError.PRODUCT_HAS_ORDER);
+        }
         productRepository.deleteById(id);
         return null;
     }

@@ -11,7 +11,7 @@ public class AddToCartRequest {
     @NotNull(message = "Bạn phải chọn sản phẩm")
     private Long productDetailId;
     @NotNull(message = "Vui lòng chọn số lượng")
-    @Min(value = 1, message = "Vui lòng đặt ít nhất một sản phẩm")
+    @Min(value = 0, message = "Vui lòng đặt ít nhất một sản phẩm")
     private Integer quantity;
 
 }

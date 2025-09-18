@@ -31,6 +31,12 @@ public enum InvalidInputError implements ResponseError {
     START_TIME_GR_END_TIME("Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc"),
     INVALID_DATE("Định dạng ngày không đúng, yêu cầu yyyy-MM-dd"),
     COUPON_HAS_EXIST("Mã giảm giá đã tồn tại"),
+    COLOR_HAS_PRODUCT("Đang có sản phẩm sử dụng màu sắc này"),
+    COUPON_HAS_ORDER("Đang có đơn hàng sử dụng mã giảm giá này"),
+    MATERIAL_HAS_PRODUCT("Đang có sản phẩm sử dụng chất liệu này"),
+    PRODUCT_HAS_ORDER("Sản phẩm này đã có đơn hàng"),
+    PRODUCT_DETAIL_HAS_ORDER("Sản phẩm chi tiết này đã có đơn hàng"),
+    SIZE_HAS_PRODUCT("Kích thước này đã có sản phẩm")
     ;
 
     private final String message;
