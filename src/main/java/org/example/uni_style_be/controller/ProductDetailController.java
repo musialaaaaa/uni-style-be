@@ -4,9 +4,9 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.uni_style_be.entities.ProductDetail;
 import org.example.uni_style_be.model.filter.ProductDetailParam;
 import org.example.uni_style_be.model.request.ProductDetailRequest;
+import org.example.uni_style_be.model.response.ProductDetailDetailResponse;
 import org.example.uni_style_be.model.response.ProductDetailResponse;
 import org.example.uni_style_be.service.ProductDetailService;
 import org.example.uni_style_be.utils.PageUtils;
@@ -42,7 +42,7 @@ public class ProductDetailController {
     }
 
     @GetMapping("/{id}")
-    public ProductDetail findById(@PathVariable Long id) {
-        return productDetailService.findById(id);
+    public ProductDetailDetailResponse detail(@PathVariable Long id) {
+        return productDetailService.detail(id);
     }
 }
