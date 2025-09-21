@@ -14,6 +14,7 @@ import org.example.uni_style_be.exception.ResponseException;
 import org.example.uni_style_be.mapper.ProductDetailMapper;
 import org.example.uni_style_be.model.filter.ProductDetailParam;
 import org.example.uni_style_be.model.request.ProductDetailRequest;
+import org.example.uni_style_be.model.response.ProductDetailDetailResponse;
 import org.example.uni_style_be.model.response.ProductDetailResponse;
 import org.example.uni_style_be.repositories.ImageRepository;
 import org.example.uni_style_be.repositories.OrderDetailRepository;
@@ -75,7 +76,9 @@ public class ProductDetailServiceImpl implements ProductDetailService {
         List<Image> images = imageRepository.findAllById(productDetailRequest.getImageIds());
         prDetail.setImages(images);
 
-        return objectMapper.convertValue(productDetailRepository.save(prDetail), ProductDetailResponse.class);
+        ProductDetail productDetailSaved = productDetailRepository.save(prDetail);
+
+        return productDetailMapper.toProductDetailResponse(productDetailSaved);
     }
 
     @Override
@@ -94,7 +97,12 @@ public class ProductDetailServiceImpl implements ProductDetailService {
     }
 
     @Override
-    public ProductDetail findById(Long id) {
+    public ProductDetailDetailResponse detail(Long id) {
+        ProductDetail productDetail = findById(id);
+        return productDetailMapper.toProductDetailDetailResponse(productDetail);
+    }
+
+    private ProductDetail findById(Long id) {
         return productDetailRepository
                 .findById(id)
                 .orElseThrow(() -> new ResponseException(NotFoundError.PRODUCT_DETAIL_NOT_FOUND));

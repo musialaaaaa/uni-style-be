@@ -25,4 +25,6 @@ public class OrderFilterResponse extends BaseResponse {
 
     String fullName;
 
+    CouponResponse coupon;
+
 }
