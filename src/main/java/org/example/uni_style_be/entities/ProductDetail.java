@@ -60,6 +60,8 @@ public class ProductDetail extends BaseEntity {
 
     @PrePersist
     void prePersist() {
-        this.status = ProductDetailStatus.INACTIVE;
+        if (this.status == null) {
+            this.status = ProductDetailStatus.INACTIVE;
+        }
     }
 }
