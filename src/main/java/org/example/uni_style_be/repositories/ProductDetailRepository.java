@@ -1,6 +1,7 @@
 package org.example.uni_style_be.repositories;
 
 import org.example.uni_style_be.entities.ProductDetail;
+import org.example.uni_style_be.enums.ProductDetailStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -20,5 +21,6 @@ public interface ProductDetailRepository
 
     boolean existsBySize_Id(Long id);
 
+    boolean existsByProduct_IdAndStatus(Long id, ProductDetailStatus status);
 
 }
