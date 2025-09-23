@@ -10,6 +10,8 @@ import org.example.uni_style_be.entities.Product;
 import org.example.uni_style_be.entities.ProductDetail;
 import org.example.uni_style_be.enums.InvalidInputError;
 import org.example.uni_style_be.enums.NotFoundError;
+import org.example.uni_style_be.enums.ProductDetailStatus;
+import org.example.uni_style_be.enums.ProductStatus;
 import org.example.uni_style_be.exception.ResponseException;
 import org.example.uni_style_be.mapper.ProductDetailMapper;
 import org.example.uni_style_be.mapper.ProductMapper;
@@ -20,6 +22,7 @@ import org.example.uni_style_be.model.response.ProductDetailShopResponse;
 import org.example.uni_style_be.model.response.ProductResponse;
 import org.example.uni_style_be.repositories.CategoryRepository;
 import org.example.uni_style_be.repositories.OrderDetailRepository;
+import org.example.uni_style_be.repositories.ProductDetailRepository;
 import org.example.uni_style_be.repositories.ProductRepository;
 import org.example.uni_style_be.repositories.specification.ProductSpecification;
 import org.example.uni_style_be.service.ProductService;
@@ -45,6 +48,7 @@ public class ProductServiceImpl implements ProductService {
     CategoryRepository categoryRepository;
     ProductDetailMapper productDetailMapper;
     OrderDetailRepository orderDetailRepository;
+    ProductDetailRepository productDetailRepository;
 
     @Override
     public ProductResponse create(ProductRequest rq) {
@@ -64,6 +68,13 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponse update(Long id, ProductRequest rq) throws JsonMappingException {
         Product product = findById(id);
+
+        if (
+                ProductStatus.ACTIVE.equals(rq.getStatus()) &&
+                        !productDetailRepository.existsByProduct_IdAndStatus(id, ProductDetailStatus.ACTIVE)
+        ) {
+            throw new ResponseException(InvalidInputError.NO_PRODUCT_DETAIL_ACTIVE);
+        }
 
         Category category = categoryRepository.findById(rq.getCategoryId())
                 .orElseThrow(() -> new ResponseException(InvalidInputError.CATEGORY_NOT_FOUND));
@@ -101,7 +112,9 @@ public class ProductServiceImpl implements ProductService {
     public ProductDetailShopResponse detailShop(Long id) {
         Product product = findById(id);
         ProductDetailShopResponse response = productMapper.toProductDetailShopResponse(product);
-        List<ProductDetailResponse> productDetails = productDetailMapper.toProductDetailResponse(product.getProductDetails());
+        List<ProductDetail> productDetailsActive = product.getProductDetails().stream()
+                .filter(pd -> ProductDetailStatus.ACTIVE.equals(pd.getStatus())).toList();
+        List<ProductDetailResponse> productDetails = productDetailMapper.toProductDetailResponse(productDetailsActive);
         response.setProductDetails(productDetails);
         return response;
     }

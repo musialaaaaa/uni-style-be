@@ -9,5 +9,5 @@ public class ProductParam {
 
     private String name;
 
-    private String description;
+    private Boolean isShop;
 }

@@ -14,6 +14,7 @@ import org.example.uni_style_be.mapper.ImageMapper;
 import org.example.uni_style_be.mapper.ProductMapper;
 import org.example.uni_style_be.model.request.AddToCartRequest;
 import org.example.uni_style_be.model.response.*;
+import org.example.uni_style_be.repositories.AccountRepository;
 import org.example.uni_style_be.repositories.CartDetailRepository;
 import org.example.uni_style_be.repositories.CartRepository;
 import org.example.uni_style_be.repositories.ProductDetailRepository;
@@ -37,6 +38,7 @@ public class CartServiceImpl implements CartService {
     ProductDetailRepository productDetailRepository;
     ProductMapper productMapper;
     ImageMapper imageMapper;
+    AccountRepository accountRepository;
 
     @Transactional
     @Override
@@ -65,13 +67,12 @@ public class CartServiceImpl implements CartService {
         Optional<Cart> optionalCart = cartRepository.findByAccountId(accountId);
         Cart cart;
         if (optionalCart.isEmpty()) {
-            Account accountCart = new Account();
-            accountCart.setId(accountId);
+            // Sử dụng getReference thay vì tạo object mới
+            Account accountCart = accountRepository.getReferenceById(accountId);
             Cart cartToSave = Cart.builder()
                     .account(accountCart)
                     .build();
             cart = cartRepository.save(cartToSave);
-
         } else {
             cart = optionalCart.get();
         }

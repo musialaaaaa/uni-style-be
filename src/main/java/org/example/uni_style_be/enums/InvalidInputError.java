@@ -36,7 +36,8 @@ public enum InvalidInputError implements ResponseError {
     MATERIAL_HAS_PRODUCT("Đang có sản phẩm sử dụng chất liệu này"),
     PRODUCT_HAS_ORDER("Sản phẩm này đã có đơn hàng"),
     PRODUCT_DETAIL_HAS_ORDER("Sản phẩm chi tiết này đã có đơn hàng"),
-    SIZE_HAS_PRODUCT("Kích thước này đã có sản phẩm")
+    SIZE_HAS_PRODUCT("Kích thước này đã có sản phẩm"),
+    NO_PRODUCT_DETAIL_ACTIVE("Phải có ít nhất 1 sản phẩm chi tiết được kích hoạt để kích hoạt sản phẩm này")
     ;
 
     private final String message;

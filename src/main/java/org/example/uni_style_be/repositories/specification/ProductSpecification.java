@@ -6,6 +6,7 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import org.apache.commons.lang3.StringUtils;
 import org.example.uni_style_be.entities.Product;
+import org.example.uni_style_be.enums.ProductStatus;
 import org.example.uni_style_be.model.filter.ProductParam;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -26,6 +27,16 @@ public class ProductSpecification {
                         cb.and(
                                 predicate,
                                 cb.like(cb.lower(root.get("code")), "%" + param.getCode().toLowerCase() + "%"));
+            }
+
+            if (Boolean.TRUE.equals(param.getIsShop())) {
+                predicate = cb.and(
+                        predicate,
+                        cb.equal(
+                                root.get("status"),
+                                ProductStatus.ACTIVE
+                        )
+                );
             }
 
             return predicate;
