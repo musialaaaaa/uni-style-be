@@ -39,8 +39,6 @@ public class Product extends BaseEntity {
 
     @PrePersist
     void prePersist() {
-        if (this.status == null) {
-            this.status = ProductStatus.INACTIVE;
-        }
+        this.status = ProductStatus.INACTIVE;
     }
 }
