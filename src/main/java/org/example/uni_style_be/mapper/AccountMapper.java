@@ -26,5 +26,6 @@ public interface AccountMapper {
     @Mapping(target = "password", ignore = true)
     Account toAccount(CreateAccountRequest request);
 
+    @Mapping(target = "id", source = "id")
     AccountFilterResponse toAccountFilterResponse(Account account);
 }

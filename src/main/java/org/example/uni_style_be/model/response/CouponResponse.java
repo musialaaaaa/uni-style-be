@@ -18,5 +18,6 @@ public class CouponResponse extends BaseResponse {
     BigDecimal value;
     LocalDate expirationDate;
     Integer usageLimit;
+    Integer used;
 }
 

@@ -37,8 +37,8 @@ public enum InvalidInputError implements ResponseError {
     PRODUCT_HAS_ORDER("Sản phẩm này đã có đơn hàng"),
     PRODUCT_DETAIL_HAS_ORDER("Sản phẩm chi tiết này đã có đơn hàng"),
     SIZE_HAS_PRODUCT("Kích thước này đã có sản phẩm"),
-    NO_PRODUCT_DETAIL_ACTIVE("Phải có ít nhất 1 sản phẩm chi tiết được kích hoạt để kích hoạt sản phẩm này")
-    ;
+    NO_PRODUCT_DETAIL_ACTIVE("Phải có ít nhất 1 sản phẩm chi tiết được kích hoạt để kích hoạt sản phẩm này"),
+    PRODUCT_SOLD_OUT("Sản phẩm đã hết hàng");
 
     private final String message;
 

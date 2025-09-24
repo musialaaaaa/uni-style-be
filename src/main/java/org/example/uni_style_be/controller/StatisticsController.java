@@ -25,9 +25,9 @@ public class StatisticsController {
     @Operation(summary = "Dashboard Admin")
     @GetMapping("/dashboard")
     public ServiceResponse<DashboardResponse> getDashboard(
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate startDate,
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate endDate
-            ) {
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate
+    ) {
         return ServiceResponse.ok(statisticsService.buildDashboard(startDate, endDate));
     }
 
