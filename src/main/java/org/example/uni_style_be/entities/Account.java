@@ -31,10 +31,8 @@ public class Account extends BaseEntity implements UserDetails {
     @Column(nullable = false, length = 50)
     String fullName;
 
-    @Column(nullable = false)
     String email;
 
-    @Column(nullable = false, length = 10)
     String phone;
 
     @Column(nullable = false)

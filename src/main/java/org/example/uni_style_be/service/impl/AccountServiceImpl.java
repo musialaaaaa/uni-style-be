@@ -69,7 +69,7 @@ public class AccountServiceImpl implements AccountService {
 
         Account account = accountMapper.toAccount(request);
         account.setPassword(passwordEncoder.encode(request.getPassword()));
-        account.setType(AccountType.STAFF);
+        account.setType(AccountType.CUSTOMER);
 
         List<Role> roles = roleRepository.findAllById(request.getRoleIds());
         account.setRoles(new HashSet<>(roles));
