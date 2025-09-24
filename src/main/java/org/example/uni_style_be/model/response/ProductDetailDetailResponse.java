@@ -35,6 +35,6 @@ public class ProductDetailDetailResponse extends BaseResponse {
 
     SizeResponse size;
 
-    List<ImageResponse> images =  new ArrayList<>();
+    List<ImageResponse> images = new ArrayList<>();
 
 }

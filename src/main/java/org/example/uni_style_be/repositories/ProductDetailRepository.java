@@ -21,6 +21,8 @@ public interface ProductDetailRepository
 
     boolean existsBySize_Id(Long id);
 
-    boolean existsByProduct_IdAndStatus(Long id, ProductDetailStatus status);
+    boolean existsByProduct_IdAndStatusAndIdNot(Long productId, ProductDetailStatus status, Long productDetailId);
+
+    boolean existsByProduct_IdAndStatus(Long productId, ProductDetailStatus status);
 
 }

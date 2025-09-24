@@ -30,7 +30,7 @@ public class ProductDetail extends BaseEntity {
     @Column(nullable = false, name = "price")
     BigDecimal price;
 
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "text")
     String description;
 
     @Column(name = "status")

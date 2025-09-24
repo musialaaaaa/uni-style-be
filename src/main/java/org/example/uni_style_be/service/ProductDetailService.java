@@ -1,7 +1,6 @@
 package org.example.uni_style_be.service;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
-import org.example.uni_style_be.entities.ProductDetail;
 import org.example.uni_style_be.model.filter.ProductDetailParam;
 import org.example.uni_style_be.model.request.ProductDetailRequest;
 import org.example.uni_style_be.model.response.ProductDetailDetailResponse;

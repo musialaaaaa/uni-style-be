@@ -111,6 +111,9 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDetailShopResponse detailShop(Long id) {
         Product product = findById(id);
+        if (ProductStatus.INACTIVE.equals(product.getStatus())) {
+            throw new ResponseException(InvalidInputError.PRODUCT_SOLD_OUT);
+        }
         ProductDetailShopResponse response = productMapper.toProductDetailShopResponse(product);
         List<ProductDetail> productDetailsActive = product.getProductDetails().stream()
                 .filter(pd -> ProductDetailStatus.ACTIVE.equals(pd.getStatus())).toList();
@@ -129,16 +132,18 @@ public class ProductServiceImpl implements ProductService {
 
     private ProductResponse enrichFilter(Product product) {
         ProductResponse productResponse = productMapper.toProductResponse(product);
-        List<ProductDetail> productDetails = product.getProductDetails();
-        if (!CollectionUtils.isEmpty(productDetails)) {
-            ProductDetail productDetail = productDetails.get(0);
+        List<ProductDetail> productDetailActives = product.getProductDetails().stream()
+                .filter(pd -> ProductDetailStatus.ACTIVE.equals(pd.getStatus())).toList();
+        if (!CollectionUtils.isEmpty(productDetailActives)) {
+            ProductDetail productDetail = productDetailActives.get(0);
+
             List<Image> images = productDetail.getImages();
             if (!CollectionUtils.isEmpty(images)) {
                 Image image = images.get(0);
                 productResponse.setImageFileName(image.getFileName());
             }
 
-            BigDecimal price = getMinPrice(productDetails);
+            BigDecimal price = getMinPrice(productDetailActives);
             productResponse.setPrice(price);
         }
 

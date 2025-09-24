@@ -10,6 +10,8 @@ import org.example.uni_style_be.entities.Product;
 import org.example.uni_style_be.entities.ProductDetail;
 import org.example.uni_style_be.enums.InvalidInputError;
 import org.example.uni_style_be.enums.NotFoundError;
+import org.example.uni_style_be.enums.ProductDetailStatus;
+import org.example.uni_style_be.enums.ProductStatus;
 import org.example.uni_style_be.exception.ResponseException;
 import org.example.uni_style_be.mapper.ProductDetailMapper;
 import org.example.uni_style_be.model.filter.ProductDetailParam;
@@ -75,6 +77,15 @@ public class ProductDetailServiceImpl implements ProductDetailService {
 
         List<Image> images = imageRepository.findAllById(productDetailRequest.getImageIds());
         prDetail.setImages(images);
+
+        if (
+                ProductDetailStatus.INACTIVE.equals(prDetail.getStatus())
+                        && !productDetailRepository.existsByProduct_IdAndStatusAndIdNot(
+                        prDetail.getProduct().getId(), ProductDetailStatus.ACTIVE, prDetail.getId()
+                )
+        ) {
+            productRepository.updateStatusById(prDetail.getProduct().getId(), ProductStatus.INACTIVE);
+        }
 
         ProductDetail productDetailSaved = productDetailRepository.save(prDetail);
 
