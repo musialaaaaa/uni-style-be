@@ -23,7 +23,7 @@ public class BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, length = 50)
     @CreatedBy
     String createdBy;
 
@@ -31,7 +31,7 @@ public class BaseEntity {
     @CreatedDate
     Instant createdAt;
 
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, length = 50)
     @LastModifiedBy
     String updatedBy;
 
