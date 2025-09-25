@@ -75,20 +75,25 @@ public class ProductDetailServiceImpl implements ProductDetailService {
         objectMapper.updateValue(prDetail, productDetailRequest);
         setEntityRel(prDetail, productDetailRequest);
 
-        List<Image> images = imageRepository.findAllById(productDetailRequest.getImageIds());
-        prDetail.setImages(images);
+        for (Image oldImage : prDetail.getImages()) {
+            oldImage.setProductDetail(null);
+        }
+        prDetail.getImages().clear();
 
-        if (
-                ProductDetailStatus.INACTIVE.equals(prDetail.getStatus())
-                        && !productDetailRepository.existsByProduct_IdAndStatusAndIdNot(
-                        prDetail.getProduct().getId(), ProductDetailStatus.ACTIVE, prDetail.getId()
-                )
-        ) {
+        List<Image> newImages = imageRepository.findAllById(productDetailRequest.getImageIds());
+        for (Image newImage : newImages) {
+            newImage.setProductDetail(prDetail);
+        }
+        prDetail.getImages().addAll(newImages);
+
+        if (ProductDetailStatus.INACTIVE.equals(prDetail.getStatus())
+                && !productDetailRepository.existsByProduct_IdAndStatusAndIdNot(
+                prDetail.getProduct().getId(), ProductDetailStatus.ACTIVE, prDetail.getId()
+        )) {
             productRepository.updateStatusById(prDetail.getProduct().getId(), ProductStatus.INACTIVE);
         }
 
         ProductDetail productDetailSaved = productDetailRepository.save(prDetail);
-
         return productDetailMapper.toProductDetailResponse(productDetailSaved);
     }
 
